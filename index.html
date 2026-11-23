@@ -42,22 +42,86 @@
           RM5
         </div>
         <div>
-          <h1 class="text-lg font-extrabold tracking-tight leading-tight">Tabung Belanja</h1>
+          <h1 class="text-lg font-extrabold tracking-tight leading-tight flex items-center gap-2">
+            Tabung Belanja
+            <span id="syncBadge" class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-300">Menyambung...</span>
+          </h1>
           <p class="text-xs text-slate-500 dark:text-slate-400 font-medium">Kutipan Gaji 30/31 • RM5 / Bulan</p>
         </div>
       </div>
 
-      <button
-        id="themeToggle"
-        type="button"
-        onclick="toggleTheme()"
-        aria-label="Tukar Tema"
-        class="px-3.5 py-2 rounded-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-xs font-semibold shadow-sm hover:bg-slate-50 dark:hover:bg-slate-800 active:scale-95 transition flex items-center gap-1.5"
-      >
-        <span id="themeIcon">🌙</span>
-        <span id="themeLabel">Dark</span>
-      </button>
+      <div class="flex items-center gap-2">
+        <button
+          id="authToggleBtn"
+          type="button"
+          onclick="handleAuthButtonClick()"
+          aria-label="Log Masuk Admin"
+          class="px-3 py-2 rounded-full bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold shadow-sm active:scale-95 transition flex items-center gap-1.5 cursor-pointer"
+        >
+          <span id="authIcon">🔐</span>
+          <span id="authLabel">Admin</span>
+        </button>
+
+        <button
+          id="themeToggle"
+          type="button"
+          onclick="toggleTheme()"
+          aria-label="Tukar Tema"
+          class="px-3.5 py-2 rounded-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-xs font-semibold shadow-sm hover:bg-slate-50 dark:hover:bg-slate-800 active:scale-95 transition flex items-center gap-1.5 cursor-pointer"
+        >
+          <span id="themeIcon">🌙</span>
+          <span id="themeLabel">Dark</span>
+        </button>
+      </div>
     </header>
+
+    <!-- Status Mod Pengguna (Paparan sahaja vs Mod Admin) -->
+    <div
+      id="viewOnlyNotice"
+      class="rounded-2xl bg-slate-200/70 dark:bg-slate-900/90 border border-slate-300/70 dark:border-slate-800 px-4 py-2.5 mb-4 flex items-center justify-between gap-2 text-xs"
+    >
+      <span class="text-slate-700 dark:text-slate-300 font-medium">
+        👀 <strong>Mod Paparan Ahli</strong> — Log masuk Admin untuk kemas kini rekod.
+      </span>
+      <button
+        type="button"
+        onclick="openLoginModal()"
+        class="text-emerald-700 dark:text-emerald-400 font-extrabold underline whitespace-nowrap cursor-pointer"
+      >
+        Log Masuk
+      </button>
+    </div>
+
+    <!-- Banner Bantuan Firebase Rules (Muncul hanya jika Firestore Rules belum diterbitkan) -->
+    <section
+      id="firestoreHelpBanner"
+      class="hidden rounded-2xl bg-amber-50 dark:bg-amber-950/70 border border-amber-300 dark:border-amber-800 p-4 mb-4 text-xs text-amber-950 dark:text-amber-100 shadow-sm"
+    >
+      <div class="flex items-start justify-between gap-2 mb-1.5">
+        <div class="font-extrabold flex items-center gap-1.5">
+          <span>⚠️</span>
+          <span>Firestore Rules Belum Diterbitkan (Mod Offline Aktif)</span>
+        </div>
+        <button
+          type="button"
+          onclick="document.getElementById('firestoreHelpBanner').classList.add('hidden')"
+          class="text-amber-700 dark:text-amber-300 font-bold px-1.5 py-0.5 rounded hover:bg-amber-200/50 dark:hover:bg-amber-900/50 cursor-pointer"
+          aria-label="Tutup"
+        >
+          ✕
+        </button>
+      </div>
+      <p class="leading-relaxed text-amber-900 dark:text-amber-200 mb-2.5">
+        Data anda selamat disimpan secara lokal di peranti ini. Untuk aktifkan <strong>Live Sync</strong> antara telefon, buka <strong>Firebase Console &rarr; Firestore Database &rarr; Rules</strong> untuk projek <code>duit-tabung-nordin</code>, tampal rules yang disalin dan tekan <strong>Publish</strong>.
+      </p>
+      <button
+        type="button"
+        onclick="copyFirestoreRules()"
+        class="w-full py-2 px-3 rounded-xl bg-amber-600 hover:bg-amber-700 text-white font-bold text-xs transition cursor-pointer"
+      >
+        📋 Salin Firestore Security Rules
+      </button>
+    </section>
 
     <!-- 1. Kad Baki Utama -->
     <section class="rounded-2xl bg-gradient-to-br from-emerald-600 via-emerald-600 to-teal-700 text-white p-6 mb-4 shadow-lg shadow-emerald-700/20 text-center">
@@ -69,7 +133,7 @@
     </section>
 
     <!-- 2. Borang Rekod Bayaran Masuk -->
-    <section class="bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 rounded-2xl p-4 sm:p-5 mb-4 shadow-sm">
+    <section id="adminPaymentSection" class="hidden bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 rounded-2xl p-4 sm:p-5 mb-4 shadow-sm">
       <div class="flex items-center justify-between mb-3">
         <h2 class="text-sm font-bold flex items-center gap-2">
           <span class="w-6 h-6 rounded-lg bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-400 flex items-center justify-center text-xs font-extrabold">+</span>
@@ -128,7 +192,7 @@
             <button
               type="button"
               onclick="clearSelectedMonths()"
-              class="text-[11px] font-semibold text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 ml-1"
+              class="text-[11px] font-semibold text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 ml-1 cursor-pointer"
             >
               Kosongkan
             </button>
@@ -186,7 +250,7 @@
     </section>
 
     <!-- 5. Borang Tolak Duit Belanja -->
-    <section class="bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 rounded-2xl p-4 sm:p-5 mb-4 shadow-sm">
+    <section id="adminExpenseSection" class="hidden bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 rounded-2xl p-4 sm:p-5 mb-4 shadow-sm">
       <h2 class="text-sm font-bold mb-3 flex items-center gap-2">
         <span class="w-6 h-6 rounded-lg bg-rose-100 dark:bg-rose-950 text-rose-600 dark:text-rose-400 flex items-center justify-center text-xs font-extrabold">-</span>
         Rekod Duit Keluar (Belanja)
@@ -237,7 +301,7 @@
           type="button"
           id="resetBtn"
           onclick="handleResetClick()"
-          class="text-xs font-semibold px-2.5 py-1 rounded-lg text-slate-500 hover:text-rose-600 dark:text-slate-400 dark:hover:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/50 transition cursor-pointer"
+          class="hidden text-xs font-semibold px-2.5 py-1 rounded-lg text-slate-500 hover:text-rose-600 dark:text-slate-400 dark:hover:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/50 transition cursor-pointer"
         >
           Reset Data Asal
         </button>
@@ -251,6 +315,119 @@
     </footer>
   </div>
 
+  <!-- Pop-Up Modal Log Masuk Admin -->
+  <div
+    id="loginModal"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="loginModalTitle"
+    class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-slate-950/60 backdrop-blur-xs transition-opacity"
+    onclick="if (event.target === this) closeLoginModal()"
+  >
+    <div class="w-full max-w-sm rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-6 shadow-2xl transform transition-all">
+      <div class="flex items-center justify-between mb-4">
+        <div class="flex items-center gap-2.5">
+          <div class="w-9 h-9 rounded-xl bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-400 flex items-center justify-center text-base">
+            🔐
+          </div>
+          <div>
+            <h3 id="loginModalTitle" class="text-base font-extrabold text-slate-900 dark:text-slate-100">
+              Log Masuk Admin
+            </h3>
+            <p class="text-[11px] text-slate-500 dark:text-slate-400">
+              Akses penuh urus kutipan &amp; belanja
+            </p>
+          </div>
+        </div>
+        <button
+          type="button"
+          onclick="closeLoginModal()"
+          aria-label="Tutup Pop-up"
+          class="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-500 hover:text-slate-800 dark:hover:text-slate-200 flex items-center justify-center text-xs font-bold transition cursor-pointer"
+        >
+          ✕
+        </button>
+      </div>
+
+      <form onsubmit="submitAdminLogin(event)" class="space-y-3.5">
+        <div>
+          <label for="loginEmail" class="block text-xs font-semibold text-slate-600 dark:text-slate-400 mb-1">
+            Emel Admin
+          </label>
+          <input
+            type="email"
+            id="loginEmail"
+            required
+            autocomplete="email"
+            placeholder="admin@tabung.com"
+            class="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-800/90 border border-slate-200 dark:border-slate-700 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 transition"
+          />
+        </div>
+
+        <div>
+          <label for="loginPassword" class="block text-xs font-semibold text-slate-600 dark:text-slate-400 mb-1">
+            Kata Laluan
+          </label>
+          <div class="relative">
+            <input
+              type="password"
+              id="loginPassword"
+              required
+              autocomplete="current-password"
+              placeholder="••••••••"
+              class="w-full px-3.5 py-2.5 pr-11 rounded-xl bg-slate-50 dark:bg-slate-800/90 border border-slate-200 dark:border-slate-700 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 transition"
+            />
+            <button
+              type="button"
+              onclick="togglePasswordVisibility()"
+              aria-label="Tunjuk/Sembunyi Kata Laluan"
+              class="absolute right-2.5 top-1/2 -translate-y-1/2 px-2 py-1 text-xs font-semibold text-slate-500 hover:text-slate-800 dark:hover:text-slate-200 cursor-pointer"
+            >
+              👁️
+            </button>
+          </div>
+        </div>
+
+        <div
+          id="loginErrorBox"
+          class="hidden px-3 py-2 rounded-xl bg-rose-50 dark:bg-rose-950/70 border border-rose-200 dark:border-rose-800 text-rose-700 dark:text-rose-300 text-xs font-semibold"
+        ></div>
+
+        <button
+          type="submit"
+          id="loginSubmitBtn"
+          class="w-full py-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 active:scale-[0.99] text-white font-bold text-sm shadow-sm shadow-emerald-600/20 transition cursor-pointer"
+        >
+          Log Masuk Sekarang
+        </button>
+      </form>
+
+      <div class="relative my-4">
+        <div class="absolute inset-0 flex items-center">
+          <div class="w-full border-t border-slate-200 dark:border-slate-800"></div>
+        </div>
+        <div class="relative flex justify-center text-[11px]">
+          <span class="px-2.5 bg-white dark:bg-slate-900 text-slate-400 font-semibold uppercase tracking-wider">atau</span>
+        </div>
+      </div>
+
+      <button
+        type="button"
+        id="googleLoginBtn"
+        onclick="submitGoogleLogin()"
+        class="w-full py-2.5 px-4 rounded-xl bg-white hover:bg-slate-50 dark:bg-slate-800 dark:hover:bg-slate-700/80 border border-slate-300 dark:border-slate-700 text-slate-800 dark:text-slate-100 font-bold text-sm shadow-xs active:scale-[0.99] transition cursor-pointer flex items-center justify-center gap-2.5"
+      >
+        <svg class="w-4 h-4 shrink-0" viewBox="0 0 24 24" aria-hidden="true">
+          <path fill="#4285F4" d="M23.49 12.275c0-.85-.075-1.675-.215-2.475H12v4.69h6.445c-.28 1.495-1.125 2.765-2.395 3.615v3.005h3.875c2.265-2.085 3.565-5.16 3.565-8.835z"/>
+          <path fill="#34A853" d="M12 24c3.24 0 5.955-1.075 7.94-2.91l-3.875-3.005c-1.075.72-2.45 1.15-4.065 1.15-3.125 0-5.77-2.11-6.715-4.945H1.28v3.1C3.255 21.31 7.31 24 12 24z"/>
+          <path fill="#FBBC05" d="M5.285 14.29c-.24-.72-.38-1.49-.38-2.29s.14-1.57.38-2.29v-3.1H1.28C.465 8.235 0 10.065 0 12s.465 3.765 1.28 5.39l4.005-3.1z"/>
+          <path fill="#EA4335" d="M12 4.765c1.76 0 3.34.605 4.585 1.795l3.435-3.435C17.95 1.19 15.235 0 12 0 7.31 0 3.255 2.69 1.28 6.61l4.005 3.1c.945-2.835 3.59-4.945 6.715-4.945z"/>
+        </svg>
+        <span>Log Masuk dengan Google</span>
+      </button>
+    </div>
+  </div>
+
   <!-- Notifikasi Toast -->
   <div
     id="toast"
@@ -260,19 +437,61 @@
     Disalin!
   </div>
 
-  <script>
-    /**
-     * 2. Pemalar & Data Permulaan (Berdasarkan rekod WhatsApp semasa + Sokongan Bertahun-tahun)
-     */
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-analytics.js";
+    import { getFirestore, doc, setDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-firestore.js";
+    import { getAuth, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyCQcng9NuVeu_1u4WVVg8AGtRCpYpx34AQ",
+      authDomain: "duit-tabung-nordin.firebaseapp.com",
+      projectId: "duit-tabung-nordin",
+      storageBucket: "duit-tabung-nordin.firebasestorage.app",
+      messagingSenderId: "722699364352",
+      appId: "1:722699364352:web:4c01860b3632c7742e90e5",
+      measurementId: "G-7Z94K7H3XL"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    try {
+      getAnalytics(app);
+    } catch (e) {
+      // Analytics mungkin disekat dalam persekitaran iframe pratonton
+    }
+    const db = getFirestore(app);
+    const auth = getAuth(app);
+    const googleProvider = new GoogleAuthProvider();
+    googleProvider.setCustomParameters({ prompt: 'select_account' });
+    const tabungDocRef = doc(db, "tabung", "utama");
+
+    // Pilihan: Masukkan senarai emel admin dibenarkan di sini (biarkan kosong [] untuk benarkan mana-mana akaun yang berjaya log masuk)
+    const ALLOWED_ADMIN_EMAILS = [];
     const MONTHS = ['JAN', 'FEB', 'MAC', 'APR', 'MEI', 'JUN', 'JUL', 'OGOS', 'SEP', 'OCT', 'NOV', 'DEC'];
     const FORMAL_MONTHS = ['Jan', 'Feb', 'Mac', 'Apr', 'Mei', 'Jun', 'Jul', 'Ogos', 'Sep', 'Okt', 'Nov', 'Dis'];
     const RATE_PER_MONTH = 5.00;
     const STORAGE_KEY = 'tabung_belanja_audit_v1';
     const CURRENT_SYSTEM_YEAR = String(new Date().getFullYear());
 
-    /**
-     * Format Tarikh & Masa Formal Bahasa Melayu (contoh: "17 Nov 2026, 10:57 PG")
-     */
+    const FIRESTORE_RULES_SNIPPET = `rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /tabung/{docId} {
+      allow read: if docId == 'utama';
+      allow create, update: if docId == 'utama'
+        && request.auth != null
+        && request.resource.data.balance is number
+        && request.resource.data.members is map
+        && request.resource.data.history is list
+        && request.resource.data.lastUpdated is string;
+      allow delete: if false;
+    }
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}`;
+
     function formatFormalDateTime(dateObj = new Date()) {
       const day = String(dateObj.getDate()).padStart(2, '0');
       const monthName = FORMAL_MONTHS[dateObj.getMonth()];
@@ -302,15 +521,235 @@
       ]
     };
 
-    let state = loadState();
+    let currentUser = null;
+    let state = loadLocalBackup();
     let activeYear = CURRENT_SYSTEM_YEAR;
     let selectedMonths = [];
     let resetConfirmTimer = null;
     let isResetArmed = false;
 
+    function loadLocalBackup() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (raw) return JSON.parse(raw);
+      } catch (e) {}
+      return JSON.parse(JSON.stringify(DEFAULT_STATE));
+    }
+
+    function setSyncStatus(status, isOk) {
+      const badge = document.getElementById('syncBadge');
+      if (!badge) return;
+      badge.textContent = status;
+      badge.className = isOk
+        ? 'text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300'
+        : 'text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-300';
+    }
+
     /**
-     * Fungsi pembantu untuk menyusun & memformat label bulan
+     * Pengurusan Pop-Up Log Masuk & Status Pengesahan Admin (Firebase Auth)
      */
+    window.openLoginModal = function () {
+      const modal = document.getElementById('loginModal');
+      const errorBox = document.getElementById('loginErrorBox');
+      errorBox.classList.add('hidden');
+      errorBox.textContent = '';
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+      setTimeout(() => {
+        document.getElementById('loginEmail').focus();
+      }, 60);
+    };
+
+    window.closeLoginModal = function () {
+      const modal = document.getElementById('loginModal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    };
+
+    window.togglePasswordVisibility = function () {
+      const pwInput = document.getElementById('loginPassword');
+      pwInput.type = pwInput.type === 'password' ? 'text' : 'password';
+    };
+
+    window.handleAuthButtonClick = async function () {
+      if (currentUser) {
+        try {
+          await signOut(auth);
+          showToast('Anda telah log keluar daripada mod Admin');
+        } catch (err) {
+          showToast('Gagal log keluar');
+        }
+      } else {
+        openLoginModal();
+      }
+    };
+
+    window.submitAdminLogin = async function (event) {
+      event.preventDefault();
+      const email = document.getElementById('loginEmail').value.trim();
+      const password = document.getElementById('loginPassword').value;
+      const submitBtn = document.getElementById('loginSubmitBtn');
+      const errorBox = document.getElementById('loginErrorBox');
+
+      errorBox.classList.add('hidden');
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Mengesahkan...';
+
+      try {
+        await signInWithEmailAndPassword(auth, email, password);
+        document.getElementById('loginPassword').value = '';
+        closeLoginModal();
+        showToast('Berjaya log masuk sebagai Admin');
+      } catch (err) {
+        let msg = 'Emel atau kata laluan tidak sah.';
+        if (err.code === 'auth/too-many-requests') {
+          msg = 'Terlalu banyak percubaan. Sila cuba sebentar lagi.';
+        } else if (err.code === 'auth/network-request-failed') {
+          msg = 'Tiada sambungan internet.';
+        } else if (err.code === 'auth/operation-not-allowed') {
+          msg = 'Sila aktifkan Email/Password Sign-In di Firebase Authentication.';
+        }
+        errorBox.textContent = msg;
+        errorBox.classList.remove('hidden');
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Log Masuk Sekarang';
+      }
+    };
+
+    window.submitGoogleLogin = async function () {
+      const googleBtn = document.getElementById('googleLoginBtn');
+      const errorBox = document.getElementById('loginErrorBox');
+
+      errorBox.classList.add('hidden');
+      googleBtn.disabled = true;
+      googleBtn.classList.add('opacity-60');
+
+      try {
+        const result = await signInWithPopup(auth, googleProvider);
+        const signedInEmail = (result.user?.email || '').toLowerCase();
+
+        if (
+          ALLOWED_ADMIN_EMAILS.length > 0 &&
+          !ALLOWED_ADMIN_EMAILS.map((e) => e.toLowerCase()).includes(signedInEmail)
+        ) {
+          await signOut(auth);
+          errorBox.textContent = `Akaun ${signedInEmail} tidak didaftarkan sebagai Admin.`;
+          errorBox.classList.remove('hidden');
+          return;
+        }
+
+        closeLoginModal();
+        showToast(`Selamat datang, ${result.user?.displayName || signedInEmail}`);
+      } catch (err) {
+        let msg = 'Log masuk Google dibatalkan atau gagal.';
+        if (err.code === 'auth/operation-not-allowed') {
+          msg = 'Sila aktifkan Google Sign-In di Firebase Console -> Authentication -> Sign-in method.';
+        } else if (err.code === 'auth/unauthorized-domain') {
+          msg = 'Domain ini belum dibenarkan di Firebase Console -> Authentication -> Settings -> Authorized domains.';
+        } else if (err.code === 'auth/popup-blocked') {
+          msg = 'Pop-up disekat oleh pelayar. Sila benarkan pop-up dan cuba lagi.';
+        }
+        errorBox.textContent = msg;
+        errorBox.classList.remove('hidden');
+      } finally {
+        googleBtn.disabled = false;
+        googleBtn.classList.remove('opacity-60');
+      }
+    };
+
+    function updateAuthUI(user) {
+      currentUser = user;
+      const isAdmin = Boolean(user);
+
+      const authBtn = document.getElementById('authToggleBtn');
+      const authIcon = document.getElementById('authIcon');
+      const authLabel = document.getElementById('authLabel');
+      const viewNotice = document.getElementById('viewOnlyNotice');
+      const paySec = document.getElementById('adminPaymentSection');
+      const expSec = document.getElementById('adminExpenseSection');
+      const resetBtn = document.getElementById('resetBtn');
+
+      if (isAdmin) {
+        authIcon.textContent = '🔓';
+        authLabel.textContent = 'Keluar';
+        authBtn.className =
+          'px-3 py-2 rounded-full bg-slate-800 hover:bg-slate-700 dark:bg-slate-800 dark:hover:bg-slate-700 text-white text-xs font-bold shadow-sm active:scale-95 transition flex items-center gap-1.5 cursor-pointer';
+        viewNotice.classList.add('hidden');
+        paySec.classList.remove('hidden');
+        expSec.classList.remove('hidden');
+        resetBtn.classList.remove('hidden');
+      } else {
+        authIcon.textContent = '🔐';
+        authLabel.textContent = 'Admin';
+        authBtn.className =
+          'px-3 py-2 rounded-full bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold shadow-sm active:scale-95 transition flex items-center gap-1.5 cursor-pointer';
+        viewNotice.classList.remove('hidden');
+        paySec.classList.add('hidden');
+        expSec.classList.add('hidden');
+        resetBtn.classList.add('hidden');
+      }
+
+      renderAll();
+    }
+
+    onAuthStateChanged(auth, (user) => {
+      updateAuthUI(user);
+    });
+
+    // Dengar perubahan secara masa nyata (Real-Time) daripada Firebase Firestore
+    onSnapshot(
+      tabungDocRef,
+      async (snapshot) => {
+        const banner = document.getElementById('firestoreHelpBanner');
+        if (banner) banner.classList.add('hidden');
+
+        if (snapshot.exists()) {
+          state = snapshot.data();
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+          renderAll();
+          setSyncStatus('● Live Sync', true);
+        } else {
+          setSyncStatus('● Live Sync', true);
+          if (currentUser) {
+            await saveState();
+          }
+        }
+      },
+      (error) => {
+        if (error && error.code === 'permission-denied') {
+          setSyncStatus('Mod Lokal', false);
+          const banner = document.getElementById('firestoreHelpBanner');
+          if (banner) banner.classList.remove('hidden');
+        } else {
+          setSyncStatus('Offline', false);
+        }
+      }
+    );
+
+    async function saveState() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+      renderAll();
+      try {
+        await setDoc(tabungDocRef, state);
+        setSyncStatus('● Live Sync', true);
+        const banner = document.getElementById('firestoreHelpBanner');
+        if (banner) banner.classList.add('hidden');
+      } catch (e) {
+        if (e && e.code === 'permission-denied') {
+          setSyncStatus('Mod Lokal', false);
+          const banner = document.getElementById('firestoreHelpBanner');
+          if (banner) banner.classList.remove('hidden');
+        } else {
+          setSyncStatus('Offline', false);
+        }
+      }
+    }
+
+    window.copyFirestoreRules = function () {
+      copyTextToClipboard(FIRESTORE_RULES_SNIPPET, 'Firestore Security Rules disalin!');
+    };
+
     function sortMonthEntries(entries) {
       return [...entries].sort((a, b) => {
         const [mA, yA = CURRENT_SYSTEM_YEAR] = a.split(' ');
@@ -330,30 +769,7 @@
       return sortMonthEntries(entries).map(formatMonthLabel).join(', ');
     }
 
-    function loadState() {
-      try {
-        const raw = localStorage.getItem(STORAGE_KEY);
-        if (raw) {
-          return JSON.parse(raw);
-        }
-      } catch (e) {
-        console.error('Gagal membaca storan:', e);
-      }
-      return JSON.parse(JSON.stringify(DEFAULT_STATE));
-    }
-
-    function saveState() {
-      try {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-      } catch (e) {
-        console.error('Gagal menyimpan storan:', e);
-      }
-      renderAll();
-    }
-
-    /**
-     * 1. Jana Ikon iOS & Favicon Secara Automatik
-     */
+    // Jana Ikon iOS & Favicon
     (function generateAppIcons() {
       try {
         const canvas = document.createElement('canvas');
@@ -388,14 +804,10 @@
         const dataUrl = canvas.toDataURL('image/png');
         document.getElementById('ios-icon').href = dataUrl;
         document.getElementById('favicon').href = dataUrl;
-      } catch (err) {
-        console.warn('Ikon kanvas tidak dapat dijana:', err);
-      }
+      } catch (err) {}
     })();
 
-    /**
-     * 3. Pengurusan Tema Gelap / Terang (Dark Mode)
-     */
+    // Tema Gelap / Terang
     function initTheme() {
       const saved = localStorage.getItem('tabung_theme_mode');
       const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
@@ -404,38 +816,29 @@
       updateThemeUI(isDark);
     }
 
-    function toggleTheme() {
+    window.toggleTheme = function () {
       const isDark = !document.documentElement.classList.contains('dark');
       document.documentElement.classList.toggle('dark', isDark);
       localStorage.setItem('tabung_theme_mode', isDark ? 'dark' : 'light');
       updateThemeUI(isDark);
-    }
+    };
 
     function updateThemeUI(isDark) {
       document.getElementById('themeIcon').textContent = isDark ? '☀️' : '🌙';
       document.getElementById('themeLabel').textContent = isDark ? 'Light' : 'Dark';
     }
 
-    /**
-     * 4. Pemilihan Cip Bulan (JAN - DEC) & Pemilih Tahun Dinamik Tanpa Had
-     */
-    function setActiveYear(year) {
-      activeYear = String(year);
-      renderMonthsGrid();
-    }
-
-    function changeYear(delta) {
+    window.changeYear = function (delta) {
       const nextYear = Number(activeYear) + delta;
       if (nextYear >= 2020 && nextYear <= 2100) {
-        setActiveYear(nextYear);
+        activeYear = String(nextYear);
+        renderMonthsGrid();
       }
-    }
+    };
 
     function renderMonthsGrid() {
       const yearLabel = document.getElementById('activeYearLabel');
-      if (yearLabel) {
-        yearLabel.textContent = activeYear;
-      }
+      if (yearLabel) yearLabel.textContent = activeYear;
 
       const grid = document.getElementById('monthsGrid');
       grid.innerHTML = '';
@@ -467,10 +870,10 @@
       renderMonthsGrid();
     }
 
-    function clearSelectedMonths() {
+    window.clearSelectedMonths = function () {
       selectedMonths = [];
       renderMonthsGrid();
-    }
+    };
 
     function updateCalcPreview() {
       const count = selectedMonths.length;
@@ -480,10 +883,7 @@
       document.getElementById('calcAmountText').textContent = `RM ${total.toFixed(2)}`;
     }
 
-    /**
-     * 5. Tambah Bayaran Masuk (Menggantikan bulan lama ahli kepada bulan terkini sahaja + rekod tarikh/masa rasmi)
-     */
-    function addPayment() {
+    window.addPayment = async function () {
       const inputEl = document.getElementById('memberInput');
       const rawName = inputEl.value.trim();
 
@@ -510,7 +910,6 @@
       const formattedSelection = formatMonthList(sortedSelection);
       const formalTimestamp = formatFormalDateTime(new Date());
 
-      // Gantikan terus rekod bulan lama ahli kepada bulan baharu yang dipilih sahaja
       state.members[memberName] = sortedSelection;
       state.balance = newBalance;
       state.formulaText = `${prevBalance.toFixed(2)}+${addedAmount.toFixed(0)}=${newBalance.toFixed(2)}`;
@@ -527,14 +926,11 @@
       inputEl.value = '';
       selectedMonths = [];
       renderMonthsGrid();
-      saveState();
+      await saveState();
       showToast(`+RM${addedAmount.toFixed(2)} ditambah untuk ${memberName}`);
-    }
+    };
 
-    /**
-     * 6. Tolak Rekod Duit Keluar (Belanja) dengan Tarikh & Masa Rasmi
-     */
-    function addExpense() {
+    window.addExpense = async function () {
       const descEl = document.getElementById('expenseDesc');
       const amtEl = document.getElementById('expenseAmount');
       const desc = descEl.value.trim() || 'Belanja Tabung';
@@ -564,17 +960,14 @@
 
       descEl.value = '';
       amtEl.value = '';
-      saveState();
+      await saveState();
       showToast(`-RM${amt.toFixed(2)} ditolak daripada tabung`);
-    }
+    };
 
-    /**
-     * 7. Padam Ahli & Tetapan Semula (2-Ketik Tanpa Confirm Dialog)
-     */
-    function removeMember(name) {
+    async function removeMember(name) {
       delete state.members[name];
       state.lastUpdated = formatFormalDateTime(new Date());
-      saveState();
+      await saveState();
       showToast(`Rekod ${name} dipadam`);
     }
 
@@ -585,7 +978,7 @@
       showToast(`Dipilih: ${name}`);
     }
 
-    function handleResetClick() {
+    window.handleResetClick = async function () {
       const btn = document.getElementById('resetBtn');
       if (!isResetArmed) {
         isResetArmed = true;
@@ -604,30 +997,24 @@
         state = JSON.parse(JSON.stringify(DEFAULT_STATE));
         selectedMonths = [];
         renderMonthsGrid();
-        saveState();
+        await saveState();
         showToast('Data asal RM80.13 dipulihkan');
       }
-    }
+    };
 
-    /**
-     * 8. Paparan UI & Penjanaan Format WhatsApp Formal Lengkap Tarikh & Masa
-     */
     function renderAll() {
-      // Baki & Formula
       document.getElementById('totalBalance').textContent = `RM ${Number(state.balance).toFixed(2)}`;
       document.getElementById('lastFormula').textContent = state.formulaText;
 
-      // Datalist cadangan nama
       const datalist = document.getElementById('memberList');
       datalist.innerHTML = '';
-      const memberKeys = Object.keys(state.members);
+      const memberKeys = Object.keys(state.members || {});
       memberKeys.forEach((name) => {
         const opt = document.createElement('option');
         opt.value = name;
         datalist.appendChild(opt);
       });
 
-      // Senarai Ahli
       document.getElementById('memberCountBadge').textContent = `${memberKeys.length} Ahli`;
       const membersDiv = document.getElementById('membersSummary');
       membersDiv.innerHTML = '';
@@ -644,8 +1031,10 @@
           row.className = 'py-3 first:pt-1 last:pb-1 flex items-center justify-between gap-2';
 
           const infoDiv = document.createElement('div');
-          infoDiv.className = 'cursor-pointer flex-1';
-          infoDiv.onclick = () => selectMemberForEdit(name);
+          infoDiv.className = currentUser ? 'cursor-pointer flex-1' : 'flex-1';
+          if (currentUser) {
+            infoDiv.onclick = () => selectMemberForEdit(name);
+          }
 
           const nameEl = document.createElement('div');
           nameEl.className = 'text-sm font-bold text-slate-900 dark:text-slate-100';
@@ -661,21 +1050,23 @@
           infoDiv.appendChild(nameEl);
           infoDiv.appendChild(detailEl);
 
-          const delBtn = document.createElement('button');
-          delBtn.type = 'button';
-          delBtn.title = 'Padam ahli';
-          delBtn.textContent = '✕';
-          delBtn.className =
-            'w-8 h-8 rounded-lg text-slate-400 hover:text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-950/50 text-xs font-bold transition cursor-pointer';
-          delBtn.onclick = () => removeMember(name);
-
           row.appendChild(infoDiv);
-          row.appendChild(delBtn);
+
+          if (currentUser) {
+            const delBtn = document.createElement('button');
+            delBtn.type = 'button';
+            delBtn.title = 'Padam ahli';
+            delBtn.textContent = '✕';
+            delBtn.className =
+              'w-8 h-8 rounded-lg text-slate-400 hover:text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-950/50 text-xs font-bold transition cursor-pointer';
+            delBtn.onclick = () => removeMember(name);
+            row.appendChild(delBtn);
+          }
+
           membersDiv.appendChild(row);
         });
       }
 
-      // Format Mesej WhatsApp Formal (Berserta Tarikh & Masa Kemas Kini & Rekod Tolak Belanja)
       const timestampHeader = state.lastUpdated || formatFormalDateTime(new Date());
       const waLines = [
         'TABUNG BALANCE',
@@ -692,7 +1083,6 @@
         }
       });
 
-      // Sertakan rekod tolak duit belanja berserta tarikh & masa jika pernah ada penolakan
       const expenseItems = (state.history || []).filter((item) => item.type === 'out');
       if (expenseItems.length > 0) {
         waLines.push('');
@@ -704,7 +1094,6 @@
 
       document.getElementById('waPreview').textContent = waLines.join('\n');
 
-      // Sejarah Transaksi Lengkap Tarikh & Masa
       const historyDiv = document.getElementById('historyList');
       historyDiv.innerHTML = '';
       if (!state.history || state.history.length === 0) {
@@ -741,11 +1130,7 @@
       }
     }
 
-    /**
-     * 9. Salin Mesej ke Papan Keratan (Serasi iFrame & Safari iOS)
-     */
-    function copyWhatsApp() {
-      const text = document.getElementById('waPreview').textContent;
+    function copyTextToClipboard(text, successMsg) {
       const textarea = document.createElement('textarea');
       textarea.value = text;
       textarea.style.position = 'fixed';
@@ -756,11 +1141,11 @@
 
       try {
         document.execCommand('copy');
-        showToast('Mesej disalin! Sedia tampal di WhatsApp');
+        showToast(successMsg);
       } catch (err) {
         if (navigator.clipboard && navigator.clipboard.writeText) {
           navigator.clipboard.writeText(text).then(() => {
-            showToast('Mesej disalin! Sedia tampal di WhatsApp');
+            showToast(successMsg);
           });
         } else {
           showToast('Sila salin teks secara manual');
@@ -769,6 +1154,11 @@
         document.body.removeChild(textarea);
       }
     }
+
+    window.copyWhatsApp = function () {
+      const text = document.getElementById('waPreview').textContent;
+      copyTextToClipboard(text, 'Mesej disalin! Sedia tampal di WhatsApp');
+    };
 
     let toastTimer = null;
     function showToast(message) {
@@ -783,7 +1173,6 @@
       }, 2400);
     }
 
-    // Mulakan Aplikasi
     initTheme();
     renderMonthsGrid();
     renderAll();
