@@ -555,16 +555,14 @@
     const app = initializeApp(firebaseConfig);
     try {
       getAnalytics(app);
-    } catch (e) {
-      // Analytics mungkin disekat dalam persekitaran iframe pratonton
-    }
+    } catch (e) {}
+
     const db = getFirestore(app);
     const auth = getAuth(app);
     const googleProvider = new GoogleAuthProvider();
     googleProvider.setCustomParameters({ prompt: 'select_account' });
     const tabungDocRef = doc(db, "tabung", "utama");
 
-    // Pilihan: Masukkan senarai emel admin dibenarkan di sini (biarkan kosong [] untuk benarkan mana-mana akaun yang berjaya log masuk)
     const ALLOWED_ADMIN_EMAILS = [];
     const MONTHS = ['JAN', 'FEB', 'MAC', 'APR', 'MEI', 'JUN', 'JUL', 'OGOS', 'SEP', 'OCT', 'NOV', 'DEC'];
     const FORMAL_MONTHS = ['Jan', 'Feb', 'Mac', 'Apr', 'Mei', 'Jun', 'Jul', 'Ogos', 'Sep', 'Okt', 'Nov', 'Dis'];
@@ -609,14 +607,14 @@ service cloud.firestore {
       formulaText: '50.13+10+10+10=80.13',
       lastUpdated: '07 Nov 2026, 04:08 PTG',
       members: {
-        'Nordin': ['OCT 2026', 'NOV 2026'],
+        'AQILA': ['NOV 2026', 'DEC 2026'],
         'KAK NA': ['NOV 2026', 'DEC 2026'],
-        'AQILA': ['NOV 2026', 'DEC 2026']
+        'Nordin': ['OCT 2026', 'NOV 2026']
       },
       history: [
-        { id: 103, type: 'in', desc: 'AQILA (NOV, DEC)', amount: 10.00, date: '07 Nov 2026, 04:08 PTG' },
-        { id: 102, type: 'in', desc: 'KAK NA (NOV, DEC)', amount: 10.00, date: '07 Nov 2026, 04:08 PTG' },
-        { id: 101, type: 'in', desc: 'Nordin (OCT, NOV)', amount: 10.00, date: '07 Nov 2026, 04:08 PTG' }
+        { id: 103, type: 'in', memberName: 'AQILA', prevMonths: [], desc: 'AQILA (NOV, DEC)', amount: 10.00, date: '07 Nov 2026, 04:08 PTG' },
+        { id: 102, type: 'in', memberName: 'KAK NA', prevMonths: [], desc: 'KAK NA (NOV, DEC)', amount: 10.00, date: '07 Nov 2026, 04:08 PTG' },
+        { id: 101, type: 'in', memberName: 'Nordin', prevMonths: [], desc: 'Nordin (OCT, NOV)', amount: 10.00, date: '07 Nov 2026, 04:08 PTG' }
       ]
     };
 
@@ -639,7 +637,16 @@ service cloud.firestore {
     function loadLocalBackup() {
       try {
         const raw = localStorage.getItem(STORAGE_KEY);
-        if (raw) return JSON.parse(raw);
+        if (raw) {
+          const parsed = JSON.parse(raw);
+          if (!parsed.members || typeof parsed.members !== 'object') {
+            parsed.members = JSON.parse(JSON.stringify(DEFAULT_STATE.members));
+          }
+          if (!Array.isArray(parsed.history)) {
+            parsed.history = [];
+          }
+          return parsed;
+        }
       } catch (e) {}
       return JSON.parse(JSON.stringify(DEFAULT_STATE));
     }
@@ -653,9 +660,6 @@ service cloud.firestore {
         : 'text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-300';
     }
 
-    /**
-     * Pengurusan Pop-Up Log Masuk & Status Pengesahan Admin (Firebase Auth)
-     */
     window.openLoginModal = function () {
       const modal = document.getElementById('loginModal');
       const errorBox = document.getElementById('loginErrorBox');
@@ -805,7 +809,6 @@ service cloud.firestore {
       updateAuthUI(user);
     });
 
-    // Dengar perubahan secara masa nyata (Real-Time) daripada Firebase Firestore
     onSnapshot(
       tabungDocRef,
       async (snapshot) => {
@@ -813,7 +816,13 @@ service cloud.firestore {
         if (banner) banner.classList.add('hidden');
 
         if (snapshot.exists()) {
-          state = snapshot.data();
+          const remoteData = snapshot.data();
+          state = {
+            ...DEFAULT_STATE,
+            ...remoteData,
+            members: remoteData.members && typeof remoteData.members === 'object' ? remoteData.members : {},
+            history: Array.isArray(remoteData.history) ? remoteData.history : []
+          };
           localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
           renderAll();
           setSyncStatus('● Live Sync', true);
@@ -1006,10 +1015,15 @@ service cloud.firestore {
         return;
       }
 
+      if (!state.members || typeof state.members !== 'object') {
+        state.members = {};
+      }
+
       const existingKey = Object.keys(state.members).find(
         (k) => k.toLowerCase() === rawName.toLowerCase()
       );
       const memberName = existingKey || rawName;
+      const previousMonths = existingKey ? [...(state.members[existingKey] || [])] : [];
 
       const addedAmount = selectedMonths.length * RATE_PER_MONTH;
       const prevBalance = Number(state.balance);
@@ -1018,7 +1032,11 @@ service cloud.firestore {
       const formattedSelection = formatMonthList(sortedSelection);
       const formalTimestamp = formatFormalDateTime(new Date());
 
-      state.members[memberName] = sortedSelection;
+      // Kemas kini bulan terkini ahli tersebut tanpa membuang ahli-ahli lain
+      state.members = {
+        ...state.members,
+        [memberName]: sortedSelection
+      };
       state.balance = newBalance;
       state.formulaText = `${prevBalance.toFixed(2)}+${addedAmount.toFixed(0)}=${newBalance.toFixed(2)}`;
       state.lastUpdated = formalTimestamp;
@@ -1026,6 +1044,8 @@ service cloud.firestore {
       state.history.unshift({
         id: Date.now(),
         type: 'in',
+        memberName: memberName,
+        prevMonths: previousMonths,
         desc: `${memberName} (${formattedSelection})`,
         amount: addedAmount,
         date: formalTimestamp
@@ -1071,13 +1091,6 @@ service cloud.firestore {
       await saveState();
       showToast(`-RM${amt.toFixed(2)} ditolak daripada tabung`);
     };
-
-    async function removeMember(name) {
-      delete state.members[name];
-      state.lastUpdated = formatFormalDateTime(new Date());
-      await saveState();
-      showToast(`Rekod ${name} dipadam`);
-    }
 
     /**
      * Pop-Up Edit Ahli: Boleh Edit Nama/Bulan, Batal (Cancel), atau Padam dengan Tolakan Baki Automatik
@@ -1175,17 +1188,20 @@ service cloud.firestore {
         return;
       }
 
-      const oldMonths = state.members[editingOriginalName] || [];
+      const oldMonths = [...(state.members[editingOriginalName] || [])];
       const sortedNewMonths = sortMonthEntries(editingMonths);
       const diffRM = Number(((sortedNewMonths.length - oldMonths.length) * RATE_PER_MONTH).toFixed(2));
       const prevBalance = Number(state.balance);
       const newBalance = Number((prevBalance + diffRM).toFixed(2));
       const formalTimestamp = formatFormalDateTime(new Date());
 
+      const updatedMembers = { ...state.members };
       if (newName !== editingOriginalName) {
-        delete state.members[editingOriginalName];
+        delete updatedMembers[editingOriginalName];
       }
-      state.members[newName] = sortedNewMonths;
+      updatedMembers[newName] = sortedNewMonths;
+
+      state.members = updatedMembers;
       state.balance = newBalance;
       state.lastUpdated = formalTimestamp;
 
@@ -1195,6 +1211,8 @@ service cloud.firestore {
         state.history.unshift({
           id: Date.now(),
           type: diffRM > 0 ? 'in' : 'out',
+          memberName: newName,
+          prevMonths: oldMonths,
           desc: `Edit ${newName} (${sortedNewMonths.length > 0 ? formatMonthList(sortedNewMonths) : 'Tiada bulan'})`,
           amount: Math.abs(diffRM),
           date: formalTimestamp
@@ -1223,13 +1241,16 @@ service cloud.firestore {
       }
 
       const targetName = editingOriginalName;
-      const oldMonths = state.members[targetName] || [];
+      const oldMonths = [...(state.members[targetName] || [])];
       const refundRM = Number((oldMonths.length * RATE_PER_MONTH).toFixed(2));
       const prevBalance = Number(state.balance);
       const newBalance = Number((prevBalance - refundRM).toFixed(2));
       const formalTimestamp = formatFormalDateTime(new Date());
 
-      delete state.members[targetName];
+      const updatedMembers = { ...state.members };
+      delete updatedMembers[targetName];
+
+      state.members = updatedMembers;
       state.balance = newBalance;
       state.lastUpdated = formalTimestamp;
 
@@ -1238,6 +1259,8 @@ service cloud.firestore {
         state.history.unshift({
           id: Date.now(),
           type: 'out',
+          memberName: targetName,
+          prevMonths: oldMonths,
           desc: `Batal Rekod ${targetName}`,
           amount: refundRM,
           date: formalTimestamp
@@ -1275,13 +1298,24 @@ service cloud.firestore {
         ? Number((prevBalance - amt).toFixed(2))
         : Number((prevBalance + amt).toFixed(2));
 
+      // Pulihkan semula bulan ahli sebelumnya jika transaksi masuk dibatalkan
+      if (tx.memberName && Array.isArray(tx.prevMonths)) {
+        const updatedMembers = { ...state.members };
+        if (tx.prevMonths.length > 0) {
+          updatedMembers[tx.memberName] = sortMonthEntries(tx.prevMonths);
+        } else {
+          delete updatedMembers[tx.memberName];
+        }
+        state.members = updatedMembers;
+      }
+
       state.history.splice(idx, 1);
       state.balance = newBalance;
       state.formulaText = `${prevBalance.toFixed(2)}${tx.type === 'in' ? '-' : '+'}${amt.toFixed(2)}=${newBalance.toFixed(2)}`;
       state.lastUpdated = formatFormalDateTime(new Date());
 
       await saveState();
-      showToast(`Transaksi dibatalkan & baki dikembalikan ke RM ${newBalance.toFixed(2)}`);
+      showToast(`Transaksi dibatalkan & rekod dipulihkan`);
     };
 
     window.handleResetClick = async function () {
