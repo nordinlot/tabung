@@ -315,6 +315,105 @@
     </footer>
   </div>
 
+  <!-- Pop-Up Modal Edit / Padam Ahli (Elak Tersilap Padam) -->
+  <div
+    id="editMemberModal"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="editMemberModalTitle"
+    class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-slate-950/60 backdrop-blur-xs transition-opacity"
+    onclick="if (event.target === this) closeEditMemberModal()"
+  >
+    <div class="w-full max-w-sm rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-5 shadow-2xl">
+      <div class="flex items-center justify-between mb-3.5">
+        <div>
+          <h3 id="editMemberModalTitle" class="text-base font-extrabold text-slate-900 dark:text-slate-100">
+            Edit Rekod Ahli
+          </h3>
+          <p class="text-[11px] text-slate-500 dark:text-slate-400">
+            Ubah nama, laraskan bulan, atau buang rekod tersilap
+          </p>
+        </div>
+        <button
+          type="button"
+          onclick="closeEditMemberModal()"
+          aria-label="Tutup"
+          class="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-500 hover:text-slate-800 dark:hover:text-slate-200 flex items-center justify-center text-xs font-bold transition cursor-pointer"
+        >
+          ✕
+        </button>
+      </div>
+
+      <div class="mb-3">
+        <label for="editMemberNameInput" class="block text-xs font-semibold text-slate-600 dark:text-slate-400 mb-1">
+          Nama Ahli
+        </label>
+        <input
+          type="text"
+          id="editMemberNameInput"
+          class="w-full px-3.5 py-2 rounded-xl bg-slate-50 dark:bg-slate-800/90 border border-slate-200 dark:border-slate-700 text-sm font-bold focus:outline-none focus:ring-2 focus:ring-emerald-500 transition"
+        />
+      </div>
+
+      <div class="mb-3">
+        <div class="flex items-center justify-between mb-1.5">
+          <span class="text-xs font-semibold text-slate-600 dark:text-slate-400">Bulan Dibayar</span>
+          <div class="inline-flex items-center rounded-lg bg-slate-100 dark:bg-slate-800 p-0.5 border border-slate-200 dark:border-slate-700">
+            <button
+              type="button"
+              onclick="changeEditYear(-1)"
+              class="px-2 py-0.5 rounded-md text-xs font-extrabold text-slate-600 dark:text-slate-300 hover:bg-white dark:hover:bg-slate-700 cursor-pointer"
+            >
+              ‹
+            </button>
+            <span id="editActiveYearLabel" class="px-2 py-0.5 text-[11px] font-extrabold text-emerald-700 dark:text-emerald-400">
+              2026
+            </span>
+            <button
+              type="button"
+              onclick="changeEditYear(1)"
+              class="px-2 py-0.5 rounded-md text-xs font-extrabold text-slate-600 dark:text-slate-300 hover:bg-white dark:hover:bg-slate-700 cursor-pointer"
+            >
+              ›
+            </button>
+          </div>
+        </div>
+        <div id="editMonthsGrid" class="grid grid-cols-4 gap-1.5"></div>
+      </div>
+
+      <div class="flex items-center justify-between px-3 py-2 rounded-xl bg-slate-100 dark:bg-slate-800/90 text-xs font-semibold mb-3.5">
+        <span id="editDiffLabel" class="text-slate-600 dark:text-slate-300">Tiada perubahan baki</span>
+        <span id="editDiffAmount" class="font-extrabold text-emerald-600 dark:text-emerald-400">RM 0.00</span>
+      </div>
+
+      <div class="flex gap-2 mb-2.5">
+        <button
+          type="button"
+          onclick="closeEditMemberModal()"
+          class="flex-1 py-2.5 rounded-xl bg-slate-200 hover:bg-slate-300 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 font-bold text-xs transition cursor-pointer"
+        >
+          Batal (Cancel)
+        </button>
+        <button
+          type="button"
+          onclick="saveEditedMember()"
+          class="flex-1 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow-sm transition cursor-pointer"
+        >
+          Simpan Perubahan
+        </button>
+      </div>
+
+      <button
+        type="button"
+        id="confirmDeleteMemberBtn"
+        onclick="handleDeleteMemberInModal()"
+        class="w-full py-2 rounded-xl border border-rose-200 dark:border-rose-900/70 text-rose-600 dark:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/50 font-bold text-xs transition cursor-pointer"
+      >
+        🗑️ Padam Ahli &amp; Tolak Baki Semula
+      </button>
+    </div>
+  </div>
+
   <!-- Pop-Up Modal Log Masuk Admin -->
   <div
     id="loginModal"
@@ -527,6 +626,15 @@ service cloud.firestore {
     let selectedMonths = [];
     let resetConfirmTimer = null;
     let isResetArmed = false;
+
+    // State untuk Pop-up Edit Ahli
+    let editingOriginalName = null;
+    let editingMonths = [];
+    let editingYear = CURRENT_SYSTEM_YEAR;
+    let deleteMemberArmed = false;
+    let deleteMemberTimer = null;
+    let armedUndoTxId = null;
+    let undoTxTimer = null;
 
     function loadLocalBackup() {
       try {
@@ -971,12 +1079,210 @@ service cloud.firestore {
       showToast(`Rekod ${name} dipadam`);
     }
 
-    function selectMemberForEdit(name) {
-      const inputEl = document.getElementById('memberInput');
-      inputEl.value = name;
-      inputEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      showToast(`Dipilih: ${name}`);
+    /**
+     * Pop-Up Edit Ahli: Boleh Edit Nama/Bulan, Batal (Cancel), atau Padam dengan Tolakan Baki Automatik
+     */
+    window.openEditMemberModal = function (name) {
+      if (!currentUser) return;
+      editingOriginalName = name;
+      editingMonths = [...(state.members[name] || [])];
+      editingYear = CURRENT_SYSTEM_YEAR;
+      deleteMemberArmed = false;
+      clearTimeout(deleteMemberTimer);
+
+      const delBtn = document.getElementById('confirmDeleteMemberBtn');
+      delBtn.textContent = '🗑️ Padam Ahli & Tolak Baki Semula';
+      delBtn.classList.remove('bg-rose-600', 'text-white', 'dark:text-white');
+
+      document.getElementById('editMemberNameInput').value = name;
+      renderEditMonthsGrid();
+
+      const modal = document.getElementById('editMemberModal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    };
+
+    window.closeEditMemberModal = function () {
+      const modal = document.getElementById('editMemberModal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+      editingOriginalName = null;
+      deleteMemberArmed = false;
+      clearTimeout(deleteMemberTimer);
+    };
+
+    window.changeEditYear = function (delta) {
+      const nextYear = Number(editingYear) + delta;
+      if (nextYear >= 2020 && nextYear <= 2100) {
+        editingYear = String(nextYear);
+        renderEditMonthsGrid();
+      }
+    };
+
+    function renderEditMonthsGrid() {
+      document.getElementById('editActiveYearLabel').textContent = editingYear;
+      const grid = document.getElementById('editMonthsGrid');
+      grid.innerHTML = '';
+
+      MONTHS.forEach((month) => {
+        const entryKey = `${month} ${editingYear}`;
+        const isSelected = editingMonths.includes(entryKey);
+
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.textContent = editingYear === CURRENT_SYSTEM_YEAR ? month : `${month} '${editingYear.slice(-2)}`;
+        btn.className = isSelected
+          ? 'py-2 px-1 rounded-xl text-xs font-extrabold bg-emerald-600 text-white border border-emerald-600 transition cursor-pointer'
+          : 'py-2 px-1 rounded-xl text-xs font-bold bg-slate-50 dark:bg-slate-800/80 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 hover:border-emerald-400 transition cursor-pointer';
+        btn.onclick = () => {
+          if (editingMonths.includes(entryKey)) {
+            editingMonths = editingMonths.filter((m) => m !== entryKey);
+          } else {
+            editingMonths.push(entryKey);
+            editingMonths = sortMonthEntries(editingMonths);
+          }
+          renderEditMonthsGrid();
+        };
+        grid.appendChild(btn);
+      });
+
+      const oldCount = (state.members[editingOriginalName] || []).length;
+      const newCount = editingMonths.length;
+      const diffRM = (newCount - oldCount) * RATE_PER_MONTH;
+      const diffLabel = document.getElementById('editDiffLabel');
+      const diffAmount = document.getElementById('editDiffAmount');
+
+      if (diffRM > 0) {
+        diffLabel.textContent = `Tambah ${newCount - oldCount} bulan`;
+        diffAmount.textContent = `+RM ${diffRM.toFixed(2)}`;
+        diffAmount.className = 'font-extrabold text-emerald-600 dark:text-emerald-400';
+      } else if (diffRM < 0) {
+        diffLabel.textContent = `Tolak ${oldCount - newCount} bulan tersilap`;
+        diffAmount.textContent = `-RM ${Math.abs(diffRM).toFixed(2)}`;
+        diffAmount.className = 'font-extrabold text-rose-600 dark:text-rose-400';
+      } else {
+        diffLabel.textContent = `${newCount} bulan dipilih`;
+        diffAmount.textContent = 'RM 0.00';
+        diffAmount.className = 'font-extrabold text-slate-500 dark:text-slate-400';
+      }
     }
+
+    window.saveEditedMember = async function () {
+      if (!editingOriginalName) return;
+      const newName = document.getElementById('editMemberNameInput').value.trim();
+      if (!newName) {
+        showToast('Nama ahli tidak boleh kosong');
+        return;
+      }
+
+      const oldMonths = state.members[editingOriginalName] || [];
+      const sortedNewMonths = sortMonthEntries(editingMonths);
+      const diffRM = Number(((sortedNewMonths.length - oldMonths.length) * RATE_PER_MONTH).toFixed(2));
+      const prevBalance = Number(state.balance);
+      const newBalance = Number((prevBalance + diffRM).toFixed(2));
+      const formalTimestamp = formatFormalDateTime(new Date());
+
+      if (newName !== editingOriginalName) {
+        delete state.members[editingOriginalName];
+      }
+      state.members[newName] = sortedNewMonths;
+      state.balance = newBalance;
+      state.lastUpdated = formalTimestamp;
+
+      if (diffRM !== 0) {
+        const sign = diffRM > 0 ? '+' : '-';
+        state.formulaText = `${prevBalance.toFixed(2)}${sign}${Math.abs(diffRM).toFixed(2)}=${newBalance.toFixed(2)}`;
+        state.history.unshift({
+          id: Date.now(),
+          type: diffRM > 0 ? 'in' : 'out',
+          desc: `Edit ${newName} (${sortedNewMonths.length > 0 ? formatMonthList(sortedNewMonths) : 'Tiada bulan'})`,
+          amount: Math.abs(diffRM),
+          date: formalTimestamp
+        });
+      }
+
+      closeEditMemberModal();
+      await saveState();
+      showToast(`Rekod ${newName} dikemas kini`);
+    };
+
+    window.handleDeleteMemberInModal = async function () {
+      if (!editingOriginalName) return;
+      const btn = document.getElementById('confirmDeleteMemberBtn');
+
+      if (!deleteMemberArmed) {
+        deleteMemberArmed = true;
+        btn.textContent = '⚠️ Tekan Sekali Lagi untuk Sah Padam';
+        btn.classList.add('bg-rose-600', 'text-white', 'dark:text-white');
+        deleteMemberTimer = setTimeout(() => {
+          deleteMemberArmed = false;
+          btn.textContent = '🗑️ Padam Ahli & Tolak Baki Semula';
+          btn.classList.remove('bg-rose-600', 'text-white', 'dark:text-white');
+        }, 3500);
+        return;
+      }
+
+      const targetName = editingOriginalName;
+      const oldMonths = state.members[targetName] || [];
+      const refundRM = Number((oldMonths.length * RATE_PER_MONTH).toFixed(2));
+      const prevBalance = Number(state.balance);
+      const newBalance = Number((prevBalance - refundRM).toFixed(2));
+      const formalTimestamp = formatFormalDateTime(new Date());
+
+      delete state.members[targetName];
+      state.balance = newBalance;
+      state.lastUpdated = formalTimestamp;
+
+      if (refundRM > 0) {
+        state.formulaText = `${prevBalance.toFixed(2)}-${refundRM.toFixed(2)}=${newBalance.toFixed(2)}`;
+        state.history.unshift({
+          id: Date.now(),
+          type: 'out',
+          desc: `Batal Rekod ${targetName}`,
+          amount: refundRM,
+          date: formalTimestamp
+        });
+      }
+
+      closeEditMemberModal();
+      await saveState();
+      showToast(`Rekod ${targetName} dipadam & baki dilaraskan`);
+    };
+
+    window.undoTransaction = async function (txId) {
+      if (!currentUser) return;
+      const idx = (state.history || []).findIndex((item) => item.id === txId);
+      if (idx === -1) return;
+
+      if (armedUndoTxId !== txId) {
+        armedUndoTxId = txId;
+        renderAll();
+        clearTimeout(undoTxTimer);
+        undoTxTimer = setTimeout(() => {
+          armedUndoTxId = null;
+          renderAll();
+        }, 3500);
+        return;
+      }
+
+      clearTimeout(undoTxTimer);
+      armedUndoTxId = null;
+
+      const tx = state.history[idx];
+      const prevBalance = Number(state.balance);
+      const amt = Number(tx.amount);
+      const newBalance = tx.type === 'in'
+        ? Number((prevBalance - amt).toFixed(2))
+        : Number((prevBalance + amt).toFixed(2));
+
+      state.history.splice(idx, 1);
+      state.balance = newBalance;
+      state.formulaText = `${prevBalance.toFixed(2)}${tx.type === 'in' ? '-' : '+'}${amt.toFixed(2)}=${newBalance.toFixed(2)}`;
+      state.lastUpdated = formatFormalDateTime(new Date());
+
+      await saveState();
+      showToast(`Transaksi dibatalkan & baki dikembalikan ke RM ${newBalance.toFixed(2)}`);
+    };
 
     window.handleResetClick = async function () {
       const btn = document.getElementById('resetBtn');
@@ -1033,7 +1339,7 @@ service cloud.firestore {
           const infoDiv = document.createElement('div');
           infoDiv.className = currentUser ? 'cursor-pointer flex-1' : 'flex-1';
           if (currentUser) {
-            infoDiv.onclick = () => selectMemberForEdit(name);
+            infoDiv.onclick = () => openEditMemberModal(name);
           }
 
           const nameEl = document.createElement('div');
@@ -1053,14 +1359,14 @@ service cloud.firestore {
           row.appendChild(infoDiv);
 
           if (currentUser) {
-            const delBtn = document.createElement('button');
-            delBtn.type = 'button';
-            delBtn.title = 'Padam ahli';
-            delBtn.textContent = '✕';
-            delBtn.className =
-              'w-8 h-8 rounded-lg text-slate-400 hover:text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-950/50 text-xs font-bold transition cursor-pointer';
-            delBtn.onclick = () => removeMember(name);
-            row.appendChild(delBtn);
+            const editBtn = document.createElement('button');
+            editBtn.type = 'button';
+            editBtn.title = 'Edit / Batal rekod ahli';
+            editBtn.textContent = '✏️ Edit';
+            editBtn.className =
+              'px-2.5 py-1.5 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:bg-emerald-100 hover:text-emerald-800 dark:hover:bg-emerald-950 dark:hover:text-emerald-300 text-xs font-bold transition cursor-pointer';
+            editBtn.onclick = () => openEditMemberModal(name);
+            row.appendChild(editBtn);
           }
 
           membersDiv.appendChild(row);
@@ -1123,8 +1429,25 @@ service cloud.firestore {
             : 'text-xs font-extrabold text-rose-600 dark:text-rose-400 whitespace-nowrap';
           amtBadge.textContent = `${isIn ? '+' : '-'}RM ${Number(item.amount).toFixed(2)}`;
 
+          const rightGroup = document.createElement('div');
+          rightGroup.className = 'flex items-center gap-2 shrink-0';
+          rightGroup.appendChild(amtBadge);
+
+          if (currentUser) {
+            const undoBtn = document.createElement('button');
+            undoBtn.type = 'button';
+            const isArmed = armedUndoTxId === item.id;
+            undoBtn.textContent = isArmed ? 'Sah Batal?' : 'Batal';
+            undoBtn.title = 'Batalkan transaksi & laraskan baki';
+            undoBtn.className = isArmed
+              ? 'px-2 py-1 rounded-lg bg-rose-600 text-white text-[11px] font-bold transition cursor-pointer'
+              : 'px-2 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-500 hover:text-rose-600 dark:text-slate-400 dark:hover:text-rose-400 text-[11px] font-semibold transition cursor-pointer';
+            undoBtn.onclick = () => undoTransaction(item.id);
+            rightGroup.appendChild(undoBtn);
+          }
+
           row.appendChild(left);
-          row.appendChild(amtBadge);
+          row.appendChild(rightGroup);
           historyDiv.appendChild(row);
         });
       }
