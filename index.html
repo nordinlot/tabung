@@ -756,13 +756,7 @@
                         </div>
 
                         <!-- Official Approval Signature Block (For Boss Sign-off) -->
-                        <div class="mt-8 pt-6 border-t-2 border-slate-300 dark:border-slate-700 grid grid-cols-1 sm:grid-cols-2 gap-8 text-xs">
-                            <div>
-                                <p class="font-bold text-slate-800 dark:text-slate-200">Disediakan & Diperiksa Oleh:</p>
-                                <div class="h-12 border-b border-slate-400 w-56 mt-4"></div>
-                                <p class="mt-1.5 font-bold text-slate-900 dark:text-white" id="proof-sign-inspector">Pegawai Keselamatan / Pentadbiran</p>
-                        <!-- Official Computer-Generated Document Footer (No Signature Required) -->
-                        <div class="mt-8 pt-4 border-t-2 border-slate-300 dark:border-slate-700 text-center space-y-1">
+                        <div class="mt-4 pt-3 border-t-2 border-slate-300 dark:border-slate-700 text-center space-y-1">
                             <p class="text-xs font-extrabold uppercase tracking-wider text-slate-800 dark:text-slate-200">
                                 DOKUMEN CETAKAN KOMPUTER — TIDAK MEMERLUKAN TANDATANGAN
                             </p>
@@ -1093,7 +1087,7 @@
                             <div>
                                 <p class="font-bold">Disediakan Oleh (SCK Wooden Industries Sdn Bhd):</p>
                         <!-- Print Footer Computer-Generated Notice -->
-                        <div class="hidden print-only mt-8 pt-4 border-t border-slate-300 text-center space-y-1 text-xs">
+                        <div class="hidden print-only mt-4 pt-3 border-t border-slate-300 text-center space-y-1 text-xs">
                             <p class="font-extrabold uppercase tracking-wider">
                                 DOKUMEN CETAKAN KOMPUTER — TIDAK MEMERLUKAN TANDATANGAN
                             </p>
@@ -2870,7 +2864,7 @@
                 return;
             }
 
-            // Buka tetingkap cetakan bersih supaya berfungsi walaupun dalam iframe / mobile Safari
+            // Buka tetingkap cetakan bersih 1 Halaman A4 (susunan 2-kolum untuk senarai 50 unit)
             const printWin = window.open('', '_blank', 'width=980,height=780');
             if (printWin) {
                 const cloned = printEl.cloneNode(true);
@@ -2880,41 +2874,64 @@
                     el.style.display = 'block';
                 });
 
+                // Pecahkan jadual 50 unit kepada 2 jadual bersebelahan (1-25 & 26-50) supaya muat 1 muka surat A4
+                if (sectionType === 'monthly-proof') {
+                    const origTable = cloned.querySelector('table');
+                    if (origTable) {
+                        const theadHtml = origTable.querySelector('thead').innerHTML;
+                        const allRows = Array.from(origTable.querySelectorAll('tbody tr'));
+                        if (allRows.length > 20) {
+                            const mid = Math.ceil(allRows.length / 2);
+                            const leftRowsHtml = allRows.slice(0, mid).map(r => r.outerHTML).join('');
+                            const rightRowsHtml = allRows.slice(mid).map(r => r.outerHTML).join('');
+
+                            const splitWrapper = document.createElement('div');
+                            splitWrapper.className = 'two-col-print-grid';
+                            splitWrapper.innerHTML = `
+                                <table><thead>${theadHtml}</thead><tbody>${leftRowsHtml}</tbody></table>
+                                <table><thead>${theadHtml}</thead><tbody>${rightRowsHtml}</tbody></table>
+                            `;
+                            origTable.parentNode.replaceChild(splitWrapper, origTable);
+                        }
+                    }
+                }
+
                 printWin.document.open();
                 printWin.document.write(`
                     <!DOCTYPE html>
                     <html lang="ms">
                     <head>
                         <meta charset="UTF-8">
-                        <title>Cetakan Rasmi - SCK Wooden Industries Sdn Bhd</title>
+                        <title>Cetakan Rasmi 1 Halaman - SCK Wooden Industries Sdn Bhd</title>
                         <script src="https://cdn.tailwindcss.com"><\/script>
                         <style>
-                            * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
-                            @page { size: A4 portrait; margin: 7mm; }
-                            body { background: #ffffff !important; color: #000000 !important; font-family: Arial, sans-serif; padding: 8px; font-size: 7.5pt; line-height: 1.2; }
+                            * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; box-sizing: border-box; }
+                            @page { size: A4 portrait; margin: 6mm; }
+                            body { background: #ffffff !important; color: #000000 !important; font-family: Arial, sans-serif; padding: 6px; font-size: 7.5pt; line-height: 1.2; }
                             h1, h2, h3, h4, p, span, div, td, th { color: #000000 !important; }
-                            h2 { font-size: 13pt !important; margin: 0 !important; }
-                            h3 { font-size: 8.5pt !important; margin-bottom: 4px !important; }
-                            .mb-6, .mb-5, .mb-4 { margin-bottom: 6px !important; }
-                            .mt-8, .mt-6 { margin-top: 6px !important; }
-                            .pt-6, .pt-4 { padding-top: 4px !important; }
-                            .pb-4 { padding-bottom: 4px !important; }
+                            h2 { font-size: 12pt !important; margin: 0 !important; }
+                            h3 { font-size: 8pt !important; margin-bottom: 3px !important; }
+                            .mb-6, .mb-5, .mb-4 { margin-bottom: 5px !important; }
+                            .mt-8, .mt-6, .mt-4 { margin-top: 5px !important; }
+                            .pt-6, .pt-4, .pt-3 { padding-top: 4px !important; }
+                            .pb-4 { padding-bottom: 3px !important; }
                             .p-6, .p-5, .p-4, .p-3\.5, .p-3 { padding: 4px 6px !important; }
                             .gap-4, .gap-3\.5, .gap-3, .gap-2\.5 { gap: 4px !important; }
-                            table { width: 100%; border-collapse: collapse; margin-top: 2px; font-size: 6.8pt !important; }
-                            th, td { border: 1px solid #222222 !important; padding: 1.5px 4px !important; text-align: left; }
+                            .two-col-print-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; align-items: start; }
+                            table { width: 100%; border-collapse: collapse; margin-top: 2px; font-size: 6.3pt !important; }
+                            th, td { border: 1px solid #222222 !important; padding: 1.5px 3px !important; text-align: left; }
                             th { background-color: #e5e7eb !important; font-weight: 800; }
                             #proof-doc-month-badge, .bg-red-600, .bg-emerald-600 { background-color: #111827 !important; color: #ffffff !important; padding: 2px 8px; border-radius: 4px; font-size: 7.5pt !important; }
                             #proof-doc-month-badge *, .bg-red-600 *, .bg-emerald-600 * { color: #ffffff !important; }
                             @media print {
                                 .print-action-bar { display: none !important; }
-                                body { padding: 0; zoom: 0.92; }
+                                body { padding: 0; }
                             }
                         </style>
                     </head>
                     <body>
-                        <div class="print-action-bar" style="background:#fef3c7;border:1px solid #f59e0b;padding:10px 14px;border-radius:10px;margin-bottom:14px;display:flex;justify-content:space-between;align-items:center;">
-                            <span style="font-size:12px;font-weight:bold;">Pratonton Cetakan Rasmi SCK Wooden Industries (1 Halaman A4)</span>
+                        <div class="print-action-bar" style="background:#fef3c7;border:1px solid #f59e0b;padding:10px 14px;border-radius:10px;margin-bottom:10px;display:flex;justify-content:space-between;align-items:center;">
+                            <span style="font-size:12px;font-weight:bold;">Pratonton Cetakan Rasmi SCK Wooden Industries (Susunan Padat 1 Halaman A4)</span>
                             <button onclick="window.print()" style="background:#059669;color:#fff !important;border:none;padding:8px 16px;border-radius:8px;font-weight:bold;cursor:pointer;">Cetak / Simpan PDF Sekarang</button>
                         </div>
                         ${cloned.innerHTML}
@@ -2929,7 +2946,6 @@
                 `);
                 printWin.document.close();
             } else {
-                // Fallback jika pop-up disekat pelayar
                 showToast('Sila benarkan pop-up pelayar atau tekan Ctrl+P / Cmd+P untuk mencetak.', 'info');
                 window.print();
             }
