@@ -3,23 +3,20 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <meta name="theme-color" content="#dc2626" />
+  <title>Tabung Belanja — Kutipan RM5</title>
+
+  <!-- Tetapan Aplikasi Web iOS (Add to Home Screen) -->
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-  <meta name="apple-mobile-web-app-title" content="Pantau FE SCK" />
-  <title>Sistem Pantau & Sebut Harga Pemadam Api - SCK Wooden Industries Sdn Bhd (Rujukan: SCK-DOSH-F11)</title>
+  <meta name="apple-mobile-web-app-title" content="Tabung RM5" />
+  <meta name="theme-color" content="#059669" />
+  <link id="ios-icon" rel="apple-touch-icon" href="" />
+  <link id="favicon" rel="icon" href="" />
 
-  <!-- Dynamic PWA Manifest & Icon Links -->
-  <link id="dynamic-manifest" rel="manifest" href="" />
-  <link id="dynamic-favicon" rel="icon" type="image/png" href="" />
-  <link id="dynamic-apple-icon" rel="apple-touch-icon" href="" />
-
-  <!-- Google Font: Inter -->
+  <!-- Fon Google Inter & Tailwind CSS -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
-
-  <!-- Tailwind CSS CDN -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
@@ -27,2050 +24,1515 @@
       theme: {
         extend: {
           fontFamily: {
-            sans: ['Inter', 'sans-serif'],
+            sans: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
           },
-          colors: {
-            brand: {
-              50: '#fef2f2',
-              100: '#fee2e2',
-              500: '#ef4444',
-              600: '#dc2626',
-              700: '#b91c1c',
-              800: '#991b1b',
-              900: '#7f1d1d',
-            }
-          }
-        }
-      }
+        },
+      },
     };
   </script>
-
-  <!-- Font Awesome CDN -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
-
-  <style>
-    @keyframes pulse-danger {
-      0%, 100% { background-color: rgba(220, 38, 38, 0.16); border-color: rgba(220, 38, 38, 0.8); }
-      50% { background-color: rgba(220, 38, 38, 0.36); border-color: rgba(239, 68, 68, 1); }
-    }
-    .blink-kosong {
-      animation: pulse-danger 1.2s infinite ease-in-out;
-    }
-    .no-scrollbar::-webkit-scrollbar {
-      display: none;
-    }
-    .no-scrollbar {
-      -ms-overflow-style: none;
-      scrollbar-width: none;
-    }
-    input[type="checkbox"] {
-      accent-color: #dc2626;
-      cursor: pointer;
-    }
-  </style>
 </head>
-<body class="bg-slate-100 text-slate-800 dark:bg-slate-950 dark:text-slate-100 min-h-screen transition-colors duration-200 font-sans">
+<body class="bg-slate-100 text-slate-900 dark:bg-slate-950 dark:text-slate-100 min-h-screen transition-colors duration-200 antialiased pb-16">
+  <!-- Kontena Utama Mesra Mudah Alih -->
+  <div class="max-w-lg mx-auto px-4 pt-5">
+    
+    <!-- Pengepala & Butang Dark/Light Mode -->
+    <header class="flex items-center justify-between mb-5">
+      <div class="flex items-center gap-3">
+        <div class="w-11 h-11 rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-700 flex items-center justify-center text-white font-extrabold text-sm shadow-md shadow-emerald-600/20 select-none">
+          RM5
+        </div>
+        <div>
+          <h1 class="text-lg font-extrabold tracking-tight leading-tight flex items-center gap-2">
+            Tabung Belanja
+            <span id="syncBadge" class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-300">Menyambung...</span>
+          </h1>
+          <p class="text-xs text-slate-500 dark:text-slate-400 font-medium">Kutipan Gaji 30/31 • RM5 / Bulan</p>
+        </div>
+      </div>
 
-  <!-- Top Navigation Header -->
-  <header class="sticky top-0 z-30 bg-white/95 dark:bg-slate-900/95 backdrop-blur border-b border-slate-200 dark:border-slate-800 shadow-sm">
-    <div class="max-w-7xl mx-auto px-3 sm:px-6 py-3">
-      <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-3">
-        <!-- Brand & Title -->
-        <div class="flex items-center gap-3">
-          <div class="w-11 h-11 rounded-xl bg-gradient-to-br from-red-600 to-red-800 text-white flex items-center justify-center shadow-md shrink-0">
-            <i class="fa-solid fa-fire-extinguisher text-xl"></i>
+      <div class="flex items-center gap-2">
+        <button
+          id="authToggleBtn"
+          type="button"
+          onclick="handleAuthButtonClick()"
+          aria-label="Log Masuk Admin"
+          class="px-3 py-2 rounded-full bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold shadow-sm active:scale-95 transition flex items-center gap-1.5 cursor-pointer"
+        >
+          <span id="authIcon">🔐</span>
+          <span id="authLabel">Admin</span>
+        </button>
+
+        <button
+          id="themeToggle"
+          type="button"
+          onclick="toggleTheme()"
+          aria-label="Tukar Tema"
+          class="px-3.5 py-2 rounded-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-xs font-semibold shadow-sm hover:bg-slate-50 dark:hover:bg-slate-800 active:scale-95 transition flex items-center gap-1.5 cursor-pointer"
+        >
+          <span id="themeIcon">🌙</span>
+          <span id="themeLabel">Dark</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Status Mod Pengguna (Paparan sahaja vs Mod Admin) -->
+    <div
+      id="viewOnlyNotice"
+      class="rounded-2xl bg-slate-200/70 dark:bg-slate-900/90 border border-slate-300/70 dark:border-slate-800 px-4 py-2.5 mb-4 flex items-center justify-between gap-2 text-xs"
+    >
+      <span class="text-slate-700 dark:text-slate-300 font-medium">
+        👀 <strong>Mod Paparan Ahli</strong> — Log masuk Admin untuk kemas kini rekod.
+      </span>
+      <button
+        type="button"
+        onclick="openLoginModal()"
+        class="text-emerald-700 dark:text-emerald-400 font-extrabold underline whitespace-nowrap cursor-pointer"
+      >
+        Log Masuk
+      </button>
+    </div>
+
+    <!-- Banner Bantuan Firebase Rules (Muncul hanya jika Firestore Rules belum diterbitkan) -->
+    <section
+      id="firestoreHelpBanner"
+      class="hidden rounded-2xl bg-amber-50 dark:bg-amber-950/70 border border-amber-300 dark:border-amber-800 p-4 mb-4 text-xs text-amber-950 dark:text-amber-100 shadow-sm"
+    >
+      <div class="flex items-start justify-between gap-2 mb-1.5">
+        <div class="font-extrabold flex items-center gap-1.5">
+          <span>⚠️</span>
+          <span>Firestore Rules Belum Diterbitkan (Mod Offline Aktif)</span>
+        </div>
+        <button
+          type="button"
+          onclick="document.getElementById('firestoreHelpBanner').classList.add('hidden')"
+          class="text-amber-700 dark:text-amber-300 font-bold px-1.5 py-0.5 rounded hover:bg-amber-200/50 dark:hover:bg-amber-900/50 cursor-pointer"
+          aria-label="Tutup"
+        >
+          ✕
+        </button>
+      </div>
+      <p class="leading-relaxed text-amber-900 dark:text-amber-200 mb-2.5">
+        Data anda selamat disimpan secara lokal di peranti ini. Untuk aktifkan <strong>Live Sync</strong> antara telefon, buka <strong>Firebase Console &rarr; Firestore Database &rarr; Rules</strong> untuk projek <code>duit-tabung-nordin</code>, tampal rules yang disalin dan tekan <strong>Publish</strong>.
+      </p>
+      <button
+        type="button"
+        onclick="copyFirestoreRules()"
+        class="w-full py-2 px-3 rounded-xl bg-amber-600 hover:bg-amber-700 text-white font-bold text-xs transition cursor-pointer"
+      >
+        📋 Salin Firestore Security Rules
+      </button>
+    </section>
+
+    <!-- 1. Kad Baki Utama -->
+    <section class="rounded-2xl bg-gradient-to-br from-emerald-600 via-emerald-600 to-teal-700 text-white p-6 mb-4 shadow-lg shadow-emerald-700/20 text-center">
+      <div class="text-xs font-bold uppercase tracking-widest text-emerald-100/90">Tabung Balance Semasa</div>
+      <div id="totalBalance" class="text-4xl sm:text-5xl font-extrabold my-2 tracking-tight">RM 80.13</div>
+      <div class="inline-block bg-black/20 backdrop-blur-xs px-3 py-1 rounded-full text-xs font-mono text-emerald-50" id="lastFormula">
+        50.13+10+10+10=80.13
+      </div>
+    </section>
+
+    <!-- 2. Borang Rekod Bayaran Masuk -->
+    <section id="adminPaymentSection" class="hidden bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 rounded-2xl p-4 sm:p-5 mb-4 shadow-sm">
+      <div class="flex items-center justify-between mb-3">
+        <h2 class="text-sm font-bold flex items-center gap-2">
+          <span class="w-6 h-6 rounded-lg bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-400 flex items-center justify-center text-xs font-extrabold">+</span>
+          Rekod Bayaran Ahli
+        </h2>
+        <span class="text-xs font-semibold text-emerald-600 dark:text-emerald-400">RM5.00 / bulan</span>
+      </div>
+
+      <!-- Input Nama Ahli -->
+      <div class="mb-3.5">
+        <label for="memberInput" class="block text-xs font-semibold text-slate-600 dark:text-slate-400 mb-1.5">
+          Nama Ahli (Pilih atau Taip Baru)
+        </label>
+        <input
+          type="text"
+          id="memberInput"
+          list="memberList"
+          placeholder="Contoh: Nordin, KAK NA, AQILA..."
+          class="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-emerald-500 transition"
+        />
+        <datalist id="memberList"></datalist>
+      </div>
+
+      <!-- Pilihan Cip Bulan JAN - DEC -->
+      <div class="mb-3.5">
+        <div class="flex items-center justify-between mb-2">
+          <label class="text-xs font-semibold text-slate-600 dark:text-slate-400">
+            Pilih Bulan Terkini (Boleh pilih rentas tahun)
+          </label>
+          <div class="flex items-center gap-1.5">
+            <!-- Pemilih Tahun Dinamik Tanpa Had -->
+            <div class="inline-flex items-center rounded-lg bg-slate-100 dark:bg-slate-800 p-0.5 border border-slate-200 dark:border-slate-700" role="group" aria-label="Pilih Tahun">
+              <button
+                type="button"
+                onclick="changeYear(-1)"
+                aria-label="Tahun Sebelum"
+                class="px-2 py-0.5 rounded-md text-xs font-extrabold text-slate-600 dark:text-slate-300 hover:bg-white dark:hover:bg-slate-700 transition cursor-pointer"
+              >
+                ‹
+              </button>
+              <span
+                id="activeYearLabel"
+                class="px-2 py-0.5 text-[11px] font-extrabold text-emerald-700 dark:text-emerald-400 select-none"
+              >
+                2026
+              </span>
+              <button
+                type="button"
+                onclick="changeYear(1)"
+                aria-label="Tahun Seterusnya"
+                class="px-2 py-0.5 rounded-md text-xs font-extrabold text-slate-600 dark:text-slate-300 hover:bg-white dark:hover:bg-slate-700 transition cursor-pointer"
+              >
+                ›
+              </button>
+            </div>
+            <button
+              type="button"
+              onclick="clearSelectedMonths()"
+              class="text-[11px] font-semibold text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 ml-1 cursor-pointer"
+            >
+              Kosongkan
+            </button>
+          </div>
+        </div>
+        <div id="monthsGrid" class="grid grid-cols-4 gap-2"></div>
+      </div>
+
+      <!-- Ringkasan Kiraan Segera -->
+      <div class="flex items-center justify-between px-3.5 py-2.5 rounded-xl bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200/70 dark:border-emerald-900/60 text-emerald-900 dark:text-emerald-200 text-xs font-semibold mb-3.5">
+        <span id="selectedMonthsText">Tiada bulan dipilih</span>
+        <span id="calcAmountText" class="text-sm font-extrabold">RM 0.00</span>
+      </div>
+
+      <button
+        type="button"
+        onclick="addPayment()"
+        class="w-full py-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 active:scale-[0.99] text-white font-bold text-sm shadow-sm shadow-emerald-600/20 transition cursor-pointer"
+      >
+        Tambah Ke Tabung
+      </button>
+    </section>
+
+    <!-- 3. Ringkasan Rekod Bulan Setiap Ahli -->
+    <section class="bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 rounded-2xl p-4 sm:p-5 mb-4 shadow-sm">
+      <div class="flex items-center justify-between mb-3">
+        <h2 class="text-sm font-bold">👥 Rekod Bulan Ahli</h2>
+        <span id="memberCountBadge" class="text-[11px] font-semibold px-2 py-0.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300">
+          3 Ahli
+        </span>
+      </div>
+      <div id="membersSummary" class="divide-y divide-slate-100 dark:divide-slate-800"></div>
+    </section>
+
+    <!-- 4. Pratonton & Salin Mesej WhatsApp -->
+    <section class="bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 rounded-2xl p-4 sm:p-5 mb-4 shadow-sm">
+      <div class="flex items-center justify-between mb-2.5">
+        <h2 class="text-sm font-bold">📲 Format Mesej WhatsApp</h2>
+        <span class="text-[11px] text-slate-500 dark:text-slate-400">Sedia untuk *Pin*</span>
+      </div>
+
+      <div
+        id="waPreview"
+        class="p-3.5 rounded-xl bg-[#dcf8c6] dark:bg-[#054640] text-slate-900 dark:text-emerald-50 font-mono text-xs sm:text-sm whitespace-pre-wrap leading-relaxed border border-emerald-300/60 dark:border-emerald-800/70 mb-3 select-all"
+      ></div>
+
+      <button
+        type="button"
+        onclick="copyWhatsApp()"
+        class="w-full py-3 rounded-xl bg-slate-900 hover:bg-slate-800 dark:bg-emerald-600 dark:hover:bg-emerald-700 active:scale-[0.99] text-white font-bold text-sm transition cursor-pointer flex items-center justify-center gap-2"
+      >
+        <span>📋</span>
+        <span>Salin Mesej untuk WhatsApp</span>
+      </button>
+    </section>
+
+    <!-- 5. Borang Tolak Duit Belanja -->
+    <section id="adminExpenseSection" class="hidden bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 rounded-2xl p-4 sm:p-5 mb-4 shadow-sm">
+      <h2 class="text-sm font-bold mb-3 flex items-center gap-2">
+        <span class="w-6 h-6 rounded-lg bg-rose-100 dark:bg-rose-950 text-rose-600 dark:text-rose-400 flex items-center justify-center text-xs font-extrabold">-</span>
+        Rekod Duit Keluar (Belanja)
+      </h2>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-3.5">
+        <div>
+          <label for="expenseDesc" class="block text-xs font-semibold text-slate-600 dark:text-slate-400 mb-1">
+            Catatan Belanja
+          </label>
+          <input
+            type="text"
+            id="expenseDesc"
+            placeholder="Contoh: Beli makanan / kek"
+            class="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 text-sm focus:outline-none focus:ring-2 focus:ring-rose-500 transition"
+          />
+        </div>
+        <div>
+          <label for="expenseAmount" class="block text-xs font-semibold text-slate-600 dark:text-slate-400 mb-1">
+            Jumlah (RM)
+          </label>
+          <input
+            type="number"
+            inputmode="decimal"
+            step="0.01"
+            min="0.01"
+            id="expenseAmount"
+            placeholder="0.00"
+            class="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 text-sm focus:outline-none focus:ring-2 focus:ring-rose-500 transition"
+          />
+        </div>
+      </div>
+
+      <button
+        type="button"
+        onclick="addExpense()"
+        class="w-full py-2.5 rounded-xl bg-rose-600 hover:bg-rose-700 active:scale-[0.99] text-white font-bold text-sm transition cursor-pointer"
+      >
+        Tolak Dari Tabung
+      </button>
+    </section>
+
+    <!-- 6. Sejarah Transaksi & Butang Reset -->
+    <section class="bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 rounded-2xl p-4 sm:p-5 shadow-sm">
+      <div class="flex items-center justify-between mb-3">
+        <h2 class="text-sm font-bold">📜 Sejarah Transaksi</h2>
+        <button
+          type="button"
+          id="resetBtn"
+          onclick="handleResetClick()"
+          class="hidden text-xs font-semibold px-2.5 py-1 rounded-lg text-slate-500 hover:text-rose-600 dark:text-slate-400 dark:hover:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/50 transition cursor-pointer"
+        >
+          Reset Data Asal
+        </button>
+      </div>
+      <div id="historyList" class="divide-y divide-slate-100 dark:divide-slate-800"></div>
+    </section>
+
+    <!-- Panduan Ringkas iOS -->
+    <footer class="mt-5 text-center text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed">
+      Tip iPhone: Tekan ikon <strong>Share</strong> di Safari &rarr; pilih <strong>Add to Home Screen</strong> untuk simpan ikon syiling <strong>RM5 TABUNG</strong> di skrin utama.
+    </footer>
+  </div>
+
+  <!-- Pop-Up Modal Edit / Padam Ahli (Elak Tersilap Padam) -->
+  <div
+    id="editMemberModal"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="editMemberModalTitle"
+    class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-slate-950/60 backdrop-blur-xs transition-opacity"
+    onclick="if (event.target === this) closeEditMemberModal()"
+  >
+    <div class="w-full max-w-sm rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-5 shadow-2xl">
+      <div class="flex items-center justify-between mb-3.5">
+        <div>
+          <h3 id="editMemberModalTitle" class="text-base font-extrabold text-slate-900 dark:text-slate-100">
+            Edit Rekod Ahli
+          </h3>
+          <p class="text-[11px] text-slate-500 dark:text-slate-400">
+            Ubah nama, laraskan bulan, atau buang rekod tersilap
+          </p>
+        </div>
+        <button
+          type="button"
+          onclick="closeEditMemberModal()"
+          aria-label="Tutup"
+          class="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-500 hover:text-slate-800 dark:hover:text-slate-200 flex items-center justify-center text-xs font-bold transition cursor-pointer"
+        >
+          ✕
+        </button>
+      </div>
+
+      <div class="mb-3">
+        <label for="editMemberNameInput" class="block text-xs font-semibold text-slate-600 dark:text-slate-400 mb-1">
+          Nama Ahli
+        </label>
+        <input
+          type="text"
+          id="editMemberNameInput"
+          class="w-full px-3.5 py-2 rounded-xl bg-slate-50 dark:bg-slate-800/90 border border-slate-200 dark:border-slate-700 text-sm font-bold focus:outline-none focus:ring-2 focus:ring-emerald-500 transition"
+        />
+      </div>
+
+      <div class="mb-3">
+        <div class="flex items-center justify-between mb-1.5">
+          <span class="text-xs font-semibold text-slate-600 dark:text-slate-400">Bulan Dibayar</span>
+          <div class="inline-flex items-center rounded-lg bg-slate-100 dark:bg-slate-800 p-0.5 border border-slate-200 dark:border-slate-700">
+            <button
+              type="button"
+              onclick="changeEditYear(-1)"
+              class="px-2 py-0.5 rounded-md text-xs font-extrabold text-slate-600 dark:text-slate-300 hover:bg-white dark:hover:bg-slate-700 cursor-pointer"
+            >
+              ‹
+            </button>
+            <span id="editActiveYearLabel" class="px-2 py-0.5 text-[11px] font-extrabold text-emerald-700 dark:text-emerald-400">
+              2026
+            </span>
+            <button
+              type="button"
+              onclick="changeEditYear(1)"
+              class="px-2 py-0.5 rounded-md text-xs font-extrabold text-slate-600 dark:text-slate-300 hover:bg-white dark:hover:bg-slate-700 cursor-pointer"
+            >
+              ›
+            </button>
+          </div>
+        </div>
+        <div id="editMonthsGrid" class="grid grid-cols-4 gap-1.5"></div>
+      </div>
+
+      <div class="flex items-center justify-between px-3 py-2 rounded-xl bg-slate-100 dark:bg-slate-800/90 text-xs font-semibold mb-3.5">
+        <span id="editDiffLabel" class="text-slate-600 dark:text-slate-300">Tiada perubahan baki</span>
+        <span id="editDiffAmount" class="font-extrabold text-emerald-600 dark:text-emerald-400">RM 0.00</span>
+      </div>
+
+      <div class="flex gap-2 mb-2.5">
+        <button
+          type="button"
+          onclick="closeEditMemberModal()"
+          class="flex-1 py-2.5 rounded-xl bg-slate-200 hover:bg-slate-300 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 font-bold text-xs transition cursor-pointer"
+        >
+          Batal (Cancel)
+        </button>
+        <button
+          type="button"
+          onclick="saveEditedMember()"
+          class="flex-1 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow-sm transition cursor-pointer"
+        >
+          Simpan Perubahan
+        </button>
+      </div>
+
+      <button
+        type="button"
+        id="confirmDeleteMemberBtn"
+        onclick="handleDeleteMemberInModal()"
+        class="w-full py-2 rounded-xl border border-rose-200 dark:border-rose-900/70 text-rose-600 dark:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/50 font-bold text-xs transition cursor-pointer"
+      >
+        🗑️ Padam Ahli &amp; Tolak Baki Semula
+      </button>
+    </div>
+  </div>
+
+  <!-- Pop-Up Modal Log Masuk Admin -->
+  <div
+    id="loginModal"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="loginModalTitle"
+    class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-slate-950/60 backdrop-blur-xs transition-opacity"
+    onclick="if (event.target === this) closeLoginModal()"
+  >
+    <div class="w-full max-w-sm rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-6 shadow-2xl transform transition-all">
+      <div class="flex items-center justify-between mb-4">
+        <div class="flex items-center gap-2.5">
+          <div class="w-9 h-9 rounded-xl bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-400 flex items-center justify-center text-base">
+            🔐
           </div>
           <div>
-            <div class="flex flex-wrap items-center gap-2">
-              <h1 class="text-base sm:text-lg font-extrabold tracking-tight text-slate-900 dark:text-white leading-tight">
-                Sistem Pantau & Sebut Harga Pemadam Api
-              </h1>
-              <span class="px-2 py-0.5 text-[11px] font-bold rounded-md bg-red-100 text-red-700 dark:bg-red-900/50 dark:text-red-300 border border-red-200 dark:border-red-800">
-                SCK-DOSH-F11
-              </span>
-            </div>
-            <p class="text-xs text-slate-500 dark:text-slate-400 font-medium">
-              SCK Wooden Industries Sdn Bhd • Kuantan, Pahang
+            <h3 id="loginModalTitle" class="text-base font-extrabold text-slate-900 dark:text-slate-100">
+              Log Masuk Admin
+            </h3>
+            <p class="text-[11px] text-slate-500 dark:text-slate-400">
+              Akses penuh urus kutipan &amp; belanja
             </p>
           </div>
         </div>
-
-        <!-- Action Controls: Auth, Cloud Sync, PWA Install, Dark Mode -->
-        <div class="flex flex-wrap items-center gap-2">
-          <!-- Sync Status Badge -->
-          <div id="sync-status-badge" class="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-semibold bg-amber-50 text-amber-800 border border-amber-200 dark:bg-amber-950/50 dark:text-amber-300 dark:border-amber-800">
-            <span id="sync-dot" class="w-2 h-2 rounded-full bg-amber-500"></span>
-            <span id="sync-label">Mod Tetamu (Local)</span>
-          </div>
-
-          <!-- Manual Cloud Sync Button -->
-          <button id="btn-manual-sync" onclick="manualCloudSync()" title="Segerak Data Cloud Sekarang" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-300 dark:border-slate-700 transition">
-            <i id="icon-sync" class="fa-solid fa-cloud-arrow-up text-blue-600 dark:text-blue-400"></i>
-            <span class="hidden sm:inline">Sync Cloud</span>
-          </button>
-
-          <!-- Google Login / Logout Button -->
-          <button id="btn-auth" onclick="handleAuthAction()" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold bg-blue-600 hover:bg-blue-700 text-white shadow-sm transition">
-            <i class="fa-brands fa-google"></i>
-            <span id="auth-btn-text">Log Masuk Google</span>
-          </button>
-
-          <!-- Install PWA Button (hidden until beforeinstallprompt fires) -->
-          <button id="btn-install-pwa" onclick="installPWA()" class="hidden inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold bg-emerald-600 hover:bg-emerald-700 text-white shadow-sm transition">
-            <i class="fa-solid fa-download"></i>
-            <span>Install App</span>
-          </button>
-
-          <!-- Dark/Light Mode Toggle -->
-          <button onclick="toggleTheme()" title="Tukar Mod Gelap / Cerah" class="w-8 h-8 rounded-lg flex items-center justify-center bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-amber-300 border border-slate-300 dark:border-slate-700 transition">
-            <i id="theme-icon" class="fa-solid fa-moon"></i>
-          </button>
-        </div>
-      </div>
-
-      <!-- 3 Main Navigation Tabs -->
-      <nav class="flex gap-1.5 mt-3 overflow-x-auto no-scrollbar pb-0.5">
-        <button onclick="switchTab('tab1')" id="nav-tab1" class="tab-btn active flex items-center gap-2 px-4 py-2 rounded-lg text-xs sm:text-sm font-bold whitespace-nowrap transition bg-red-600 text-white shadow-sm">
-          <i class="fa-solid fa-clipboard-check"></i>
-          <span>1. Semakan Bulanan & Rondaan</span>
+        <button
+          type="button"
+          onclick="closeLoginModal()"
+          aria-label="Tutup Pop-up"
+          class="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-500 hover:text-slate-800 dark:hover:text-slate-200 flex items-center justify-center text-xs font-bold transition cursor-pointer"
+        >
+          ✕
         </button>
-        <button onclick="switchTab('tab2')" id="nav-tab2" class="tab-btn flex items-center gap-2 px-4 py-2 rounded-lg text-xs sm:text-sm font-bold whitespace-nowrap transition bg-slate-100 text-slate-700 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700">
-          <i class="fa-solid fa-print"></i>
-          <span>2. Bukti Check Bulanan (Print Boss)</span>
-        </button>
-        <button onclick="switchTab('tab3')" id="nav-tab3" class="tab-btn flex items-center gap-2 px-4 py-2 rounded-lg text-xs sm:text-sm font-bold whitespace-nowrap transition bg-slate-100 text-slate-700 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700">
-          <i class="fa-solid fa-file-invoice-dollar"></i>
-          <span>3. Minta Quotation & Standby FE</span>
-        </button>
-      </nav>
-    </div>
-  </header>
-
-  <!-- Toast Notification -->
-  <div id="toast-box" class="fixed bottom-4 right-4 z-50 hidden max-w-sm bg-slate-900 dark:bg-slate-800 text-white px-4 py-3 rounded-xl shadow-xl border border-slate-700 flex items-center gap-3 text-xs sm:text-sm font-medium">
-    <i id="toast-icon" class="fa-solid fa-circle-check text-emerald-400 text-base"></i>
-    <span id="toast-msg">Notifikasi</span>
-  </div>
-
-  <!-- MAIN CONTAINER -->
-  <main class="max-w-7xl mx-auto px-3 sm:px-6 py-5">
-
-    <!-- ========================================================= -->
-    <!-- TAB 1: SEMAKAN BULANAN & PEMANTAUAN RONDAAN FIZIKAL       -->
-    <!-- ========================================================= -->
-    <section id="view-tab1" class="space-y-4">
-      <!-- KPI Summary Cards -->
-      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2.5 sm:gap-3">
-        <div class="bg-white dark:bg-slate-900 p-3.5 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
-          <div class="text-[11px] font-semibold text-slate-500 dark:text-slate-400 uppercase">Jumlah Unit</div>
-          <div id="kpi-total" class="text-2xl font-black text-slate-900 dark:text-white mt-0.5">50</div>
-          <div class="text-[11px] text-slate-500 mt-0.5">44 Kilang • 6 Hostel</div>
-        </div>
-
-        <div class="bg-white dark:bg-slate-900 p-3.5 rounded-xl border border-emerald-200 dark:border-emerald-900/60 shadow-sm">
-          <div class="text-[11px] font-semibold text-emerald-600 dark:text-emerald-400 uppercase">Aktif & Selamat</div>
-          <div id="kpi-active" class="text-2xl font-black text-emerald-600 dark:text-emerald-400 mt-0.5">0</div>
-          <div class="text-[11px] text-slate-500 mt-0.5">&gt; 31 Hari Sah</div>
-        </div>
-
-        <div class="bg-white dark:bg-slate-900 p-3.5 rounded-xl border border-amber-300 dark:border-amber-800 shadow-sm">
-          <div class="text-[11px] font-semibold text-amber-600 dark:text-amber-400 uppercase">Amaran ≤ 31 Hari</div>
-          <div id="kpi-warning" class="text-2xl font-black text-amber-600 dark:text-amber-400 mt-0.5">0</div>
-          <div class="text-[11px] text-slate-500 mt-0.5">Perlu Sedia RFQ</div>
-        </div>
-
-        <div class="bg-white dark:bg-slate-900 p-3.5 rounded-xl border border-red-300 dark:border-red-900 shadow-sm">
-          <div class="text-[11px] font-semibold text-red-600 dark:text-red-400 uppercase">Tamat Tempoh / X</div>
-          <div id="kpi-expired" class="text-2xl font-black text-red-600 dark:text-red-400 mt-0.5">0</div>
-          <div class="text-[11px] text-slate-500 mt-0.5">Tindakan Segera</div>
-        </div>
-
-        <div class="bg-white dark:bg-slate-900 p-3.5 rounded-xl border border-purple-200 dark:border-purple-900/60 shadow-sm">
-          <div class="text-[11px] font-semibold text-purple-600 dark:text-purple-400 uppercase">Tong Dibawa Keluar</div>
-          <div id="kpi-out" class="text-2xl font-black text-purple-600 dark:text-purple-400 mt-0.5">0</div>
-          <div id="kpi-out-sub" class="text-[11px] text-slate-500 mt-0.5">0 Temp • 0 Kosong</div>
-        </div>
-
-        <div class="bg-white dark:bg-slate-900 p-3.5 rounded-xl border border-blue-200 dark:border-blue-900/60 shadow-sm">
-          <div class="text-[11px] font-semibold text-blue-600 dark:text-blue-400 uppercase">Semakan Fizikal</div>
-          <div id="kpi-checked" class="text-2xl font-black text-blue-600 dark:text-blue-400 mt-0.5">0 / 50</div>
-          <div id="kpi-checked-pct" class="text-[11px] text-slate-500 mt-0.5">0% Selesai</div>
-        </div>
       </div>
 
-      <!-- Progress Bar Rondaan Fizikal & Quick Actions -->
-      <div class="bg-white dark:bg-slate-900 p-4 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
-        <div class="flex flex-col md:flex-row md:items-center justify-between gap-3 mb-2">
-          <div>
-            <h2 class="text-sm font-bold text-slate-800 dark:text-slate-100 flex items-center gap-2">
-              <i class="fa-solid fa-route text-red-600"></i>
-              <span>Kemajuan Rondaan Fizikal Tiang ke Tiang (<span id="progress-month-label">Bulan Semasa</span>)</span>
-            </h2>
-            <p class="text-xs text-slate-500 dark:text-slate-400">Tandakan kotak <span class="font-bold text-emerald-600">[✓] Dah Check</span> pada setiap baris semasa memeriksa tekanan meter (hijau), pin keselamatan, dan hos.</p>
-          </div>
-          <div class="flex flex-wrap items-center gap-2">
-            <button onclick="filterUncheckedOnly()" id="btn-filter-unchecked" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-amber-100 hover:bg-amber-200 text-amber-800 dark:bg-amber-900/40 dark:text-amber-300 border border-amber-300 dark:border-amber-800 transition">
-              <i class="fa-solid fa-filter mr-1"></i> Tapis Belum Check (<span id="unchecked-count-badge">50</span>)
-            </button>
-            <button onclick="openResetModal()" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-slate-100 hover:bg-red-100 text-slate-700 hover:text-red-700 dark:bg-slate-800 dark:hover:bg-red-950/60 dark:text-slate-300 dark:hover:text-red-300 border border-slate-300 dark:border-slate-700 transition">
-              <i class="fa-solid fa-rotate-left mr-1"></i> Reset Bulan Baru
-            </button>
-            <button onclick="openUnitModal()" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-red-600 hover:bg-red-700 text-white shadow-sm transition">
-              <i class="fa-solid fa-plus mr-1"></i> Tambah Unit
-            </button>
-          </div>
-        </div>
-        <div class="w-full bg-slate-200 dark:bg-slate-800 rounded-full h-3 overflow-hidden">
-          <div id="rondaan-progress-bar" class="bg-gradient-to-r from-emerald-500 to-teal-600 h-3 rounded-full transition-all duration-300" style="width: 0%"></div>
-        </div>
-        <div class="flex justify-between text-[11px] font-bold text-slate-600 dark:text-slate-400 mt-1">
-          <span id="progress-text-left">Progress: 0 / 50 Unit Selesai</span>
-          <span id="progress-text-right">0%</span>
-        </div>
-      </div>
-
-      <!-- Filter & Search Controls -->
-      <div class="bg-white dark:bg-slate-900 p-3.5 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-2.5">
-          <div class="lg:col-span-2 relative">
-            <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xs"></i>
-            <input type="text" id="search-input" oninput="renderTable()" placeholder="Cari No. Unit, Tiang / Dinding, Kawasan, Catatan..." class="w-full pl-8 pr-3 py-2 text-xs sm:text-sm rounded-lg border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-red-500" />
-          </div>
-
-          <select id="filter-area" onchange="renderTable()" class="px-3 py-2 text-xs sm:text-sm rounded-lg border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-red-500">
-            <option value="ALL">Semua Kawasan (Kilang & Hostel)</option>
-            <option value="GUARD HOUSE">GUARD HOUSE</option>
-            <option value="OFFICE">OFFICE</option>
-            <option value="OFFICE ATAS">OFFICE ATAS</option>
-            <option value="SAWMILL">SAWMILL</option>
-            <option value="INDONESIA (D)">INDONESIA (D)</option>
-            <option value="MOULDING">MOULDING</option>
-            <option value="PACKING">PACKING</option>
-            <option value="HOSTEL">HOSTEL (H-1 hingga H-6)</option>
-          </select>
-
-          <select id="filter-weight" onchange="renderTable()" class="px-3 py-2 text-xs sm:text-sm rounded-lg border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-red-500">
-            <option value="ALL">Semua Berat (9KG & 2KG)</option>
-            <option value="9KG">9 KG Sahaja</option>
-            <option value="2KG">2 KG Sahaja</option>
-            <option value="TIADA">Tiada Berat [X]</option>
-          </select>
-
-          <select id="filter-status" onchange="renderTable()" class="px-3 py-2 text-xs sm:text-sm rounded-lg border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-red-500">
-            <option value="ALL">Semua Status</option>
-            <option value="EXPIRED">Tamat Tempoh / Tiada Tarikh (Merah)</option>
-            <option value="WARNING">Amaran Awal ≤ 31 Hari (Kuning)</option>
-            <option value="ACTIVE">Aktif & Selamat (Hijau)</option>
-            <option value="UNCHECKED">Belum Check Bulan Ini</option>
-            <option value="CHECKED">Sudah Check Bulan Ini</option>
-            <option value="OUT">Tong Dibawa Keluar (Temp / Kosong)</option>
-            <option value="RFQ">Dipilih Untuk RFQ (Servis / Refill / 2in1)</option>
-          </select>
-        </div>
-      </div>
-
-      <!-- Main Table -->
-      <div class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
-        <div class="overflow-x-auto">
-          <table class="w-full text-left border-collapse">
-            <thead>
-              <tr class="bg-slate-100 dark:bg-slate-800/90 border-b border-slate-200 dark:border-slate-700 text-[11px] font-extrabold uppercase text-slate-600 dark:text-slate-300">
-                <th class="py-3 px-2.5 text-center w-20">Rondaan<br/>[✓ Check]</th>
-                <th class="py-3 px-2.5 w-20">No. Unit</th>
-                <th class="py-3 px-2.5">Kawasan & Lokasi Tiang/Dinding</th>
-                <th class="py-3 px-2.5 text-center w-20">Berat</th>
-                <th class="py-3 px-2.5 w-36">Tarikh Tamat & Status</th>
-                <th class="py-3 px-2.5 text-center w-48">Pilihan Kerja (RFQ)<br/><span class="text-[10px] font-normal lowercase text-slate-500">Servis | Refill | 2in1</span></th>
-                <th class="py-3 px-2.5 w-48">Status Lokasi Semasa<br/><span class="text-[10px] font-normal lowercase text-slate-500">Jika Tong Dibawa Keluar</span></th>
-                <th class="py-3 px-2.5 text-center w-20">Tindakan</th>
-              </tr>
-            </thead>
-            <tbody id="fe-table-body" class="divide-y divide-slate-200 dark:divide-slate-800 text-xs sm:text-sm">
-              <!-- Populated by JS -->
-            </tbody>
-          </table>
-        </div>
-        <div id="empty-state" class="hidden py-10 text-center text-slate-500 dark:text-slate-400">
-          <i class="fa-solid fa-folder-open text-3xl mb-2 opacity-50"></i>
-          <p class="text-sm font-semibold">Tiada rekod pemadam api sepadan dengan tapisan semasa.</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- ========================================================= -->
-    <!-- TAB 2: BUKTI CHECK BULANAN (PRINT BOSS)                   -->
-    <!-- ========================================================= -->
-    <section id="view-tab2" class="hidden space-y-5">
-      <div class="grid grid-cols-1 lg:grid-cols-3 gap-5">
-        <!-- Left Column: Monthly Verification Form -->
-        <div class="lg:col-span-1 space-y-4">
-          <div class="bg-white dark:bg-slate-900 p-5 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm space-y-4">
-            <div class="flex items-center gap-2.5 border-b border-slate-200 dark:border-slate-800 pb-3">
-              <div class="w-9 h-9 rounded-lg bg-emerald-100 dark:bg-emerald-900/50 text-emerald-700 dark:text-emerald-300 flex items-center justify-center">
-                <i class="fa-solid fa-stamp text-base"></i>
-              </div>
-              <div>
-                <h2 class="text-sm font-extrabold text-slate-900 dark:text-white">Pengesahan Check Bulanan</h2>
-                <p class="text-[11px] text-slate-500">Rekod rasmi SCK-DOSH-F11</p>
-              </div>
-            </div>
-
-            <div class="space-y-3">
-              <div>
-                <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">Bulan & Tahun Semakan</label>
-                <input type="month" id="verify-month" onchange="updatePrintPreviewInfo()" class="w-full px-3 py-2 text-sm rounded-lg border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-red-500" />
-              </div>
-
-              <div>
-                <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">Nama Pemeriksa (Safety / ESH)</label>
-                <input type="text" id="verify-inspector" oninput="updatePrintPreviewInfo()" value="Nordin (Safety & Health)" class="w-full px-3 py-2 text-sm rounded-lg border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-red-500" />
-              </div>
-
-              <div>
-                <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">Catatan Tambahan Pemeriksaan</label>
-                <textarea id="verify-notes" oninput="updatePrintPreviewInfo()" rows="3" placeholder="Contoh: Semua unit diperiksa tekanan meter, hos, dan pin keselamatan." class="w-full px-3 py-2 text-xs rounded-lg border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-red-500">Pemeriksaan fizikal bulanan dijalankan. Tong tamat tempoh / perlu servis telah direkod untuk tindakan sebut harga.</textarea>
-              </div>
-
-              <div class="p-3 rounded-lg bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 text-xs space-y-1">
-                <div class="flex justify-between">
-                  <span class="text-slate-500">Status Rondaan Semasa:</span>
-                  <span id="verify-stat-checked" class="font-extrabold text-emerald-600 dark:text-emerald-400">0 / 50 Unit [✓]</span>
-                </div>
-                <div class="flex justify-between">
-                  <span class="text-slate-500">Unit Belum Check:</span>
-                  <span id="verify-stat-unchecked" class="font-bold text-amber-600 dark:text-amber-400">50 Unit [ ]</span>
-                </div>
-              </div>
-
-              <button onclick="stampMonthlyVerification()" class="w-full py-2.5 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs sm:text-sm shadow-sm flex items-center justify-center gap-2 transition">
-                <i class="fa-solid fa-certificate"></i>
-                <span>Sahkan & Cop Siap Check Bulan Ini</span>
-              </button>
-
-              <button onclick="printBossReport()" class="w-full py-2.5 px-4 rounded-xl bg-slate-900 hover:bg-slate-800 dark:bg-red-600 dark:hover:bg-red-700 text-white font-bold text-xs sm:text-sm shadow-sm flex items-center justify-center gap-2 transition">
-                <i class="fa-solid fa-print"></i>
-                <span>Print / Simpan PDF Laporan Boss (1 Halaman A4)</span>
-              </button>
-            </div>
-          </div>
-
-          <!-- History of Past Verified Months -->
-          <div class="bg-white dark:bg-slate-900 p-5 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
-            <h3 class="text-xs font-extrabold uppercase text-slate-700 dark:text-slate-300 mb-3 flex items-center gap-2">
-              <i class="fa-solid fa-clock-rotate-left text-blue-600"></i>
-              <span>Sejarah Pengesahan Bulanan</span>
-            </h3>
-            <div id="verification-history-list" class="space-y-2 max-h-72 overflow-y-auto">
-              <!-- Populated by JS -->
-            </div>
-          </div>
-        </div>
-
-        <!-- Right Column: Live 2-Column A4 Preview -->
-        <div class="lg:col-span-2">
-          <div class="bg-white text-black p-5 sm:p-6 rounded-xl border-2 border-slate-300 shadow-md">
-            <div class="flex items-center justify-between border-b-2 border-black pb-2 mb-3">
-              <div>
-                <div class="text-sm sm:text-base font-black uppercase tracking-tight">SCK WOODEN INDUSTRIES SDN BHD</div>
-                <div class="text-xs font-bold">LAPORAN PEMERIKSAAN BULANAN PEMADAM API (RUJUKAN: SCK-DOSH-F11)</div>
-              </div>
-              <div class="text-right text-[11px] font-bold">
-                <div>Bulan: <span id="prev-month">-</span></div>
-                <div>Pemeriksa: <span id="prev-inspector">Nordin</span></div>
-              </div>
-            </div>
-
-            <div class="grid grid-cols-3 gap-2 text-[11px] font-bold border border-black p-2 mb-3 bg-slate-50">
-              <div>Jumlah Unit: <span id="prev-total">50</span></div>
-              <div>Selesai Check [✓]: <span id="prev-checked">0</span></div>
-              <div>Belum Check [ ]: <span id="prev-unchecked">50</span></div>
-            </div>
-
-            <!-- 2-Column Side-by-Side Preview (1-25 Left, 26-50 Right) -->
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-[10px]">
-              <table class="w-full border-collapse border border-black">
-                <thead>
-                  <tr class="bg-slate-200 font-bold">
-                    <th class="border border-black px-1 py-1 text-center">No</th>
-                    <th class="border border-black px-1 py-1">Kawasan / Lokasi</th>
-                    <th class="border border-black px-1 py-1 text-center">Kg</th>
-                    <th class="border border-black px-1 py-1 text-center">Exp</th>
-                    <th class="border border-black px-1 py-1 text-center">Check</th>
-                  </tr>
-                </thead>
-                <tbody id="preview-col-left"></tbody>
-              </table>
-
-              <table class="w-full border-collapse border border-black">
-                <thead>
-                  <tr class="bg-slate-200 font-bold">
-                    <th class="border border-black px-1 py-1 text-center">No</th>
-                    <th class="border border-black px-1 py-1">Kawasan / Lokasi</th>
-                    <th class="border border-black px-1 py-1 text-center">Kg</th>
-                    <th class="border border-black px-1 py-1 text-center">Exp</th>
-                    <th class="border border-black px-1 py-1 text-center">Check</th>
-                  </tr>
-                </thead>
-                <tbody id="preview-col-right"></tbody>
-              </table>
-            </div>
-
-            <div class="mt-3 border border-black p-2 text-[10px]">
-              <span class="font-bold">Catatan:</span> <span id="prev-notes">-</span>
-            </div>
-
-            <div class="mt-3 text-center text-[10px] font-black tracking-wider uppercase border-t border-black pt-2">
-              DOKUMEN CETAKAN KOMPUTER — TIDAK MEMERLUKAN TANDATANGAN
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ========================================================= -->
-    <!-- TAB 3: MINTA QUOTATION & STANDBY FE                       -->
-    <!-- ========================================================= -->
-    <section id="view-tab3" class="hidden space-y-5">
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-5">
-        <!-- Left 7 Cols: Auto-Count & Manual Override Controls -->
-        <div class="lg:col-span-7 space-y-4">
-          <div class="bg-white dark:bg-slate-900 p-5 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm space-y-4">
-            <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-200 dark:border-slate-800 pb-3">
-              <div>
-                <h2 class="text-base font-extrabold text-slate-900 dark:text-white flex items-center gap-2">
-                  <i class="fa-solid fa-calculator text-red-600"></i>
-                  <span>Kiraan Kuantiti Sebut Harga (RFQ) & Tong Standby</span>
-                </h2>
-                <p class="text-xs text-slate-500 dark:text-slate-400">Dikira automatik daripada tanda checkbox RFQ di Tab 1. Anda juga boleh laras manual (+ / -).</p>
-              </div>
-              <button onclick="resetRfqOverrides()" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-300 dark:border-slate-700 transition">
-                <i class="fa-solid fa-rotate mr-1"></i> Ikut Jadual Tab 1
-              </button>
-            </div>
-
-            <!-- 3 Categories Grid -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
-              <!-- Cat 1: Servis Sahaja -->
-              <div class="p-3.5 rounded-xl border border-blue-200 dark:border-blue-900/60 bg-blue-50/40 dark:bg-blue-950/20 space-y-3">
-                <div class="text-xs font-extrabold uppercase text-blue-800 dark:text-blue-300 flex items-center gap-1.5">
-                  <i class="fa-solid fa-wrench"></i>
-                  <span>1. Servis Sahaja</span>
-                </div>
-                <div class="flex items-center justify-between bg-white dark:bg-slate-900 p-2 rounded-lg border border-slate-200 dark:border-slate-800">
-                  <span class="text-xs font-bold">ABC 9 KG</span>
-                  <div class="flex items-center gap-2">
-                    <button onclick="adjustRfq('servis9', -1)" class="w-6 h-6 rounded bg-slate-200 dark:bg-slate-800 font-bold hover:bg-red-500 hover:text-white transition">-</button>
-                    <span id="qty-servis9" class="w-6 text-center text-sm font-black">0</span>
-                    <button onclick="adjustRfq('servis9', 1)" class="w-6 h-6 rounded bg-slate-200 dark:bg-slate-800 font-bold hover:bg-emerald-600 hover:text-white transition">+</button>
-                  </div>
-                </div>
-                <div class="flex items-center justify-between bg-white dark:bg-slate-900 p-2 rounded-lg border border-slate-200 dark:border-slate-800">
-                  <span class="text-xs font-bold">ABC 2 KG</span>
-                  <div class="flex items-center gap-2">
-                    <button onclick="adjustRfq('servis2', -1)" class="w-6 h-6 rounded bg-slate-200 dark:bg-slate-800 font-bold hover:bg-red-500 hover:text-white transition">-</button>
-                    <span id="qty-servis2" class="w-6 text-center text-sm font-black">0</span>
-                    <button onclick="adjustRfq('servis2', 1)" class="w-6 h-6 rounded bg-slate-200 dark:bg-slate-800 font-bold hover:bg-emerald-600 hover:text-white transition">+</button>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Cat 2: Refill Sahaja -->
-              <div class="p-3.5 rounded-xl border border-amber-200 dark:border-amber-900/60 bg-amber-50/40 dark:bg-amber-950/20 space-y-3">
-                <div class="text-xs font-extrabold uppercase text-amber-800 dark:text-amber-300 flex items-center gap-1.5">
-                  <i class="fa-solid fa-fill-drip"></i>
-                  <span>2. Refill Sahaja</span>
-                </div>
-                <div class="flex items-center justify-between bg-white dark:bg-slate-900 p-2 rounded-lg border border-slate-200 dark:border-slate-800">
-                  <span class="text-xs font-bold">ABC 9 KG</span>
-                  <div class="flex items-center gap-2">
-                    <button onclick="adjustRfq('refill9', -1)" class="w-6 h-6 rounded bg-slate-200 dark:bg-slate-800 font-bold hover:bg-red-500 hover:text-white transition">-</button>
-                    <span id="qty-refill9" class="w-6 text-center text-sm font-black">0</span>
-                    <button onclick="adjustRfq('refill9', 1)" class="w-6 h-6 rounded bg-slate-200 dark:bg-slate-800 font-bold hover:bg-emerald-600 hover:text-white transition">+</button>
-                  </div>
-                </div>
-                <div class="flex items-center justify-between bg-white dark:bg-slate-900 p-2 rounded-lg border border-slate-200 dark:border-slate-800">
-                  <span class="text-xs font-bold">ABC 2 KG</span>
-                  <div class="flex items-center gap-2">
-                    <button onclick="adjustRfq('refill2', -1)" class="w-6 h-6 rounded bg-slate-200 dark:bg-slate-800 font-bold hover:bg-red-500 hover:text-white transition">-</button>
-                    <span id="qty-refill2" class="w-6 text-center text-sm font-black">0</span>
-                    <button onclick="adjustRfq('refill2', 1)" class="w-6 h-6 rounded bg-slate-200 dark:bg-slate-800 font-bold hover:bg-emerald-600 hover:text-white transition">+</button>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Cat 3: Refill & Servis 2-in-1 -->
-              <div class="p-3.5 rounded-xl border border-purple-200 dark:border-purple-900/60 bg-purple-50/40 dark:bg-purple-950/20 space-y-3">
-                <div class="text-xs font-extrabold uppercase text-purple-800 dark:text-purple-300 flex items-center gap-1.5">
-                  <i class="fa-solid fa-layer-group"></i>
-                  <span>3. Refill & Servis (2in1)</span>
-                </div>
-                <div class="flex items-center justify-between bg-white dark:bg-slate-900 p-2 rounded-lg border border-slate-200 dark:border-slate-800">
-                  <span class="text-xs font-bold">ABC 9 KG</span>
-                  <div class="flex items-center gap-2">
-                    <button onclick="adjustRfq('twoInOne9', -1)" class="w-6 h-6 rounded bg-slate-200 dark:bg-slate-800 font-bold hover:bg-red-500 hover:text-white transition">-</button>
-                    <span id="qty-twoInOne9" class="w-6 text-center text-sm font-black">0</span>
-                    <button onclick="adjustRfq('twoInOne9', 1)" class="w-6 h-6 rounded bg-slate-200 dark:bg-slate-800 font-bold hover:bg-emerald-600 hover:text-white transition">+</button>
-                  </div>
-                </div>
-                <div class="flex items-center justify-between bg-white dark:bg-slate-900 p-2 rounded-lg border border-slate-200 dark:border-slate-800">
-                  <span class="text-xs font-bold">ABC 2 KG</span>
-                  <div class="flex items-center gap-2">
-                    <button onclick="adjustRfq('twoInOne2', -1)" class="w-6 h-6 rounded bg-slate-200 dark:bg-slate-800 font-bold hover:bg-red-500 hover:text-white transition">-</button>
-                    <span id="qty-twoInOne2" class="w-6 text-center text-sm font-black">0</span>
-                    <button onclick="adjustRfq('twoInOne2', 1)" class="w-6 h-6 rounded bg-slate-200 dark:bg-slate-800 font-bold hover:bg-emerald-600 hover:text-white transition">+</button>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Auto-Calculate 50% Standby FE Box -->
-            <div class="p-4 rounded-xl bg-gradient-to-r from-red-50 to-orange-50 dark:from-red-950/40 dark:to-orange-950/30 border border-red-200 dark:border-red-900/60">
-              <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-2">
-                <div class="text-xs font-extrabold uppercase text-red-800 dark:text-red-300 flex items-center gap-2">
-                  <i class="fa-solid fa-shield-halved"></i>
-                  <span>Auto-Kira 50% Tong Temporary / Standby (Pinjaman Sementara)</span>
-                </div>
-                <span class="text-[11px] font-semibold text-slate-600 dark:text-slate-400">Formula: Math.ceil(Jumlah Keluar × 50%)</span>
-              </div>
-              <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5 text-xs">
-                <div class="bg-white dark:bg-slate-900 p-2.5 rounded-lg border border-red-100 dark:border-slate-800">
-                  <div class="text-slate-500">Jumlah Tong Keluar</div>
-                  <div id="standby-total-out" class="text-base font-black text-slate-900 dark:text-white">0 Unit (0×9KG, 0×2KG)</div>
-                </div>
-                <div class="bg-white dark:bg-slate-900 p-2.5 rounded-lg border border-red-100 dark:border-slate-800">
-                  <div class="text-slate-500">Standby 9 KG (50%)</div>
-                  <div id="standby-9kg" class="text-base font-black text-red-600 dark:text-red-400">0 Unit</div>
-                </div>
-                <div class="bg-white dark:bg-slate-900 p-2.5 rounded-lg border border-red-100 dark:border-slate-800">
-                  <div class="text-slate-500">Standby 2 KG (50%)</div>
-                  <div id="standby-2kg" class="text-base font-black text-red-600 dark:text-red-400">0 Unit</div>
-                </div>
-              </div>
-            </div>
-
-            <!-- List of Selected Units from Tab 1 -->
-            <div class="border-t border-slate-200 dark:border-slate-800 pt-3">
-              <h3 class="text-xs font-bold text-slate-700 dark:text-slate-300 mb-2">Senarai Unit Ditanda RFQ di Jadual Utama:</h3>
-              <div id="rfq-selected-tags" class="flex flex-wrap gap-1.5 text-[11px]">
-                <!-- Populated by JS -->
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Right 5 Cols: WhatsApp Message Generator -->
-        <div class="lg:col-span-5">
-          <div class="bg-white dark:bg-slate-900 p-5 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm space-y-4">
-            <div class="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-3">
-              <div class="flex items-center gap-2">
-                <div class="w-9 h-9 rounded-lg bg-emerald-500 text-white flex items-center justify-center shadow-sm">
-                  <i class="fa-brands fa-whatsapp text-xl"></i>
-                </div>
-                <div>
-                  <h2 class="text-sm font-extrabold text-slate-900 dark:text-white">Penjana Mesej WhatsApp Kontraktor</h2>
-                  <p class="text-[11px] text-slate-500">Item bernilai 0 disembunyikan automatik</p>
-                </div>
-              </div>
-            </div>
-
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-              <div>
-                <label class="block text-[11px] font-bold text-slate-600 dark:text-slate-400 mb-1">Nama Kontraktor (Pilihan)</label>
-                <input type="text" id="wa-vendor-name" oninput="generateWhatsAppText()" placeholder="Contoh: Tuan / Syarikat ABC" class="w-full px-3 py-1.5 text-xs rounded-lg border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800" />
-              </div>
-              <div>
-                <label class="block text-[11px] font-bold text-slate-600 dark:text-slate-400 mb-1">No. WhatsApp Kontraktor (601...)</label>
-                <input type="tel" id="wa-vendor-phone" placeholder="Contoh: 60123456789" class="w-full px-3 py-1.5 text-xs rounded-lg border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800" />
-              </div>
-            </div>
-
-            <div>
-              <label class="block text-[11px] font-bold text-slate-600 dark:text-slate-400 mb-1">Pratonton Mesej WhatsApp Ringkas</label>
-              <textarea id="wa-message-output" rows="13" class="w-full p-3 text-xs font-mono rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-emerald-500 leading-relaxed"></textarea>
-            </div>
-
-            <div class="grid grid-cols-2 gap-2.5">
-              <button onclick="copyWhatsAppText()" class="py-2.5 px-3 rounded-xl bg-slate-800 hover:bg-slate-900 dark:bg-slate-700 dark:hover:bg-slate-600 text-white font-bold text-xs flex items-center justify-center gap-2 transition">
-                <i class="fa-regular fa-copy"></i>
-                <span>Salin Mesej</span>
-              </button>
-              <button onclick="openWhatsAppApp()" class="py-2.5 px-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs flex items-center justify-center gap-2 shadow-sm transition">
-                <i class="fa-brands fa-whatsapp text-base"></i>
-                <span>Hantar WhatsApp</span>
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-  </main>
-
-  <!-- ========================================================= -->
-  <!-- MODAL: ADD / EDIT UNIT PEMADAM API                        -->
-  <!-- ========================================================= -->
-  <div id="unit-modal" class="fixed inset-0 z-50 hidden bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
-    <div class="bg-white dark:bg-slate-900 w-full max-w-md rounded-2xl border border-slate-200 dark:border-slate-800 shadow-2xl overflow-hidden">
-      <div class="flex items-center justify-between px-5 py-3.5 bg-red-600 text-white">
-        <h3 id="modal-title" class="text-sm font-extrabold">Tambah / Kemaskini Unit Pemadam Api</h3>
-        <button onclick="closeUnitModal()" class="text-white/80 hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
-      </div>
-      <form id="unit-form" onsubmit="saveUnitForm(event)" class="p-5 space-y-3 text-xs sm:text-sm">
-        <input type="hidden" id="form-edit-id" />
-        <div class="grid grid-cols-2 gap-3">
-          <div>
-            <label class="block text-xs font-bold mb-1">No. Unit *</label>
-            <input type="text" id="form-unitNo" required placeholder="Cth: No.1 / H-1" class="w-full px-3 py-2 rounded-lg border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800" />
-          </div>
-          <div>
-            <label class="block text-xs font-bold mb-1">Kategori *</label>
-            <select id="form-category" class="w-full px-3 py-2 rounded-lg border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800">
-              <option value="KILANG">KILANG</option>
-              <option value="HOSTEL">HOSTEL</option>
-            </select>
-          </div>
-        </div>
-
-        <div class="grid grid-cols-2 gap-3">
-          <div>
-            <label class="block text-xs font-bold mb-1">Kawasan *</label>
-            <input type="text" id="form-area" required placeholder="Cth: MOULDING" class="w-full px-3 py-2 rounded-lg border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800" />
-          </div>
-          <div>
-            <label class="block text-xs font-bold mb-1">Lokasi Tiang / Dinding *</label>
-            <input type="text" id="form-location" required placeholder="Cth: Tiang Pt.11" class="w-full px-3 py-2 rounded-lg border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800" />
-          </div>
-        </div>
-
-        <div class="grid grid-cols-2 gap-3">
-          <div>
-            <label class="block text-xs font-bold mb-1">Berat Tong *</label>
-            <select id="form-weight" class="w-full px-3 py-2 rounded-lg border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800">
-              <option value="9KG">9 KG</option>
-              <option value="2KG">2 KG</option>
-              <option value="TIADA">Tiada Berat [X]</option>
-            </select>
-          </div>
-          <div>
-            <label class="block text-xs font-bold mb-1">Tarikh Tamat Tempoh</label>
-            <input type="date" id="form-expiry" class="w-full px-3 py-2 rounded-lg border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800" />
-            <span class="text-[10px] text-slate-500">Biarkan kosong jika tiada tarikh [X]</span>
-          </div>
+      <form onsubmit="submitAdminLogin(event)" class="space-y-3.5">
+        <div>
+          <label for="loginEmail" class="block text-xs font-semibold text-slate-600 dark:text-slate-400 mb-1">
+            Emel Admin
+          </label>
+          <input
+            type="email"
+            id="loginEmail"
+            required
+            autocomplete="email"
+            placeholder="admin@tabung.com"
+            class="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-800/90 border border-slate-200 dark:border-slate-700 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 transition"
+          />
         </div>
 
         <div>
-          <label class="block text-xs font-bold mb-1">Catatan (Pilihan)</label>
-          <input type="text" id="form-notes" placeholder="Cth: Pelekat baru dari kontraktor" class="w-full px-3 py-2 rounded-lg border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800" />
+          <label for="loginPassword" class="block text-xs font-semibold text-slate-600 dark:text-slate-400 mb-1">
+            Kata Laluan
+          </label>
+          <div class="relative">
+            <input
+              type="password"
+              id="loginPassword"
+              required
+              autocomplete="current-password"
+              placeholder="••••••••"
+              class="w-full px-3.5 py-2.5 pr-11 rounded-xl bg-slate-50 dark:bg-slate-800/90 border border-slate-200 dark:border-slate-700 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 transition"
+            />
+            <button
+              type="button"
+              onclick="togglePasswordVisibility()"
+              aria-label="Tunjuk/Sembunyi Kata Laluan"
+              class="absolute right-2.5 top-1/2 -translate-y-1/2 px-2 py-1 text-xs font-semibold text-slate-500 hover:text-slate-800 dark:hover:text-slate-200 cursor-pointer"
+            >
+              👁️
+            </button>
+          </div>
         </div>
 
-        <div class="flex justify-end gap-2 pt-3 border-t border-slate-200 dark:border-slate-800">
-          <button type="button" onclick="closeUnitModal()" class="px-4 py-2 rounded-lg text-xs font-bold bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300">Batal</button>
-          <button type="submit" class="px-4 py-2 rounded-lg text-xs font-bold bg-red-600 hover:bg-red-700 text-white">Simpan Rekod</button>
-        </div>
+        <div
+          id="loginErrorBox"
+          class="hidden px-3 py-2 rounded-xl bg-rose-50 dark:bg-rose-950/70 border border-rose-200 dark:border-rose-800 text-rose-700 dark:text-rose-300 text-xs font-semibold"
+        ></div>
+
+        <button
+          type="submit"
+          id="loginSubmitBtn"
+          class="w-full py-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 active:scale-[0.99] text-white font-bold text-sm shadow-sm shadow-emerald-600/20 transition cursor-pointer"
+        >
+          Log Masuk Sekarang
+        </button>
       </form>
+
+      <div class="relative my-4">
+        <div class="absolute inset-0 flex items-center">
+          <div class="w-full border-t border-slate-200 dark:border-slate-800"></div>
+        </div>
+        <div class="relative flex justify-center text-[11px]">
+          <span class="px-2.5 bg-white dark:bg-slate-900 text-slate-400 font-semibold uppercase tracking-wider">atau</span>
+        </div>
+      </div>
+
+      <button
+        type="button"
+        id="googleLoginBtn"
+        onclick="submitGoogleLogin()"
+        class="w-full py-2.5 px-4 rounded-xl bg-white hover:bg-slate-50 dark:bg-slate-800 dark:hover:bg-slate-700/80 border border-slate-300 dark:border-slate-700 text-slate-800 dark:text-slate-100 font-bold text-sm shadow-xs active:scale-[0.99] transition cursor-pointer flex items-center justify-center gap-2.5"
+      >
+        <svg class="w-4 h-4 shrink-0" viewBox="0 0 24 24" aria-hidden="true">
+          <path fill="#4285F4" d="M23.49 12.275c0-.85-.075-1.675-.215-2.475H12v4.69h6.445c-.28 1.495-1.125 2.765-2.395 3.615v3.005h3.875c2.265-2.085 3.565-5.16 3.565-8.835z"/>
+          <path fill="#34A853" d="M12 24c3.24 0 5.955-1.075 7.94-2.91l-3.875-3.005c-1.075.72-2.45 1.15-4.065 1.15-3.125 0-5.77-2.11-6.715-4.945H1.28v3.1C3.255 21.31 7.31 24 12 24z"/>
+          <path fill="#FBBC05" d="M5.285 14.29c-.24-.72-.38-1.49-.38-2.29s.14-1.57.38-2.29v-3.1H1.28C.465 8.235 0 10.065 0 12s.465 3.765 1.28 5.39l4.005-3.1z"/>
+          <path fill="#EA4335" d="M12 4.765c1.76 0 3.34.605 4.585 1.795l3.435-3.435C17.95 1.19 15.235 0 12 0 7.31 0 3.255 2.69 1.28 6.61l4.005 3.1c.945-2.835 3.59-4.945 6.715-4.945z"/>
+        </svg>
+        <span>Log Masuk dengan Google</span>
+      </button>
     </div>
   </div>
 
-  <!-- ========================================================= -->
-  <!-- MODAL: [✓ SIAP] PULIHKAN LOKASI & TARIKH EXPIRY BARU      -->
-  <!-- ========================================================= -->
-  <div id="siap-modal" class="fixed inset-0 z-50 hidden bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
-    <div class="bg-white dark:bg-slate-900 w-full max-w-md rounded-2xl border border-slate-200 dark:border-slate-800 shadow-2xl overflow-hidden">
-      <div class="flex items-center justify-between px-5 py-3.5 bg-emerald-600 text-white">
-        <h3 class="text-sm font-extrabold"><i class="fa-solid fa-circle-check mr-1.5"></i> Tong Dipulangkan ([✓ Siap])</h3>
-        <button onclick="closeSiapModal()" class="text-white/80 hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
-      </div>
-      <form onsubmit="confirmSiapUnit(event)" class="p-5 space-y-3 text-xs sm:text-sm">
-        <input type="hidden" id="siap-unit-id" />
-        <div class="p-3 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800">
-          <div class="font-extrabold text-emerald-900 dark:text-emerald-200" id="siap-unit-label">No.10 - MOULDING (Tiang Pt.11)</div>
-          <div class="text-xs text-emerald-700 dark:text-emerald-400 mt-0.5">Status lokasi akan dipulihkan kepada <b>Ada di Lokasi</b> dan pilihan RFQ akan dikosongkan.</div>
-        </div>
-
-        <div>
-          <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">Tarikh Tamat Tempoh Baharu (Ikut Pelekat BOMBA/Kontraktor) *</label>
-          <input type="date" id="siap-new-expiry" required class="w-full px-3 py-2 rounded-lg border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 font-bold" />
-          <p class="text-[11px] text-slate-500 mt-1">* Sistem tidak mengira tarikh secara automatik. Sila masukkan tarikh tepat seperti tertera pada pelekat tong yang sampai.</p>
-        </div>
-
-        <div class="flex justify-end gap-2 pt-3 border-t border-slate-200 dark:border-slate-800">
-          <button type="button" onclick="closeSiapModal()" class="px-4 py-2 rounded-lg text-xs font-bold bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300">Batal</button>
-          <button type="submit" class="px-4 py-2 rounded-lg text-xs font-bold bg-emerald-600 hover:bg-emerald-700 text-white">Sahkan & Pulihkan Lokasi</button>
-        </div>
-      </form>
-    </div>
+  <!-- Notifikasi Toast -->
+  <div
+    id="toast"
+    role="status"
+    class="fixed bottom-6 left-1/2 -translate-x-1/2 px-4 py-2.5 rounded-full bg-slate-900 dark:bg-slate-100 text-white dark:text-slate-900 text-xs font-bold shadow-lg opacity-0 pointer-events-none transition-opacity duration-200 z-50 whitespace-nowrap"
+  >
+    Disalin!
   </div>
 
-  <!-- ========================================================= -->
-  <!-- MODAL: CUSTOM CONFIRMATION (NO BROWSER CONFIRM/ALERT)     -->
-  <!-- ========================================================= -->
-  <div id="confirm-modal" class="fixed inset-0 z-50 hidden bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
-    <div class="bg-white dark:bg-slate-900 w-full max-w-sm rounded-2xl border border-slate-200 dark:border-slate-800 shadow-2xl overflow-hidden">
-      <div class="px-5 py-3.5 bg-slate-900 dark:bg-slate-800 text-white flex items-center justify-between">
-        <h3 id="confirm-modal-title" class="text-sm font-extrabold">Pengesahan Tindakan</h3>
-        <button onclick="closeConfirmModal()" class="text-white/70 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
-      </div>
-      <div class="p-5 space-y-4">
-        <p id="confirm-modal-msg" class="text-xs sm:text-sm text-slate-700 dark:text-slate-300 leading-relaxed"></p>
-        <div class="flex justify-end gap-2">
-          <button onclick="closeConfirmModal()" class="px-4 py-2 rounded-lg text-xs font-bold bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300">Batal</button>
-          <button id="confirm-modal-yes-btn" class="px-4 py-2 rounded-lg text-xs font-bold bg-red-600 hover:bg-red-700 text-white shadow-sm">Ya, Teruskan</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ========================================================= -->
-  <!-- FIREBASE & APPLICATION SCRIPT                             -->
-  <!-- ========================================================= -->
   <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-    import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-    import { getFirestore, doc, setDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-analytics.js";
+    import { getFirestore, doc, setDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-firestore.js";
+    import { getAuth, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-auth.js";
 
-    // Firebase Config (pemadam-api-sck)
-    const _kParts = ["AIzaSyD", "9xK2mP", "7vL4qR", "8nW1tY", "5zB3cF", "0jH6gN"];
     const firebaseConfig = {
-      apiKey: _kParts.join(""),
-      authDomain: "pemadam-api-sck.firebaseapp.com",
-      projectId: "pemadam-api-sck",
-      storageBucket: "pemadam-api-sck.firebasestorage.app",
-      messagingSenderId: "525762459873",
-      appId: "1:525762459873:web:d589c203924ac2d6bcdfa0"
+      apiKey: "AIzaSyCQcng9NuVeu_1u4WVVg8AGtRCpYpx34AQ",
+      authDomain: "duit-tabung-nordin.firebaseapp.com",
+      projectId: "duit-tabung-nordin",
+      storageBucket: "duit-tabung-nordin.firebasestorage.app",
+      messagingSenderId: "722699364352",
+      appId: "1:722699364352:web:4c01860b3632c7742e90e5",
+      measurementId: "G-7Z94K7H3XL"
     };
 
     const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
+    try {
+      getAnalytics(app);
+    } catch (e) {}
+
     const db = getFirestore(app);
-    const provider = new GoogleAuthProvider();
+    const auth = getAuth(app);
+    const googleProvider = new GoogleAuthProvider();
+    googleProvider.setCustomParameters({ prompt: 'select_account' });
+    const tabungDocRef = doc(db, "tabung", "utama");
 
-    window._firebaseBridge = {
-      auth,
-      db,
-      provider,
-      signInWithPopup,
-      signOut,
-      doc,
-      setDoc,
-      onSnapshot
-    };
+    const ALLOWED_ADMIN_EMAILS = [];
+    const MONTHS = ['JAN', 'FEB', 'MAC', 'APR', 'MEI', 'JUN', 'JUL', 'OGOS', 'SEP', 'OCT', 'NOV', 'DEC'];
+    const FORMAL_MONTHS = ['Jan', 'Feb', 'Mac', 'Apr', 'Mei', 'Jun', 'Jul', 'Ogos', 'Sep', 'Okt', 'Nov', 'Dis'];
+    const RATE_PER_MONTH = 5.00;
+    const STORAGE_KEY = 'tabung_belanja_audit_v1';
+    const CURRENT_SYSTEM_YEAR = String(new Date().getFullYear());
 
-    onAuthStateChanged(auth, (user) => {
-      window.onFirebaseUserChanged(user);
-    });
-  </script>
+    const FIRESTORE_RULES_SNIPPET = `rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /tabung/{docId} {
+      allow read: if docId == 'utama';
+      allow create, update: if docId == 'utama'
+        && request.auth != null
+        && request.resource.data.balance is number
+        && request.resource.data.members is map
+        && request.resource.data.history is list
+        && request.resource.data.lastUpdated is string;
+      allow delete: if false;
+    }
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}`;
 
-  <script>
-    // =========================================================
-    // 1. PWA DYNAMIC ICON & MANIFEST GENERATOR
-    // =========================================================
-    (function setupDynamicPWA() {
-      const canvas = document.createElement('canvas');
-      canvas.width = 512;
-      canvas.height = 512;
-      const ctx = canvas.getContext('2d');
-
-      // Background rounded gradient
-      const grad = ctx.createLinearGradient(0, 0, 512, 512);
-      grad.addColorStop(0, '#dc2626');
-      grad.addColorStop(1, '#7f1d1d');
-      ctx.fillStyle = grad;
-      ctx.beginPath();
-      ctx.roundRect(0, 0, 512, 512, 96);
-      ctx.fill();
-
-      // White inner badge
-      ctx.fillStyle = 'rgba(255,255,255,0.14)';
-      ctx.beginPath();
-      ctx.arc(256, 220, 145, 0, Math.PI * 2);
-      ctx.fill();
-
-      // Extinguisher Cylinder Icon
-      ctx.fillStyle = '#ffffff';
-      ctx.beginPath();
-      ctx.roundRect(206, 165, 100, 175, 28);
-      ctx.fill();
-
-      // Top Valve & Handle
-      ctx.fillStyle = '#fde047';
-      ctx.fillRect(236, 125, 40, 42);
-      ctx.fillRect(210, 118, 95, 16);
-      ctx.fillStyle = '#ffffff';
-      ctx.fillRect(175, 145, 65, 14);
-      ctx.fillRect(175, 145, 14, 75);
-
-      // SCK Label
-      ctx.fillStyle = '#ffffff';
-      ctx.font = '900 54px Inter, sans-serif';
-      ctx.textAlign = 'center';
-      ctx.fillText('SCK FE', 256, 415);
-      ctx.font = '700 24px Inter, sans-serif';
-      ctx.fillStyle = '#fecaca';
-      ctx.fillText('SCK-DOSH-F11', 256, 452);
-
-      const pngUrl = canvas.toDataURL('image/png');
-      document.getElementById('dynamic-favicon').href = pngUrl;
-      document.getElementById('dynamic-apple-icon').href = pngUrl;
-
-      const manifestObj = {
-        name: "Sistem Pantau & Sebut Harga Pemadam Api - SCK Wooden Industries",
-        short_name: "Pantau FE SCK",
-        start_url: "./",
-        display: "standalone",
-        background_color: "#0f172a",
-        theme_color: "#dc2626",
-        icons: [
-          { src: pngUrl, sizes: "512x512", type: "image/png", purpose: "any maskable" }
-        ]
-      };
-      const manifestBlob = new Blob([JSON.stringify(manifestObj)], { type: 'application/json' });
-      document.getElementById('dynamic-manifest').href = URL.createObjectURL(manifestBlob);
-    })();
-
-    let deferredPrompt = null;
-    window.addEventListener('beforeinstallprompt', (e) => {
-      e.preventDefault();
-      deferredPrompt = e;
-      document.getElementById('btn-install-pwa').classList.remove('hidden');
-    });
-
-    function installPWA() {
-      if (!deferredPrompt) return;
-      deferredPrompt.prompt();
-      deferredPrompt.userChoice.then(() => {
-        deferredPrompt = null;
-        document.getElementById('btn-install-pwa').classList.add('hidden');
-      });
+    function formatFormalDateTime(dateObj = new Date()) {
+      const day = String(dateObj.getDate()).padStart(2, '0');
+      const monthName = FORMAL_MONTHS[dateObj.getMonth()];
+      const year = dateObj.getFullYear();
+      let hours = dateObj.getHours();
+      const minutes = String(dateObj.getMinutes()).padStart(2, '0');
+      const period = hours >= 12 ? 'PTG' : 'PG';
+      hours = hours % 12;
+      if (hours === 0) hours = 12;
+      const hourStr = String(hours).padStart(2, '0');
+      return `${day} ${monthName} ${year}, ${hourStr}:${minutes} ${period}`;
     }
 
-    // =========================================================
-    // 2. INITIAL 50 UNITS MASTER DATA (SCK-DOSH-F11)
-    // =========================================================
-    function getInitial50Units() {
-      const raw = [
-        // 44 UNIT KILANG
-        { id: 1, unitNo: "No.1", category: "KILANG", area: "GUARD HOUSE", location: "Dinding Pt.1", weight: "9KG", expiry: "2026-12-15", notes: "" },
-        { id: 2, unitNo: "No.2", category: "KILANG", area: "OFFICE", location: "Dinding Pt.5", weight: "9KG", expiry: "2026-12-18", notes: "" },
-        { id: 3, unitNo: "No.3", category: "KILANG", area: "OFFICE", location: "Dinding Pt.2", weight: "9KG", expiry: "2027-09-14", notes: "" },
-        { id: 4, unitNo: "No.4", category: "KILANG", area: "OFFICE ATAS", location: "Dinding Pt.3", weight: "9KG", expiry: "2027-09-14", notes: "" },
-        { id: 5, unitNo: "No.5", category: "KILANG", area: "OFFICE ATAS", location: "Dinding Pt.4", weight: "9KG", expiry: "2027-07-22", notes: "" },
-        { id: 6, unitNo: "No.6", category: "KILANG", area: "OFFICE", location: "Dinding Pt.1", weight: "9KG", expiry: "2027-07-22", notes: "" },
-        { id: 7, unitNo: "No.7", category: "KILANG", area: "SAWMILL", location: "Dinding Pt.1", weight: "2KG", expiry: "2026-12-18", notes: "" },
-        { id: 8, unitNo: "No.8", category: "KILANG", area: "INDONESIA (D)", location: "Dinding Pt.1", weight: "9KG", expiry: "2026-12-18", notes: "" },
-        { id: 9, unitNo: "No.9", category: "KILANG", area: "MOULDING", location: "Tiang Pt.11", weight: "9KG", expiry: "2027-10-14", notes: "" },
-        { id: 10, unitNo: "No.10", category: "KILANG", area: "MOULDING", location: "Tiang Pt.11", weight: "9KG", expiry: "2026-10-06", notes: "Tamat Tempoh" },
-        { id: 11, unitNo: "No.11", category: "KILANG", area: "MOULDING", location: "Tiang Pt.11", weight: "2KG", expiry: "2027-10-14", notes: "" },
-        { id: 12, unitNo: "No.12", category: "KILANG", area: "MOULDING", location: "Tiang Pt.11", weight: "2KG", expiry: "2027-10-14", notes: "" },
-        { id: 13, unitNo: "No.13", category: "KILANG", area: "MOULDING", location: "Tiang Pt.11", weight: "2KG", expiry: "2027-10-14", notes: "" },
-        { id: 14, unitNo: "No.14", category: "KILANG", area: "INDONESIA (D)", location: "Dinding Pt.2", weight: "9KG", expiry: "2027-10-14", notes: "" },
-        { id: 15, unitNo: "No.15", category: "KILANG", area: "MOULDING", location: "Dinding Pt.1", weight: "9KG", expiry: "2026-12-15", notes: "" },
-        { id: 16, unitNo: "No.16", category: "KILANG", area: "MOULDING", location: "Tiang Pt.20", weight: "9KG", expiry: "2026-12-18", notes: "" },
-        { id: 17, unitNo: "No.17", category: "KILANG", area: "MOULDING", location: "Tiang Pt.21", weight: "9KG", expiry: "2027-10-14", notes: "" },
-        { id: 18, unitNo: "No.18", category: "KILANG", area: "MOULDING", location: "Tiang Pt.22", weight: "9KG", expiry: "2027-08-26", notes: "" },
-        { id: 19, unitNo: "No.19", category: "KILANG", area: "MOULDING", location: "Tiang Pt.25", weight: "9KG", expiry: "2027-08-26", notes: "" },
-        { id: 20, unitNo: "No.20", category: "KILANG", area: "MOULDING", location: "Tiang Pt.28", weight: "TIADA", expiry: "", notes: "Tiada Berat/Tarikh [X]" },
-        { id: 21, unitNo: "No.21", category: "KILANG", area: "MOULDING", location: "Tiang Pt.29", weight: "9KG", expiry: "2027-10-14", notes: "" },
-        { id: 22, unitNo: "No.22", category: "KILANG", area: "MOULDING", location: "Tiang Pt.30", weight: "9KG", expiry: "2026-12-15", notes: "" },
-        { id: 23, unitNo: "No.23", category: "KILANG", area: "MOULDING", location: "Tiang Pt.31", weight: "2KG", expiry: "2027-10-14", notes: "" },
-        { id: 24, unitNo: "No.24", category: "KILANG", area: "MOULDING", location: "Tiang Pt.34", weight: "9KG", expiry: "2027-07-22", notes: "" },
-        { id: 25, unitNo: "No.25", category: "KILANG", area: "MOULDING", location: "Tiang Pt.35", weight: "9KG", expiry: "2026-12-18", notes: "" },
-        { id: 26, unitNo: "No.26", category: "KILANG", area: "MOULDING", location: "Tiang Pt.36", weight: "9KG", expiry: "2027-10-14", notes: "" },
-        { id: 27, unitNo: "No.27", category: "KILANG", area: "MOULDING", location: "Tiang Pt.37", weight: "9KG", expiry: "2027-08-26", notes: "" },
-        { id: 28, unitNo: "No.28", category: "KILANG", area: "MOULDING", location: "Tiang Pt.38", weight: "9KG", expiry: "2027-07-22", notes: "" },
-        { id: 29, unitNo: "No.29", category: "KILANG", area: "MOULDING", location: "Tiang Pt.40", weight: "9KG", expiry: "2027-08-26", notes: "" },
-        { id: 30, unitNo: "No.30", category: "KILANG", area: "MOULDING", location: "Tiang Pt.42", weight: "9KG", expiry: "2027-10-14", notes: "" },
-        { id: 31, unitNo: "No.31", category: "KILANG", area: "MOULDING", location: "Tiang Pt.47", weight: "9KG", expiry: "2027-10-14", notes: "" },
-        { id: 32, unitNo: "No.32", category: "KILANG", area: "MOULDING", location: "Dinding Pt.2", weight: "2KG", expiry: "2026-12-18", notes: "" },
-        { id: 33, unitNo: "No.33", category: "KILANG", area: "MOULDING", location: "Dinding Pt.3", weight: "9KG", expiry: "2027-10-14", notes: "" },
-        { id: 34, unitNo: "No.34", category: "KILANG", area: "MOULDING", location: "Dinding Pt.4", weight: "9KG", expiry: "2027-10-14", notes: "" },
-        { id: 35, unitNo: "No.35", category: "KILANG", area: "MOULDING", location: "Tiang Pt.53", weight: "9KG", expiry: "2026-12-18", notes: "" },
-        { id: 36, unitNo: "No.36", category: "KILANG", area: "MOULDING", location: "Tiang Pt.60", weight: "9KG", expiry: "2027-09-14", notes: "" },
-        { id: 37, unitNo: "No.37", category: "KILANG", area: "PACKING", location: "Tiang Pt.18", weight: "9KG", expiry: "2027-07-22", notes: "" },
-        { id: 38, unitNo: "No.38", category: "KILANG", area: "PACKING", location: "Tiang Pt.20", weight: "9KG", expiry: "2027-07-22", notes: "" },
-        { id: 39, unitNo: "No.39", category: "KILANG", area: "PACKING", location: "Tiang Pt.22", weight: "9KG", expiry: "2027-07-22", notes: "" },
-        { id: 40, unitNo: "No.40", category: "KILANG", area: "PACKING", location: "Tiang Pt.24", weight: "9KG", expiry: "2027-07-22", notes: "" },
-        { id: 41, unitNo: "No.41", category: "KILANG", area: "PACKING", location: "Tiang Pt.26", weight: "9KG", expiry: "2027-09-14", notes: "" },
-        { id: 42, unitNo: "No.42", category: "KILANG", area: "PACKING", location: "Tiang Pt.28", weight: "9KG", expiry: "2027-07-22", notes: "" },
-        { id: 43, unitNo: "No.43", category: "KILANG", area: "PACKING", location: "Tiang Pt.29", weight: "2KG", expiry: "2027-07-22", notes: "" },
-        { id: 44, unitNo: "No.44", category: "KILANG", area: "PACKING", location: "Tiang Pt.31", weight: "9KG", expiry: "2027-07-22", notes: "" },
-        // 6 UNIT HOSTEL
-        { id: 45, unitNo: "H-1", category: "HOSTEL", area: "HOSTEL", location: "Dinding Pt.1", weight: "9KG", expiry: "2027-08-26", notes: "" },
-        { id: 46, unitNo: "H-2", category: "HOSTEL", area: "HOSTEL", location: "Dinding Pt.2", weight: "9KG", expiry: "2027-08-26", notes: "" },
-        { id: 47, unitNo: "H-3", category: "HOSTEL", area: "HOSTEL", location: "Dinding Pt.3", weight: "9KG", expiry: "2027-08-26", notes: "" },
-        { id: 48, unitNo: "H-4", category: "HOSTEL", area: "HOSTEL", location: "Dinding Pt.4", weight: "9KG", expiry: "2027-08-26", notes: "" },
-        { id: 49, unitNo: "H-5", category: "HOSTEL", area: "HOSTEL", location: "Dinding Pt.5", weight: "9KG", expiry: "2027-08-26", notes: "" },
-        { id: 50, unitNo: "H-6", category: "HOSTEL", area: "HOSTEL", location: "Dinding Pt.6", weight: "9KG", expiry: "2027-08-26", notes: "" }
-      ];
-
-      return raw.map(u => ({
-        ...u,
-        checkedThisMonth: false,
-        rfqType: "NONE", // NONE | SERVIS | REFILL | 2IN1
-        outStatus: "IN_PLACE" // IN_PLACE | TEMPORARY | KOSONG
-      }));
-    }
-
-    // =========================================================
-    // 3. STATE MANAGEMENT & STORAGE (LOCAL + FIRESTORE)
-    // =========================================================
-    const LOCAL_STORAGE_KEY = "sck_fe_master_data_v1";
-    let appState = {
-      units: getInitial50Units(),
-      verificationHistory: [],
-      rfqOverrides: null,
-      updatedAt: new Date().toISOString()
+    const DEFAULT_STATE = {
+      balance: 80.13,
+      formulaText: '50.13+10+10+10=80.13',
+      lastUpdated: '07 Nov 2026, 04:08 PTG',
+      members: {
+        'AQILA': ['NOV 2026', 'DEC 2026'],
+        'KAK NA': ['NOV 2026', 'DEC 2026'],
+        'Nordin': ['OCT 2026', 'NOV 2026']
+      },
+      history: [
+        { id: 103, type: 'in', memberName: 'AQILA', prevMonths: [], desc: 'AQILA (NOV, DEC)', amount: 10.00, date: '07 Nov 2026, 04:08 PTG' },
+        { id: 102, type: 'in', memberName: 'KAK NA', prevMonths: [], desc: 'KAK NA (NOV, DEC)', amount: 10.00, date: '07 Nov 2026, 04:08 PTG' },
+        { id: 101, type: 'in', memberName: 'Nordin', prevMonths: [], desc: 'Nordin (OCT, NOV)', amount: 10.00, date: '07 Nov 2026, 04:08 PTG' }
+      ]
     };
 
     let currentUser = null;
-    let unsubscribeSnapshot = null;
-    let isRemoteUpdate = false;
-    let filterUncheckedToggle = false;
-    let pendingConfirmAction = null;
+    let state = loadLocalBackup();
+    let activeYear = CURRENT_SYSTEM_YEAR;
+    let selectedMonths = [];
+    let resetConfirmTimer = null;
+    let isResetArmed = false;
 
-    function loadFromLocal() {
+    // State untuk Pop-up Edit Ahli
+    let editingOriginalName = null;
+    let editingMonths = [];
+    let editingYear = CURRENT_SYSTEM_YEAR;
+    let deleteMemberArmed = false;
+    let deleteMemberTimer = null;
+    let armedUndoTxId = null;
+    let undoTxTimer = null;
+
+    function loadLocalBackup() {
       try {
-        const saved = localStorage.getItem(LOCAL_STORAGE_KEY);
-        if (saved) {
-          const parsed = JSON.parse(saved);
-          if (parsed && Array.isArray(parsed.units) && parsed.units.length > 0) {
-            appState = {
-              units: parsed.units,
-              verificationHistory: parsed.verificationHistory || [],
-              rfqOverrides: parsed.rfqOverrides || null,
-              updatedAt: parsed.updatedAt || new Date().toISOString()
-            };
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (raw) {
+          const parsed = JSON.parse(raw);
+          if (!parsed.members || typeof parsed.members !== 'object') {
+            parsed.members = JSON.parse(JSON.stringify(DEFAULT_STATE.members));
           }
+          if (!Array.isArray(parsed.history)) {
+            parsed.history = [];
+          }
+          return parsed;
         }
-      } catch (e) {
-        console.error("LocalStorage read error:", e);
-      }
+      } catch (e) {}
+      return JSON.parse(JSON.stringify(DEFAULT_STATE));
     }
 
-    async function saveData(showToastAfter = false) {
-      appState.updatedAt = new Date().toISOString();
-      try {
-        localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(appState));
-      } catch (e) {
-        console.error("LocalStorage write error:", e);
-      }
+    function setSyncStatus(status, isOk) {
+      const badge = document.getElementById('syncBadge');
+      if (!badge) return;
+      badge.textContent = status;
+      badge.className = isOk
+        ? 'text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300'
+        : 'text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-300';
+    }
 
-      if (currentUser && window._firebaseBridge && !isRemoteUpdate) {
+    window.openLoginModal = function () {
+      const modal = document.getElementById('loginModal');
+      const errorBox = document.getElementById('loginErrorBox');
+      errorBox.classList.add('hidden');
+      errorBox.textContent = '';
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+      setTimeout(() => {
+        document.getElementById('loginEmail').focus();
+      }, 60);
+    };
+
+    window.closeLoginModal = function () {
+      const modal = document.getElementById('loginModal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    };
+
+    window.togglePasswordVisibility = function () {
+      const pwInput = document.getElementById('loginPassword');
+      pwInput.type = pwInput.type === 'password' ? 'text' : 'password';
+    };
+
+    window.handleAuthButtonClick = async function () {
+      if (currentUser) {
         try {
-          const { db, doc, setDoc } = window._firebaseBridge;
-          const docRef = doc(db, "users", currentUser.uid, "sck_fire_extinguishers", "master_data");
-          await setDoc(docRef, appState, { merge: true });
-          updateSyncBadge("synced", `Cloud: ${currentUser.displayName || currentUser.email}`);
-          if (showToastAfter) showToast("Data berjaya disegerakkan ke Cloud Firestore!", "success");
+          await signOut(auth);
+          showToast('Anda telah log keluar daripada mod Admin');
         } catch (err) {
-          console.error("Firestore save error:", err);
-          updateSyncBadge("error", "Ralat Sync (Disimpan Lokal)");
-          if (showToastAfter) showToast("Ralat Cloud, data disimpan di peranti ini.", "error");
+          showToast('Gagal log keluar');
         }
-      } else if (showToastAfter) {
-        showToast("Data disimpan dalam Mod Tetamu (LocalStorage).", "success");
-      }
-    }
-
-    function updateSyncBadge(status, text) {
-      const badge = document.getElementById("sync-status-badge");
-      const dot = document.getElementById("sync-dot");
-      const label = document.getElementById("sync-label");
-      label.textContent = text;
-
-      badge.className = "flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-semibold border ";
-      dot.className = "w-2 h-2 rounded-full ";
-
-      if (status === "synced") {
-        badge.className += "bg-emerald-50 text-emerald-800 border-emerald-200 dark:bg-emerald-950/50 dark:text-emerald-300 dark:border-emerald-800";
-        dot.className += "bg-emerald-500";
-      } else if (status === "syncing") {
-        badge.className += "bg-blue-50 text-blue-800 border-blue-200 dark:bg-blue-950/50 dark:text-blue-300 dark:border-blue-800";
-        dot.className += "bg-blue-500 animate-ping";
-      } else if (status === "error") {
-        badge.className += "bg-red-50 text-red-800 border-red-200 dark:bg-red-950/50 dark:text-red-300 dark:border-red-800";
-        dot.className += "bg-red-500";
       } else {
-        badge.className += "bg-amber-50 text-amber-800 border-amber-200 dark:bg-amber-950/50 dark:text-amber-300 dark:border-amber-800";
-        dot.className += "bg-amber-500";
-      }
-    }
-
-    window.onFirebaseUserChanged = function(user) {
-      currentUser = user;
-      const authBtn = document.getElementById("btn-auth");
-      const authBtnText = document.getElementById("auth-btn-text");
-
-      if (unsubscribeSnapshot) {
-        unsubscribeSnapshot();
-        unsubscribeSnapshot = null;
-      }
-
-      if (user) {
-        authBtn.className = "inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold bg-slate-700 hover:bg-slate-800 text-white shadow-sm transition";
-        authBtnText.textContent = "Log Keluar";
-        updateSyncBadge("syncing", "Menyambung Cloud...");
-
-        const { db, doc, onSnapshot, setDoc } = window._firebaseBridge;
-        const docRef = doc(db, "users", user.uid, "sck_fire_extinguishers", "master_data");
-
-        unsubscribeSnapshot = onSnapshot(docRef, async (snap) => {
-          if (snap.exists()) {
-            const remoteData = snap.data();
-            if (remoteData && Array.isArray(remoteData.units)) {
-              isRemoteUpdate = true;
-              appState = {
-                units: remoteData.units,
-                verificationHistory: remoteData.verificationHistory || [],
-                rfqOverrides: remoteData.rfqOverrides || null,
-                updatedAt: remoteData.updatedAt || new Date().toISOString()
-              };
-              localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(appState));
-              refreshAllUI();
-              isRemoteUpdate = false;
-            }
-          } else {
-            await setDoc(docRef, appState);
-          }
-          updateSyncBadge("synced", `Cloud: ${user.displayName || user.email}`);
-        }, (err) => {
-          console.error("Snapshot listener error:", err);
-          updateSyncBadge("error", "Ralat Sambungan Cloud");
-        });
-      } else {
-        authBtn.className = "inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold bg-blue-600 hover:bg-blue-700 text-white shadow-sm transition";
-        authBtnText.textContent = "Log Masuk Google";
-        updateSyncBadge("guest", "Mod Tetamu (Local)");
+        openLoginModal();
       }
     };
 
-    async function handleAuthAction() {
-      if (!window._firebaseBridge) return;
-      const { auth, provider, signInWithPopup, signOut } = window._firebaseBridge;
+    window.submitAdminLogin = async function (event) {
+      event.preventDefault();
+      const email = document.getElementById('loginEmail').value.trim();
+      const password = document.getElementById('loginPassword').value;
+      const submitBtn = document.getElementById('loginSubmitBtn');
+      const errorBox = document.getElementById('loginErrorBox');
+
+      errorBox.classList.add('hidden');
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Mengesahkan...';
+
       try {
-        if (currentUser) {
+        await signInWithEmailAndPassword(auth, email, password);
+        document.getElementById('loginPassword').value = '';
+        closeLoginModal();
+        showToast('Berjaya log masuk sebagai Admin');
+      } catch (err) {
+        let msg = 'Emel atau kata laluan tidak sah.';
+        if (err.code === 'auth/too-many-requests') {
+          msg = 'Terlalu banyak percubaan. Sila cuba sebentar lagi.';
+        } else if (err.code === 'auth/network-request-failed') {
+          msg = 'Tiada sambungan internet.';
+        } else if (err.code === 'auth/operation-not-allowed') {
+          msg = 'Sila aktifkan Email/Password Sign-In di Firebase Authentication.';
+        }
+        errorBox.textContent = msg;
+        errorBox.classList.remove('hidden');
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Log Masuk Sekarang';
+      }
+    };
+
+    window.submitGoogleLogin = async function () {
+      const googleBtn = document.getElementById('googleLoginBtn');
+      const errorBox = document.getElementById('loginErrorBox');
+
+      errorBox.classList.add('hidden');
+      googleBtn.disabled = true;
+      googleBtn.classList.add('opacity-60');
+
+      try {
+        const result = await signInWithPopup(auth, googleProvider);
+        const signedInEmail = (result.user?.email || '').toLowerCase();
+
+        if (
+          ALLOWED_ADMIN_EMAILS.length > 0 &&
+          !ALLOWED_ADMIN_EMAILS.map((e) => e.toLowerCase()).includes(signedInEmail)
+        ) {
           await signOut(auth);
-          showToast("Berjaya log keluar. Beralih ke Mod Tetamu.", "success");
-        } else {
-          await signInWithPopup(auth, provider);
-          showToast("Berjaya log masuk dengan Google!", "success");
+          errorBox.textContent = `Akaun ${signedInEmail} tidak didaftarkan sebagai Admin.`;
+          errorBox.classList.remove('hidden');
+          return;
         }
-      } catch (error) {
-        console.error("Auth error:", error);
-        showToast("Log masuk dibatalkan atau gagal: " + error.message, "error");
+
+        closeLoginModal();
+        showToast(`Selamat datang, ${result.user?.displayName || signedInEmail}`);
+      } catch (err) {
+        let msg = 'Log masuk Google dibatalkan atau gagal.';
+        if (err.code === 'auth/operation-not-allowed') {
+          msg = 'Sila aktifkan Google Sign-In di Firebase Console -> Authentication -> Sign-in method.';
+        } else if (err.code === 'auth/unauthorized-domain') {
+          msg = 'Domain ini belum dibenarkan di Firebase Console -> Authentication -> Settings -> Authorized domains.';
+        } else if (err.code === 'auth/popup-blocked') {
+          msg = 'Pop-up disekat oleh pelayar. Sila benarkan pop-up dan cuba lagi.';
+        }
+        errorBox.textContent = msg;
+        errorBox.classList.remove('hidden');
+      } finally {
+        googleBtn.disabled = false;
+        googleBtn.classList.remove('opacity-60');
       }
-    }
+    };
 
-    async function manualCloudSync() {
-      const icon = document.getElementById("icon-sync");
-      icon.classList.add("fa-spin");
-      await saveData(true);
-      setTimeout(() => icon.classList.remove("fa-spin"), 600);
-    }
+    function updateAuthUI(user) {
+      currentUser = user;
+      const isAdmin = Boolean(user);
 
-    // =========================================================
-    // 4. DATE & EXPIRY STATUS HELPERS (<= 31 DAYS WARNING)
-    // =========================================================
-    function getExpiryInfo(expiryStr, weight) {
-      if (!expiryStr || weight === "TIADA") {
-        return {
-          status: "EXPIRED",
-          daysLeft: null,
-          formattedDate: "TIADA TARIKH [X]",
-          badgeText: "TIADA DATA [X]",
-          badgeClass: "bg-red-100 text-red-800 border-red-300 dark:bg-red-950 dark:text-red-300 dark:border-red-800"
-        };
-      }
+      const authBtn = document.getElementById('authToggleBtn');
+      const authIcon = document.getElementById('authIcon');
+      const authLabel = document.getElementById('authLabel');
+      const viewNotice = document.getElementById('viewOnlyNotice');
+      const paySec = document.getElementById('adminPaymentSection');
+      const expSec = document.getElementById('adminExpenseSection');
+      const resetBtn = document.getElementById('resetBtn');
 
-      const today = new Date();
-      today.setHours(0, 0, 0, 0);
-      const expDate = new Date(expiryStr + "T00:00:00");
-      const diffTime = expDate.getTime() - today.getTime();
-      const daysLeft = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-
-      const parts = expiryStr.split("-");
-      const formattedDate = parts.length === 3 ? `${parts[2]}/${parts[1]}/${parts[0]}` : expiryStr;
-
-      if (daysLeft < 0) {
-        return {
-          status: "EXPIRED",
-          daysLeft,
-          formattedDate,
-          badgeText: `TAMAT (${Math.abs(daysLeft)}h lepas)`,
-          badgeClass: "bg-red-100 text-red-800 border-red-300 dark:bg-red-950 dark:text-red-300 dark:border-red-800"
-        };
-      } else if (daysLeft <= 31) {
-        return {
-          status: "WARNING",
-          daysLeft,
-          formattedDate,
-          badgeText: `AMARAN (${daysLeft} hari lagi)`,
-          badgeClass: "bg-amber-100 text-amber-800 border-amber-300 dark:bg-amber-950 dark:text-amber-300 dark:border-amber-800"
-        };
+      if (isAdmin) {
+        authIcon.textContent = '🔓';
+        authLabel.textContent = 'Keluar';
+        authBtn.className =
+          'px-3 py-2 rounded-full bg-slate-800 hover:bg-slate-700 dark:bg-slate-800 dark:hover:bg-slate-700 text-white text-xs font-bold shadow-sm active:scale-95 transition flex items-center gap-1.5 cursor-pointer';
+        viewNotice.classList.add('hidden');
+        paySec.classList.remove('hidden');
+        expSec.classList.remove('hidden');
+        resetBtn.classList.remove('hidden');
       } else {
-        return {
-          status: "ACTIVE",
-          daysLeft,
-          formattedDate,
-          badgeText: `AKTIF (${daysLeft} hari)`,
-          badgeClass: "bg-emerald-100 text-emerald-800 border-emerald-300 dark:bg-emerald-950/70 dark:text-emerald-300 dark:border-emerald-800"
-        };
+        authIcon.textContent = '🔐';
+        authLabel.textContent = 'Admin';
+        authBtn.className =
+          'px-3 py-2 rounded-full bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold shadow-sm active:scale-95 transition flex items-center gap-1.5 cursor-pointer';
+        viewNotice.classList.remove('hidden');
+        paySec.classList.add('hidden');
+        expSec.classList.add('hidden');
+        resetBtn.classList.add('hidden');
       }
+
+      renderAll();
     }
 
-    // =========================================================
-    // 5. TAB 1: RENDER TABLE, KPI, RONDAAN CHECK, RFQ & OUT STATUS
-    // =========================================================
-    function renderTable() {
-      const tbody = document.getElementById("fe-table-body");
-      const searchVal = document.getElementById("search-input").value.trim().toLowerCase();
-      const areaFilter = document.getElementById("filter-area").value;
-      const weightFilter = document.getElementById("filter-weight").value;
-      const statusFilter = document.getElementById("filter-status").value;
-
-      let totalCount = appState.units.length;
-      let activeCount = 0;
-      let warningCount = 0;
-      let expiredCount = 0;
-      let checkedCount = 0;
-      let tempOutCount = 0;
-      let kosongOutCount = 0;
-
-      appState.units.forEach(u => {
-        const expInfo = getExpiryInfo(u.expiry, u.weight);
-        if (expInfo.status === "ACTIVE") activeCount++;
-        else if (expInfo.status === "WARNING") warningCount++;
-        else expiredCount++;
-
-        if (u.checkedThisMonth) checkedCount++;
-        if (u.outStatus === "TEMPORARY") tempOutCount++;
-        if (u.outStatus === "KOSONG") kosongOutCount++;
-      });
-
-      document.getElementById("kpi-total").textContent = totalCount;
-      document.getElementById("kpi-active").textContent = activeCount;
-      document.getElementById("kpi-warning").textContent = warningCount;
-      document.getElementById("kpi-expired").textContent = expiredCount;
-      document.getElementById("kpi-out").textContent = tempOutCount + kosongOutCount;
-      document.getElementById("kpi-out-sub").textContent = `${tempOutCount} Temp • ${kosongOutCount} Kosong`;
-      document.getElementById("kpi-checked").textContent = `${checkedCount} / ${totalCount}`;
-
-      const pct = totalCount > 0 ? Math.round((checkedCount / totalCount) * 100) : 0;
-      document.getElementById("kpi-checked-pct").textContent = `${pct}% Selesai`;
-      document.getElementById("rondaan-progress-bar").style.width = `${pct}%`;
-      document.getElementById("progress-text-left").textContent = `Progress: ${checkedCount} / ${totalCount} Unit Selesai`;
-      document.getElementById("progress-text-right").textContent = `${pct}%`;
-      document.getElementById("unchecked-count-badge").textContent = totalCount - checkedCount;
-
-      const filtered = appState.units.filter(u => {
-        const expInfo = getExpiryInfo(u.expiry, u.weight);
-
-        if (searchVal) {
-          const hay = `${u.unitNo} ${u.area} ${u.location} ${u.weight} ${u.notes} ${expInfo.formattedDate}`.toLowerCase();
-          if (!hay.includes(searchVal)) return false;
-        }
-        if (areaFilter !== "ALL" && u.area.toUpperCase() !== areaFilter) return false;
-        if (weightFilter !== "ALL" && u.weight !== weightFilter) return false;
-
-        if (filterUncheckedToggle && u.checkedThisMonth) return false;
-
-        if (statusFilter === "EXPIRED" && expInfo.status !== "EXPIRED") return false;
-        if (statusFilter === "WARNING" && expInfo.status !== "WARNING") return false;
-        if (statusFilter === "ACTIVE" && expInfo.status !== "ACTIVE") return false;
-        if (statusFilter === "UNCHECKED" && u.checkedThisMonth) return false;
-        if (statusFilter === "CHECKED" && !u.checkedThisMonth) return false;
-        if (statusFilter === "OUT" && u.outStatus === "IN_PLACE") return false;
-        if (statusFilter === "RFQ" && u.rfqType === "NONE") return false;
-
-        return true;
-      });
-
-      if (filtered.length === 0) {
-        tbody.innerHTML = "";
-        document.getElementById("empty-state").classList.remove("hidden");
-        return;
-      }
-      document.getElementById("empty-state").classList.add("hidden");
-
-      tbody.innerHTML = filtered.map(u => {
-        const expInfo = getExpiryInfo(u.expiry, u.weight);
-
-        let rowBg = "hover:bg-slate-50 dark:hover:bg-slate-800/50";
-        if (u.outStatus === "KOSONG") {
-          rowBg = "blink-kosong border-l-4 border-l-red-600";
-        } else if (u.outStatus === "TEMPORARY") {
-          rowBg = "bg-purple-50/60 dark:bg-purple-950/20 border-l-4 border-l-purple-500";
-        } else if (expInfo.status === "EXPIRED") {
-          rowBg = "bg-red-50/40 dark:bg-red-950/15";
-        } else if (expInfo.status === "WARNING") {
-          rowBg = "bg-amber-50/40 dark:bg-amber-950/15";
-        }
-
-        const weightBadge = u.weight === "9KG"
-          ? `<span class="px-2 py-0.5 rounded font-extrabold text-[11px] bg-slate-200 text-slate-800 dark:bg-slate-700 dark:text-slate-100">9 KG</span>`
-          : u.weight === "2KG"
-          ? `<span class="px-2 py-0.5 rounded font-extrabold text-[11px] bg-sky-100 text-sky-800 dark:bg-sky-900/60 dark:text-sky-200">2 KG</span>`
-          : `<span class="px-2 py-0.5 rounded font-extrabold text-[11px] bg-red-100 text-red-700 dark:bg-red-900/60 dark:text-red-200">[X]</span>`;
-
-        return `
-          <tr class="${rowBg} transition-colors">
-            <!-- Physical Check Checkbox -->
-            <td class="py-2.5 px-2.5 text-center">
-              <label class="inline-flex flex-col items-center cursor-pointer select-none">
-                <input type="checkbox" ${u.checkedThisMonth ? "checked" : ""} onchange="toggleUnitCheck(${u.id})" class="w-5 h-5 rounded border-slate-300" />
-                <span class="text-[10px] font-bold mt-0.5 ${u.checkedThisMonth ? "text-emerald-600 dark:text-emerald-400" : "text-slate-400"}">
-                  ${u.checkedThisMonth ? "[✓] Dah" : "Belum"}
-                </span>
-              </label>
-            </td>
-
-            <!-- Unit No -->
-            <td class="py-2.5 px-2.5 font-black text-slate-900 dark:text-white whitespace-nowrap">
-              ${escapeHtml(u.unitNo)}
-              <div class="text-[10px] font-semibold text-slate-400">${escapeHtml(u.category)}</div>
-            </td>
-
-            <!-- Area & Location -->
-            <td class="py-2.5 px-2.5">
-              <div class="font-extrabold text-slate-800 dark:text-slate-100">${escapeHtml(u.area)}</div>
-              <div class="text-xs text-slate-500 dark:text-slate-400 flex items-center gap-1">
-                <i class="fa-solid fa-location-dot text-red-500 text-[10px]"></i>
-                <span>${escapeHtml(u.location)}</span>
-              </div>
-              ${u.notes ? `<div class="text-[11px] text-amber-700 dark:text-amber-400 italic mt-0.5">Nota: ${escapeHtml(u.notes)}</div>` : ""}
-            </td>
-
-            <!-- Weight -->
-            <td class="py-2.5 px-2.5 text-center whitespace-nowrap">
-              ${weightBadge}
-            </td>
-
-            <!-- Expiry Date & Status -->
-            <td class="py-2.5 px-2.5 whitespace-nowrap">
-              <div class="font-bold text-xs text-slate-800 dark:text-slate-200">${expInfo.formattedDate}</div>
-              <span class="inline-block mt-0.5 px-2 py-0.5 rounded border text-[10px] font-extrabold ${expInfo.badgeClass}">
-                ${expInfo.badgeText}
-              </span>
-            </td>
-
-            <!-- 3 RFQ Options: Servis | Refill | 2in1 -->
-            <td class="py-2.5 px-2.5">
-              <div class="flex items-center justify-center gap-2">
-                <label class="flex flex-col items-center cursor-pointer px-1.5 py-1 rounded-lg border ${u.rfqType === "SERVIS" ? "bg-blue-100 border-blue-400 dark:bg-blue-900/50 dark:border-blue-600" : "border-slate-200 dark:border-slate-700"}">
-                  <input type="checkbox" ${u.rfqType === "SERVIS" ? "checked" : ""} onchange="toggleRfqChoice(${u.id}, 'SERVIS')" class="w-4 h-4" />
-                  <span class="text-[10px] font-bold mt-0.5">Servis</span>
-                </label>
-
-                <label class="flex flex-col items-center cursor-pointer px-1.5 py-1 rounded-lg border ${u.rfqType === "REFILL" ? "bg-amber-100 border-amber-400 dark:bg-amber-900/50 dark:border-amber-600" : "border-slate-200 dark:border-slate-700"}">
-                  <input type="checkbox" ${u.rfqType === "REFILL" ? "checked" : ""} onchange="toggleRfqChoice(${u.id}, 'REFILL')" class="w-4 h-4" />
-                  <span class="text-[10px] font-bold mt-0.5">Refill</span>
-                </label>
-
-                <label class="flex flex-col items-center cursor-pointer px-1.5 py-1 rounded-lg border ${u.rfqType === "2IN1" ? "bg-purple-100 border-purple-400 dark:bg-purple-900/50 dark:border-purple-600" : "border-slate-200 dark:border-slate-700"}">
-                  <input type="checkbox" ${u.rfqType === "2IN1" ? "checked" : ""} onchange="toggleRfqChoice(${u.id}, '2IN1')" class="w-4 h-4" />
-                  <span class="text-[10px] font-bold mt-0.5">2in1</span>
-                </label>
-              </div>
-            </td>
-
-            <!-- Location Out Status: Temporary | Kosong | [✓ Siap] -->
-            <td class="py-2.5 px-2.5">
-              <div class="flex flex-col gap-1">
-                <div class="flex items-center gap-1">
-                  <button onclick="setOutStatus(${u.id}, 'TEMPORARY')" class="flex-1 px-2 py-1 rounded text-[10px] font-extrabold border transition ${u.outStatus === "TEMPORARY" ? "bg-purple-600 text-white border-purple-700" : "bg-slate-100 text-slate-600 border-slate-300 dark:bg-slate-800 dark:text-slate-300 dark:border-slate-700 hover:bg-purple-100"}">
-                    Temporary
-                  </button>
-                  <button onclick="setOutStatus(${u.id}, 'KOSONG')" class="flex-1 px-2 py-1 rounded text-[10px] font-extrabold border transition ${u.outStatus === "KOSONG" ? "bg-red-600 text-white border-red-700" : "bg-slate-100 text-slate-600 border-slate-300 dark:bg-slate-800 dark:text-slate-300 dark:border-slate-700 hover:bg-red-100"}">
-                    Kosong
-                  </button>
-                </div>
-                ${u.outStatus !== "IN_PLACE" ? `
-                  <button onclick="openSiapModal(${u.id})" class="w-full py-1 px-2 rounded bg-emerald-600 hover:bg-emerald-700 text-white text-[10px] font-extrabold shadow-sm flex items-center justify-center gap-1 transition">
-                    <span>[✓ Siap] Pulih & Isi Tarikh</span>
-                  </button>
-                ` : `
-                  <div class="text-[10px] text-center text-emerald-600 dark:text-emerald-400 font-semibold">
-                    <i class="fa-solid fa-check"></i> Ada di Lokasi
-                  </div>
-                `}
-              </div>
-            </td>
-
-            <!-- CRUD Actions -->
-            <td class="py-2.5 px-2.5 text-center whitespace-nowrap">
-              <div class="inline-flex items-center gap-1">
-                <button onclick="openUnitModal(${u.id})" title="Edit Unit" class="w-7 h-7 rounded-lg bg-slate-100 hover:bg-blue-100 text-slate-600 hover:text-blue-700 dark:bg-slate-800 dark:hover:bg-blue-900/50 dark:text-slate-300 transition">
-                  <i class="fa-solid fa-pen-to-square text-xs"></i>
-                </button>
-                <button onclick="promptDeleteUnit(${u.id})" title="Padam Unit" class="w-7 h-7 rounded-lg bg-slate-100 hover:bg-red-100 text-slate-600 hover:text-red-700 dark:bg-slate-800 dark:hover:bg-red-900/50 dark:text-slate-300 transition">
-                  <i class="fa-solid fa-trash text-xs"></i>
-                </button>
-              </div>
-            </td>
-          </tr>
-        `;
-      }).join("");
-    }
-
-    function toggleUnitCheck(id) {
-      const unit = appState.units.find(u => u.id === id);
-      if (!unit) return;
-      unit.checkedThisMonth = !unit.checkedThisMonth;
-      saveData();
-      refreshAllUI();
-    }
-
-    function filterUncheckedOnly() {
-      filterUncheckedToggle = !filterUncheckedToggle;
-      const btn = document.getElementById("btn-filter-unchecked");
-      if (filterUncheckedToggle) {
-        btn.className = "px-3 py-1.5 rounded-lg text-xs font-bold bg-amber-600 text-white border border-amber-700 shadow-sm transition";
-      } else {
-        btn.className = "px-3 py-1.5 rounded-lg text-xs font-bold bg-amber-100 hover:bg-amber-200 text-amber-800 dark:bg-amber-900/40 dark:text-amber-300 border border-amber-300 dark:border-amber-800 transition";
-      }
-      renderTable();
-    }
-
-    function openResetModal() {
-      openConfirmModal(
-        "Reset Rondaan Bulan Baharu",
-        "Adakah anda pasti mahu menetapkan semula (Reset) semua tanda [✓] Dah Check kepada Belum Check untuk memulakan rondaan bulan baharu?",
-        () => {
-          appState.units.forEach(u => {
-            u.checkedThisMonth = false;
-          });
-          saveData(true);
-          refreshAllUI();
-        }
-      );
-    }
-
-    function toggleRfqChoice(id, choice) {
-      const unit = appState.units.find(u => u.id === id);
-      if (!unit) return;
-      unit.rfqType = (unit.rfqType === choice) ? "NONE" : choice;
-      appState.rfqOverrides = null;
-      saveData();
-      refreshAllUI();
-    }
-
-    function setOutStatus(id, status) {
-      const unit = appState.units.find(u => u.id === id);
-      if (!unit) return;
-      unit.outStatus = (unit.outStatus === status) ? "IN_PLACE" : status;
-      saveData();
-      refreshAllUI();
-    }
-
-    // =========================================================
-    // 6. [✓ SIAP] MODAL, CRUD UNIT MODAL & CUSTOM CONFIRM MODAL
-    // =========================================================
-    function openConfirmModal(title, message, onConfirm) {
-      document.getElementById("confirm-modal-title").textContent = title;
-      document.getElementById("confirm-modal-msg").textContent = message;
-      pendingConfirmAction = onConfirm;
-      document.getElementById("confirm-modal").classList.remove("hidden");
-    }
-
-    function closeConfirmModal() {
-      document.getElementById("confirm-modal").classList.add("hidden");
-      pendingConfirmAction = null;
-    }
-
-    document.getElementById("confirm-modal-yes-btn").addEventListener("click", () => {
-      if (typeof pendingConfirmAction === "function") {
-        pendingConfirmAction();
-      }
-      closeConfirmModal();
+    onAuthStateChanged(auth, (user) => {
+      updateAuthUI(user);
     });
 
-    function openSiapModal(id) {
-      const unit = appState.units.find(u => u.id === id);
-      if (!unit) return;
-      document.getElementById("siap-unit-id").value = unit.id;
-      document.getElementById("siap-unit-label").textContent = `${unit.unitNo} — ${unit.area} (${unit.location})`;
-      document.getElementById("siap-new-expiry").value = unit.expiry || "";
-      document.getElementById("siap-modal").classList.remove("hidden");
-    }
+    onSnapshot(
+      tabungDocRef,
+      async (snapshot) => {
+        const banner = document.getElementById('firestoreHelpBanner');
+        if (banner) banner.classList.add('hidden');
 
-    function closeSiapModal() {
-      document.getElementById("siap-modal").classList.add("hidden");
-    }
-
-    function confirmSiapUnit(e) {
-      e.preventDefault();
-      const id = Number(document.getElementById("siap-unit-id").value);
-      const newExpiry = document.getElementById("siap-new-expiry").value;
-      const unit = appState.units.find(u => u.id === id);
-      if (!unit) return;
-
-      unit.outStatus = "IN_PLACE";
-      unit.rfqType = "NONE";
-      unit.expiry = newExpiry;
-      if (unit.weight === "TIADA") {
-        unit.weight = "9KG";
-      }
-      if (unit.notes === "Tamat Tempoh" || unit.notes === "Tiada Berat/Tarikh [X]") {
-        unit.notes = "";
-      }
-
-      appState.rfqOverrides = null;
-      closeSiapModal();
-      saveData(true);
-      refreshAllUI();
-    }
-
-    function openUnitModal(id = null) {
-      const modal = document.getElementById("unit-modal");
-      const title = document.getElementById("modal-title");
-      if (id) {
-        const u = appState.units.find(item => item.id === id);
-        if (!u) return;
-        title.textContent = `Edit Unit: ${u.unitNo}`;
-        document.getElementById("form-edit-id").value = u.id;
-        document.getElementById("form-unitNo").value = u.unitNo;
-        document.getElementById("form-category").value = u.category;
-        document.getElementById("form-area").value = u.area;
-        document.getElementById("form-location").value = u.location;
-        document.getElementById("form-weight").value = u.weight;
-        document.getElementById("form-expiry").value = u.expiry;
-        document.getElementById("form-notes").value = u.notes || "";
-      } else {
-        title.textContent = "Tambah Unit Pemadam Api Baharu";
-        document.getElementById("form-edit-id").value = "";
-        document.getElementById("unit-form").reset();
-      }
-      modal.classList.remove("hidden");
-    }
-
-    function closeUnitModal() {
-      document.getElementById("unit-modal").classList.add("hidden");
-    }
-
-    function saveUnitForm(e) {
-      e.preventDefault();
-      const editId = document.getElementById("form-edit-id").value;
-      const unitNo = document.getElementById("form-unitNo").value.trim();
-      const category = document.getElementById("form-category").value;
-      const area = document.getElementById("form-area").value.trim().toUpperCase();
-      const location = document.getElementById("form-location").value.trim();
-      const weight = document.getElementById("form-weight").value;
-      const expiry = document.getElementById("form-expiry").value;
-      const notes = document.getElementById("form-notes").value.trim();
-
-      if (editId) {
-        const u = appState.units.find(item => item.id === Number(editId));
-        if (u) {
-          u.unitNo = unitNo;
-          u.category = category;
-          u.area = area;
-          u.location = location;
-          u.weight = weight;
-          u.expiry = expiry;
-          u.notes = notes;
+        if (snapshot.exists()) {
+          const remoteData = snapshot.data();
+          state = {
+            ...DEFAULT_STATE,
+            ...remoteData,
+            members: remoteData.members && typeof remoteData.members === 'object' ? remoteData.members : {},
+            history: Array.isArray(remoteData.history) ? remoteData.history : []
+          };
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+          renderAll();
+          setSyncStatus('● Live Sync', true);
+        } else {
+          setSyncStatus('● Live Sync', true);
+          if (currentUser) {
+            await saveState();
+          }
         }
+      },
+      (error) => {
+        if (error && error.code === 'permission-denied') {
+          setSyncStatus('Mod Lokal', false);
+          const banner = document.getElementById('firestoreHelpBanner');
+          if (banner) banner.classList.remove('hidden');
+        } else {
+          setSyncStatus('Offline', false);
+        }
+      }
+    );
+
+    async function saveState() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+      renderAll();
+      try {
+        await setDoc(tabungDocRef, state);
+        setSyncStatus('● Live Sync', true);
+        const banner = document.getElementById('firestoreHelpBanner');
+        if (banner) banner.classList.add('hidden');
+      } catch (e) {
+        if (e && e.code === 'permission-denied') {
+          setSyncStatus('Mod Lokal', false);
+          const banner = document.getElementById('firestoreHelpBanner');
+          if (banner) banner.classList.remove('hidden');
+        } else {
+          setSyncStatus('Offline', false);
+        }
+      }
+    }
+
+    window.copyFirestoreRules = function () {
+      copyTextToClipboard(FIRESTORE_RULES_SNIPPET, 'Firestore Security Rules disalin!');
+    };
+
+    function sortMonthEntries(entries) {
+      return [...entries].sort((a, b) => {
+        const [mA, yA = CURRENT_SYSTEM_YEAR] = a.split(' ');
+        const [mB, yB = CURRENT_SYSTEM_YEAR] = b.split(' ');
+        if (yA !== yB) return Number(yA) - Number(yB);
+        return MONTHS.indexOf(mA) - MONTHS.indexOf(mB);
+      });
+    }
+
+    function formatMonthLabel(entry) {
+      const [m, y] = entry.split(' ');
+      if (!y || y === CURRENT_SYSTEM_YEAR) return m;
+      return `${m} '${y.slice(-2)}`;
+    }
+
+    function formatMonthList(entries) {
+      return sortMonthEntries(entries).map(formatMonthLabel).join(', ');
+    }
+
+    // Jana Ikon iOS & Favicon
+    (function generateAppIcons() {
+      try {
+        const canvas = document.createElement('canvas');
+        canvas.width = 512;
+        canvas.height = 512;
+        const ctx = canvas.getContext('2d');
+
+        const grad = ctx.createLinearGradient(0, 0, 512, 512);
+        grad.addColorStop(0, '#10b981');
+        grad.addColorStop(1, '#065f46');
+        ctx.fillStyle = grad;
+        ctx.fillRect(0, 0, 512, 512);
+
+        ctx.beginPath();
+        ctx.arc(256, 215, 118, 0, Math.PI * 2);
+        ctx.fillStyle = '#fbbf24';
+        ctx.fill();
+        ctx.lineWidth = 14;
+        ctx.strokeStyle = '#f59e0b';
+        ctx.stroke();
+
+        ctx.fillStyle = '#78350f';
+        ctx.font = '800 90px Inter, -apple-system, sans-serif';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText('RM5', 256, 220);
+
+        ctx.fillStyle = '#ffffff';
+        ctx.font = '800 54px Inter, -apple-system, sans-serif';
+        ctx.fillText('TABUNG', 256, 405);
+
+        const dataUrl = canvas.toDataURL('image/png');
+        document.getElementById('ios-icon').href = dataUrl;
+        document.getElementById('favicon').href = dataUrl;
+      } catch (err) {}
+    })();
+
+    // Tema Gelap / Terang
+    function initTheme() {
+      const saved = localStorage.getItem('tabung_theme_mode');
+      const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const isDark = saved ? saved === 'dark' : prefersDark;
+      document.documentElement.classList.toggle('dark', isDark);
+      updateThemeUI(isDark);
+    }
+
+    window.toggleTheme = function () {
+      const isDark = !document.documentElement.classList.contains('dark');
+      document.documentElement.classList.toggle('dark', isDark);
+      localStorage.setItem('tabung_theme_mode', isDark ? 'dark' : 'light');
+      updateThemeUI(isDark);
+    };
+
+    function updateThemeUI(isDark) {
+      document.getElementById('themeIcon').textContent = isDark ? '☀️' : '🌙';
+      document.getElementById('themeLabel').textContent = isDark ? 'Light' : 'Dark';
+    }
+
+    window.changeYear = function (delta) {
+      const nextYear = Number(activeYear) + delta;
+      if (nextYear >= 2020 && nextYear <= 2100) {
+        activeYear = String(nextYear);
+        renderMonthsGrid();
+      }
+    };
+
+    function renderMonthsGrid() {
+      const yearLabel = document.getElementById('activeYearLabel');
+      if (yearLabel) yearLabel.textContent = activeYear;
+
+      const grid = document.getElementById('monthsGrid');
+      grid.innerHTML = '';
+
+      MONTHS.forEach((month) => {
+        const entryKey = `${month} ${activeYear}`;
+        const isSelected = selectedMonths.includes(entryKey);
+
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.textContent = activeYear === CURRENT_SYSTEM_YEAR ? month : `${month} '${activeYear.slice(-2)}`;
+        btn.className = isSelected
+          ? 'py-2.5 px-1 rounded-xl text-xs font-extrabold bg-emerald-600 text-white border border-emerald-600 shadow-xs transition cursor-pointer'
+          : 'py-2.5 px-1 rounded-xl text-xs font-bold bg-slate-50 dark:bg-slate-800/80 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 hover:border-emerald-400 transition cursor-pointer';
+        btn.onclick = () => toggleMonth(entryKey);
+        grid.appendChild(btn);
+      });
+
+      updateCalcPreview();
+    }
+
+    function toggleMonth(entryKey) {
+      if (selectedMonths.includes(entryKey)) {
+        selectedMonths = selectedMonths.filter((m) => m !== entryKey);
       } else {
-        const maxId = appState.units.reduce((m, item) => Math.max(m, item.id), 0);
-        appState.units.push({
-          id: maxId + 1,
-          unitNo,
-          category,
-          area,
-          location,
-          weight,
-          expiry,
-          notes,
-          checkedThisMonth: false,
-          rfqType: "NONE",
-          outStatus: "IN_PLACE"
+        selectedMonths.push(entryKey);
+        selectedMonths = sortMonthEntries(selectedMonths);
+      }
+      renderMonthsGrid();
+    }
+
+    window.clearSelectedMonths = function () {
+      selectedMonths = [];
+      renderMonthsGrid();
+    };
+
+    function updateCalcPreview() {
+      const count = selectedMonths.length;
+      const total = count * RATE_PER_MONTH;
+      document.getElementById('selectedMonthsText').textContent =
+        count > 0 ? `${count} bulan (${formatMonthList(selectedMonths)})` : 'Tiada bulan dipilih';
+      document.getElementById('calcAmountText').textContent = `RM ${total.toFixed(2)}`;
+    }
+
+    window.addPayment = async function () {
+      const inputEl = document.getElementById('memberInput');
+      const rawName = inputEl.value.trim();
+
+      if (!rawName) {
+        showToast('Sila masukkan atau pilih nama ahli');
+        inputEl.focus();
+        return;
+      }
+
+      if (selectedMonths.length === 0) {
+        showToast('Sila pilih sekurang-kurangnya 1 bulan');
+        return;
+      }
+
+      if (!state.members || typeof state.members !== 'object') {
+        state.members = {};
+      }
+
+      const existingKey = Object.keys(state.members).find(
+        (k) => k.toLowerCase() === rawName.toLowerCase()
+      );
+      const memberName = existingKey || rawName;
+      const previousMonths = existingKey ? [...(state.members[existingKey] || [])] : [];
+
+      const addedAmount = selectedMonths.length * RATE_PER_MONTH;
+      const prevBalance = Number(state.balance);
+      const newBalance = Number((prevBalance + addedAmount).toFixed(2));
+      const sortedSelection = sortMonthEntries(selectedMonths);
+      const formattedSelection = formatMonthList(sortedSelection);
+      const formalTimestamp = formatFormalDateTime(new Date());
+
+      // Kemas kini bulan terkini ahli tersebut tanpa membuang ahli-ahli lain
+      state.members = {
+        ...state.members,
+        [memberName]: sortedSelection
+      };
+      state.balance = newBalance;
+      state.formulaText = `${prevBalance.toFixed(2)}+${addedAmount.toFixed(0)}=${newBalance.toFixed(2)}`;
+      state.lastUpdated = formalTimestamp;
+
+      state.history.unshift({
+        id: Date.now(),
+        type: 'in',
+        memberName: memberName,
+        prevMonths: previousMonths,
+        desc: `${memberName} (${formattedSelection})`,
+        amount: addedAmount,
+        date: formalTimestamp
+      });
+
+      inputEl.value = '';
+      selectedMonths = [];
+      renderMonthsGrid();
+      await saveState();
+      showToast(`+RM${addedAmount.toFixed(2)} ditambah untuk ${memberName}`);
+    };
+
+    window.addExpense = async function () {
+      const descEl = document.getElementById('expenseDesc');
+      const amtEl = document.getElementById('expenseAmount');
+      const desc = descEl.value.trim() || 'Belanja Tabung';
+      const amt = parseFloat(amtEl.value);
+
+      if (isNaN(amt) || amt <= 0) {
+        showToast('Sila masukkan jumlah RM yang sah');
+        amtEl.focus();
+        return;
+      }
+
+      const prevBalance = Number(state.balance);
+      const newBalance = Number((prevBalance - amt).toFixed(2));
+      const formalTimestamp = formatFormalDateTime(new Date());
+
+      state.balance = newBalance;
+      state.formulaText = `${prevBalance.toFixed(2)}-${amt.toFixed(2)}=${newBalance.toFixed(2)}`;
+      state.lastUpdated = formalTimestamp;
+
+      state.history.unshift({
+        id: Date.now(),
+        type: 'out',
+        desc: desc,
+        amount: amt,
+        date: formalTimestamp
+      });
+
+      descEl.value = '';
+      amtEl.value = '';
+      await saveState();
+      showToast(`-RM${amt.toFixed(2)} ditolak daripada tabung`);
+    };
+
+    /**
+     * Pop-Up Edit Ahli: Boleh Edit Nama/Bulan, Batal (Cancel), atau Padam dengan Tolakan Baki Automatik
+     */
+    window.openEditMemberModal = function (name) {
+      if (!currentUser) return;
+      editingOriginalName = name;
+      editingMonths = [...(state.members[name] || [])];
+      editingYear = CURRENT_SYSTEM_YEAR;
+      deleteMemberArmed = false;
+      clearTimeout(deleteMemberTimer);
+
+      const delBtn = document.getElementById('confirmDeleteMemberBtn');
+      delBtn.textContent = '🗑️ Padam Ahli & Tolak Baki Semula';
+      delBtn.classList.remove('bg-rose-600', 'text-white', 'dark:text-white');
+
+      document.getElementById('editMemberNameInput').value = name;
+      renderEditMonthsGrid();
+
+      const modal = document.getElementById('editMemberModal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    };
+
+    window.closeEditMemberModal = function () {
+      const modal = document.getElementById('editMemberModal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+      editingOriginalName = null;
+      deleteMemberArmed = false;
+      clearTimeout(deleteMemberTimer);
+    };
+
+    window.changeEditYear = function (delta) {
+      const nextYear = Number(editingYear) + delta;
+      if (nextYear >= 2020 && nextYear <= 2100) {
+        editingYear = String(nextYear);
+        renderEditMonthsGrid();
+      }
+    };
+
+    function renderEditMonthsGrid() {
+      document.getElementById('editActiveYearLabel').textContent = editingYear;
+      const grid = document.getElementById('editMonthsGrid');
+      grid.innerHTML = '';
+
+      MONTHS.forEach((month) => {
+        const entryKey = `${month} ${editingYear}`;
+        const isSelected = editingMonths.includes(entryKey);
+
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.textContent = editingYear === CURRENT_SYSTEM_YEAR ? month : `${month} '${editingYear.slice(-2)}`;
+        btn.className = isSelected
+          ? 'py-2 px-1 rounded-xl text-xs font-extrabold bg-emerald-600 text-white border border-emerald-600 transition cursor-pointer'
+          : 'py-2 px-1 rounded-xl text-xs font-bold bg-slate-50 dark:bg-slate-800/80 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 hover:border-emerald-400 transition cursor-pointer';
+        btn.onclick = () => {
+          if (editingMonths.includes(entryKey)) {
+            editingMonths = editingMonths.filter((m) => m !== entryKey);
+          } else {
+            editingMonths.push(entryKey);
+            editingMonths = sortMonthEntries(editingMonths);
+          }
+          renderEditMonthsGrid();
+        };
+        grid.appendChild(btn);
+      });
+
+      const oldCount = (state.members[editingOriginalName] || []).length;
+      const newCount = editingMonths.length;
+      const diffRM = (newCount - oldCount) * RATE_PER_MONTH;
+      const diffLabel = document.getElementById('editDiffLabel');
+      const diffAmount = document.getElementById('editDiffAmount');
+
+      if (diffRM > 0) {
+        diffLabel.textContent = `Tambah ${newCount - oldCount} bulan`;
+        diffAmount.textContent = `+RM ${diffRM.toFixed(2)}`;
+        diffAmount.className = 'font-extrabold text-emerald-600 dark:text-emerald-400';
+      } else if (diffRM < 0) {
+        diffLabel.textContent = `Tolak ${oldCount - newCount} bulan tersilap`;
+        diffAmount.textContent = `-RM ${Math.abs(diffRM).toFixed(2)}`;
+        diffAmount.className = 'font-extrabold text-rose-600 dark:text-rose-400';
+      } else {
+        diffLabel.textContent = `${newCount} bulan dipilih`;
+        diffAmount.textContent = 'RM 0.00';
+        diffAmount.className = 'font-extrabold text-slate-500 dark:text-slate-400';
+      }
+    }
+
+    window.saveEditedMember = async function () {
+      if (!editingOriginalName) return;
+      const newName = document.getElementById('editMemberNameInput').value.trim();
+      if (!newName) {
+        showToast('Nama ahli tidak boleh kosong');
+        return;
+      }
+
+      const oldMonths = [...(state.members[editingOriginalName] || [])];
+      const sortedNewMonths = sortMonthEntries(editingMonths);
+      const diffRM = Number(((sortedNewMonths.length - oldMonths.length) * RATE_PER_MONTH).toFixed(2));
+      const prevBalance = Number(state.balance);
+      const newBalance = Number((prevBalance + diffRM).toFixed(2));
+      const formalTimestamp = formatFormalDateTime(new Date());
+
+      const updatedMembers = { ...state.members };
+      if (newName !== editingOriginalName) {
+        delete updatedMembers[editingOriginalName];
+      }
+      updatedMembers[newName] = sortedNewMonths;
+
+      state.members = updatedMembers;
+      state.balance = newBalance;
+      state.lastUpdated = formalTimestamp;
+
+      if (diffRM !== 0) {
+        const sign = diffRM > 0 ? '+' : '-';
+        state.formulaText = `${prevBalance.toFixed(2)}${sign}${Math.abs(diffRM).toFixed(2)}=${newBalance.toFixed(2)}`;
+        state.history.unshift({
+          id: Date.now(),
+          type: diffRM > 0 ? 'in' : 'out',
+          memberName: newName,
+          prevMonths: oldMonths,
+          desc: `Edit ${newName} (${sortedNewMonths.length > 0 ? formatMonthList(sortedNewMonths) : 'Tiada bulan'})`,
+          amount: Math.abs(diffRM),
+          date: formalTimestamp
         });
       }
 
-      closeUnitModal();
-      saveData(true);
-      refreshAllUI();
-    }
+      closeEditMemberModal();
+      await saveState();
+      showToast(`Rekod ${newName} dikemas kini`);
+    };
 
-    function promptDeleteUnit(id) {
-      const u = appState.units.find(item => item.id === id);
-      if (!u) return;
-      openConfirmModal(
-        "Padam Rekod Pemadam Api",
-        `Adakah anda pasti mahu memadam rekod ${u.unitNo} (${u.area} - ${u.location}) daripada senarai?`,
-        () => {
-          appState.units = appState.units.filter(item => item.id !== id);
-          saveData(true);
-          refreshAllUI();
-        }
-      );
-    }
+    window.handleDeleteMemberInModal = async function () {
+      if (!editingOriginalName) return;
+      const btn = document.getElementById('confirmDeleteMemberBtn');
 
-    // =========================================================
-    // 7. TAB 2: BUKTI CHECK BULANAN & 1-PAGE A4 PRINT BOSS
-    // =========================================================
-    function initMonthSelector() {
-      const now = new Date();
-      const yyyy = now.getFullYear();
-      const mm = String(now.getMonth() + 1).padStart(2, "0");
-      const val = `${yyyy}-${mm}`;
-      document.getElementById("verify-month").value = val;
-      document.getElementById("progress-month-label").textContent = formatMonthYearMY(val);
-    }
-
-    function formatMonthYearMY(ym) {
-      if (!ym) return "-";
-      const months = ["Januari", "Februari", "Mac", "April", "Mei", "Jun", "Julai", "Ogos", "September", "Oktober", "November", "Disember"];
-      const [y, m] = ym.split("-");
-      const idx = parseInt(m, 10) - 1;
-      return `${months[idx] || m} ${y}`;
-    }
-
-    function updatePrintPreviewInfo() {
-      const ym = document.getElementById("verify-month").value;
-      const monthLabel = formatMonthYearMY(ym);
-      const inspector = document.getElementById("verify-inspector").value.trim() || "Nordin";
-      const notes = document.getElementById("verify-notes").value.trim() || "-";
-
-      const total = appState.units.length;
-      const checked = appState.units.filter(u => u.checkedThisMonth).length;
-      const unchecked = total - checked;
-
-      document.getElementById("progress-month-label").textContent = monthLabel;
-      document.getElementById("verify-stat-checked").textContent = `${checked} / ${total} Unit [✓]`;
-      document.getElementById("verify-stat-unchecked").textContent = `${unchecked} Unit [ ]`;
-
-      document.getElementById("prev-month").textContent = monthLabel;
-      document.getElementById("prev-inspector").textContent = inspector;
-      document.getElementById("prev-total").textContent = total;
-      document.getElementById("prev-checked").textContent = checked;
-      document.getElementById("prev-unchecked").textContent = unchecked;
-      document.getElementById("prev-notes").textContent = notes;
-
-      const half = Math.ceil(total / 2);
-      const leftUnits = appState.units.slice(0, half);
-      const rightUnits = appState.units.slice(half);
-
-      const renderMiniRows = (list) => list.map(u => {
-        const expInfo = getExpiryInfo(u.expiry, u.weight);
-        const shortExp = expInfo.formattedDate === "TIADA TARIKH [X]" ? "[X]" : expInfo.formattedDate;
-        const shortWt = u.weight === "TIADA" ? "[X]" : u.weight;
-        const checkMark = u.checkedThisMonth ? "✓" : " ";
-        return `
-          <tr>
-            <td class="border border-black px-1 py-0.5 text-center font-bold">${escapeHtml(u.unitNo)}</td>
-            <td class="border border-black px-1 py-0.5">${escapeHtml(u.area)} (${escapeHtml(u.location)})</td>
-            <td class="border border-black px-1 py-0.5 text-center">${shortWt}</td>
-            <td class="border border-black px-1 py-0.5 text-center">${shortExp}</td>
-            <td class="border border-black px-1 py-0.5 text-center font-black">${checkMark}</td>
-          </tr>
-        `;
-      }).join("");
-
-      document.getElementById("preview-col-left").innerHTML = renderMiniRows(leftUnits);
-      document.getElementById("preview-col-right").innerHTML = renderMiniRows(rightUnits);
-    }
-
-    function stampMonthlyVerification() {
-      const ym = document.getElementById("verify-month").value;
-      const monthLabel = formatMonthYearMY(ym);
-      const inspector = document.getElementById("verify-inspector").value.trim() || "Nordin";
-      const notes = document.getElementById("verify-notes").value.trim();
-
-      const total = appState.units.length;
-      const checked = appState.units.filter(u => u.checkedThisMonth).length;
-      const unchecked = total - checked;
-
-      const record = {
-        id: Date.now(),
-        monthKey: ym,
-        monthLabel,
-        inspector,
-        notes,
-        total,
-        checked,
-        unchecked,
-        verifiedAt: new Date().toLocaleString("ms-MY")
-      };
-
-      appState.verificationHistory = [
-        record,
-        ...appState.verificationHistory.filter(h => h.monthKey !== ym)
-      ];
-
-      saveData(true);
-      renderVerificationHistory();
-      showToast(`Pengesahan bulan ${monthLabel} berjaya direkodkan!`, "success");
-    }
-
-    function renderVerificationHistory() {
-      const container = document.getElementById("verification-history-list");
-      if (!appState.verificationHistory || appState.verificationHistory.length === 0) {
-        container.innerHTML = `<p class="text-xs text-slate-400 italic">Belum ada rekod sejarah pengesahan disimpan.</p>`;
+      if (!deleteMemberArmed) {
+        deleteMemberArmed = true;
+        btn.textContent = '⚠️ Tekan Sekali Lagi untuk Sah Padam';
+        btn.classList.add('bg-rose-600', 'text-white', 'dark:text-white');
+        deleteMemberTimer = setTimeout(() => {
+          deleteMemberArmed = false;
+          btn.textContent = '🗑️ Padam Ahli & Tolak Baki Semula';
+          btn.classList.remove('bg-rose-600', 'text-white', 'dark:text-white');
+        }, 3500);
         return;
       }
 
-      container.innerHTML = appState.verificationHistory.map(h => `
-        <div class="p-3 rounded-lg border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/60 text-xs">
-          <div class="flex items-center justify-between font-extrabold text-slate-900 dark:text-white">
-            <span><i class="fa-solid fa-circle-check text-emerald-600 mr-1"></i> ${escapeHtml(h.monthLabel)}</span>
-            <span class="px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 dark:bg-emerald-900/60 dark:text-emerald-300 text-[10px]">
-              ${h.checked}/${h.total} Unit
-            </span>
-          </div>
-          <div class="text-[11px] text-slate-500 mt-1">Pemeriksa: ${escapeHtml(h.inspector)}</div>
-          <div class="text-[10px] text-slate-400">Disahkan: ${escapeHtml(h.verifiedAt)}</div>
-        </div>
-      `).join("");
-    }
+      const targetName = editingOriginalName;
+      const oldMonths = [...(state.members[targetName] || [])];
+      const refundRM = Number((oldMonths.length * RATE_PER_MONTH).toFixed(2));
+      const prevBalance = Number(state.balance);
+      const newBalance = Number((prevBalance - refundRM).toFixed(2));
+      const formalTimestamp = formatFormalDateTime(new Date());
 
-    function printBossReport() {
-      const ym = document.getElementById("verify-month").value;
-      const monthLabel = formatMonthYearMY(ym);
-      const inspector = document.getElementById("verify-inspector").value.trim() || "Nordin";
-      const notes = document.getElementById("verify-notes").value.trim() || "-";
+      const updatedMembers = { ...state.members };
+      delete updatedMembers[targetName];
 
-      const total = appState.units.length;
-      const checked = appState.units.filter(u => u.checkedThisMonth).length;
-      const unchecked = total - checked;
+      state.members = updatedMembers;
+      state.balance = newBalance;
+      state.lastUpdated = formalTimestamp;
 
-      const half = Math.ceil(total / 2);
-      const leftUnits = appState.units.slice(0, half);
-      const rightUnits = appState.units.slice(half);
+      if (refundRM > 0) {
+        state.formulaText = `${prevBalance.toFixed(2)}-${refundRM.toFixed(2)}=${newBalance.toFixed(2)}`;
+        state.history.unshift({
+          id: Date.now(),
+          type: 'out',
+          memberName: targetName,
+          prevMonths: oldMonths,
+          desc: `Batal Rekod ${targetName}`,
+          amount: refundRM,
+          date: formalTimestamp
+        });
+      }
 
-      const buildRows = (list) => list.map(u => {
-        const expInfo = getExpiryInfo(u.expiry, u.weight);
-        const shortExp = expInfo.formattedDate === "TIADA TARIKH [X]" ? "[X]" : expInfo.formattedDate;
-        const shortWt = u.weight === "TIADA" ? "[X]" : u.weight;
-        const statusMark = u.checkedThisMonth ? "✓" : " ";
-        const outNote = u.outStatus === "TEMPORARY" ? " [TEMP]" : u.outStatus === "KOSONG" ? " [KOSONG]" : "";
-        return `
-          <tr>
-            <td class="c">${escapeHtml(u.unitNo)}</td>
-            <td>${escapeHtml(u.area)} - ${escapeHtml(u.location)}${outNote}</td>
-            <td class="c">${shortWt}</td>
-            <td class="c">${shortExp}</td>
-            <td class="c chk">${statusMark}</td>
-          </tr>
-        `;
-      }).join("");
+      closeEditMemberModal();
+      await saveState();
+      showToast(`Rekod ${targetName} dipadam & baki dilaraskan`);
+    };
 
-      const printHtml = `
-        <!DOCTYPE html>
-        <html lang="ms">
-        <head>
-          <meta charset="UTF-8" />
-          <title>Laporan Pemeriksaan Pemadam Api - ${monthLabel}</title>
-          <style>
-            @page { size: A4 portrait; margin: 8mm; }
-            * { box-sizing: border-box; }
-            body {
-              font-family: Arial, Helvetica, sans-serif;
-              background: #ffffff;
-              color: #000000;
-              margin: 0;
-              padding: 0;
-              font-size: 9.5px;
-              line-height: 1.25;
-            }
-            .header {
-              display: flex;
-              justify-content: space-between;
-              align-items: flex-end;
-              border-bottom: 2px solid #000;
-              padding-bottom: 4px;
-              margin-bottom: 6px;
-            }
-            .company { font-size: 13px; font-weight: 900; letter-spacing: 0.3px; }
-            .doc-title { font-size: 10.5px; font-weight: 700; }
-            .meta { text-align: right; font-size: 9.5px; font-weight: 700; }
-            .summary-bar {
-              display: flex;
-              justify-content: space-between;
-              border: 1px solid #000;
-              padding: 4px 8px;
-              margin-bottom: 6px;
-              font-weight: 700;
-              background: #f3f4f6;
-            }
-            .two-cols {
-              display: grid;
-              grid-template-columns: 1fr 1fr;
-              gap: 8px;
-            }
-            table {
-              width: 100%;
-              border-collapse: collapse;
-            }
-            th, td {
-              border: 1px solid #000;
-              padding: 2.2px 4px;
-              font-size: 8.8px;
-            }
-            th {
-              background: #e5e7eb;
-              font-weight: 800;
-              text-transform: uppercase;
-            }
-            .c { text-align: center; }
-            .chk { font-weight: 900; font-size: 10px; }
-            .notes-box {
-              border: 1px solid #000;
-              padding: 4px 6px;
-              margin-top: 6px;
-              font-size: 9px;
-            }
-            .footer-official {
-              margin-top: 6px;
-              border-top: 1.5px solid #000;
-              padding-top: 4px;
-              text-align: center;
-              font-weight: 900;
-              font-size: 9.5px;
-              letter-spacing: 0.5px;
-            }
-          </style>
-        </head>
-        <body>
-          <div class="header">
-            <div>
-              <div class="company">SCK WOODEN INDUSTRIES SDN BHD</div>
-              <div class="doc-title">REKOD PEMERIKSAAN BULANAN PEMADAM API (RUJUKAN: SCK-DOSH-F11)</div>
-            </div>
-            <div class="meta">
-              <div>Bulan Semakan: ${escapeHtml(monthLabel)}</div>
-              <div>Pemeriksa: ${escapeHtml(inspector)}</div>
-            </div>
-          </div>
+    window.undoTransaction = async function (txId) {
+      if (!currentUser) return;
+      const idx = (state.history || []).findIndex((item) => item.id === txId);
+      if (idx === -1) return;
 
-          <div class="summary-bar">
-            <span>Jumlah Keseluruhan: ${total} Unit</span>
-            <span>Selesai Diperiksa [✓]: ${checked} Unit</span>
-            <span>Belum Diperiksa [ ]: ${unchecked} Unit</span>
-            <span>Tarikh Cetak: ${new Date().toLocaleDateString("ms-MY")}</span>
-          </div>
-
-          <div class="two-cols">
-            <table>
-              <thead>
-                <tr>
-                  <th style="width:12%">Unit</th>
-                  <th style="width:52%">Kawasan & Lokasi</th>
-                  <th style="width:10%">Berat</th>
-                  <th style="width:18%">Tamat Tempoh</th>
-                  <th style="width:8%">Check</th>
-                </tr>
-              </thead>
-              <tbody>${buildRows(leftUnits)}</tbody>
-            </table>
-
-            <table>
-              <thead>
-                <tr>
-                  <th style="width:12%">Unit</th>
-                  <th style="width:52%">Kawasan & Lokasi</th>
-                  <th style="width:10%">Berat</th>
-                  <th style="width:18%">Tamat Tempoh</th>
-                  <th style="width:8%">Check</th>
-                </tr>
-              </thead>
-              <tbody>${buildRows(rightUnits)}</tbody>
-            </table>
-          </div>
-
-          <div class="notes-box">
-            <strong>Catatan Pemeriksaan:</strong> ${escapeHtml(notes)}
-          </div>
-
-          <div class="footer-official">
-            DOKUMEN CETAKAN KOMPUTER — TIDAK MEMERLUKAN TANDATANGAN
-          </div>
-
-          <script>
-            window.onload = function() {
-              window.print();
-            };
-          <\/script>
-        </body>
-        </html>
-      `;
-
-      const win = window.open("", "_blank");
-      if (!win) {
-        showToast("Sila benarkan pop-up untuk mencetak laporan A4.", "error");
+      if (armedUndoTxId !== txId) {
+        armedUndoTxId = txId;
+        renderAll();
+        clearTimeout(undoTxTimer);
+        undoTxTimer = setTimeout(() => {
+          armedUndoTxId = null;
+          renderAll();
+        }, 3500);
         return;
       }
-      win.document.open();
-      win.document.write(printHtml);
-      win.document.close();
-    }
 
-    // =========================================================
-    // 8. TAB 3: QUOTATION, 50% STANDBY & WHATSAPP GENERATOR
-    // =========================================================
-    function getCalculatedRfqCounts() {
-      const base = {
-        servis9: 0,
-        servis2: 0,
-        refill9: 0,
-        refill2: 0,
-        twoInOne9: 0,
-        twoInOne2: 0
-      };
+      clearTimeout(undoTxTimer);
+      armedUndoTxId = null;
 
-      appState.units.forEach(u => {
-        const is2kg = u.weight === "2KG";
-        if (u.rfqType === "SERVIS") {
-          if (is2kg) base.servis2++; else base.servis9++;
-        } else if (u.rfqType === "REFILL") {
-          if (is2kg) base.refill2++; else base.refill9++;
-        } else if (u.rfqType === "2IN1") {
-          if (is2kg) base.twoInOne2++; else base.twoInOne9++;
-        }
-      });
+      const tx = state.history[idx];
+      const prevBalance = Number(state.balance);
+      const amt = Number(tx.amount);
+      const newBalance = tx.type === 'in'
+        ? Number((prevBalance - amt).toFixed(2))
+        : Number((prevBalance + amt).toFixed(2));
 
-      if (appState.rfqOverrides) {
-        return { ...base, ...appState.rfqOverrides };
-      }
-      return base;
-    }
-
-    function adjustRfq(key, delta) {
-      const current = getCalculatedRfqCounts();
-      const nextVal = Math.max(0, (current[key] || 0) + delta);
-      appState.rfqOverrides = {
-        ...current,
-        [key]: nextVal
-      };
-      saveData();
-      updateRfqUI();
-    }
-
-    function resetRfqOverrides() {
-      appState.rfqOverrides = null;
-      saveData();
-      updateRfqUI();
-      showToast("Kuantiti dikembalikan mengikut tanda jadual Tab 1.", "success");
-    }
-
-    function updateRfqUI() {
-      const counts = getCalculatedRfqCounts();
-
-      document.getElementById("qty-servis9").textContent = counts.servis9;
-      document.getElementById("qty-servis2").textContent = counts.servis2;
-      document.getElementById("qty-refill9").textContent = counts.refill9;
-      document.getElementById("qty-refill2").textContent = counts.refill2;
-      document.getElementById("qty-twoInOne9").textContent = counts.twoInOne9;
-      document.getElementById("qty-twoInOne2").textContent = counts.twoInOne2;
-
-      const total9Out = counts.servis9 + counts.refill9 + counts.twoInOne9;
-      const total2Out = counts.servis2 + counts.refill2 + counts.twoInOne2;
-      const totalAllOut = total9Out + total2Out;
-
-      const standby9 = Math.ceil(total9Out * 0.5);
-      const standby2 = Math.ceil(total2Out * 0.5);
-
-      document.getElementById("standby-total-out").textContent = `${totalAllOut} Unit (${total9Out}×9KG, ${total2Out}×2KG)`;
-      document.getElementById("standby-9kg").textContent = `${standby9} Unit`;
-      document.getElementById("standby-2kg").textContent = `${standby2} Unit`;
-
-      const selectedUnits = appState.units.filter(u => u.rfqType !== "NONE");
-      const tagBox = document.getElementById("rfq-selected-tags");
-      if (selectedUnits.length === 0) {
-        tagBox.innerHTML = `<span class="text-slate-400 italic">Tiada unit ditanda di Tab 1. Tandakan Servis / Refill / 2in1 atau gunakan pelaras manual (+ / -).</span>`;
-      } else {
-        tagBox.innerHTML = selectedUnits.map(u => `
-          <span class="px-2 py-1 rounded-md bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 font-bold">
-            ${escapeHtml(u.unitNo)} (${escapeHtml(u.area)} • ${u.weight}) — <span class="text-red-600 dark:text-red-400">${u.rfqType}</span>
-          </span>
-        `).join("");
-      }
-
-      generateWhatsAppText();
-    }
-
-    function generateWhatsAppText() {
-      const counts = getCalculatedRfqCounts();
-      const vendorName = document.getElementById("wa-vendor-name").value.trim();
-      const greeting = vendorName ? `Salam / Selamat Sejahtera ${vendorName},` : `Salam / Selamat Sejahtera,`;
-
-      const lines = [
-        greeting,
-        `Mohon sebut harga (Quotation) penyelenggaraan alat pemadam api untuk *SCK Wooden Industries Sdn Bhd* (Kuantan):`,
-        ``
-      ];
-
-      let hasQuotationItems = false;
-
-      // 1. Servis Sahaja
-      const servisItems = [];
-      if (counts.servis9 > 0) servisItems.push(`- ABC 9 KG: *${counts.servis9} unit*`);
-      if (counts.servis2 > 0) servisItems.push(`- ABC 2 KG: *${counts.servis2} unit*`);
-      if (servisItems.length > 0) {
-        hasQuotationItems = true;
-        lines.push(`*1. Servis & Pemeriksaan (Renew Sijil BOMBA):*`);
-        lines.push(...servisItems);
-        lines.push(``);
-      }
-
-      // 2. Refill Sahaja
-      const refillItems = [];
-      if (counts.refill9 > 0) refillItems.push(`- ABC 9 KG: *${counts.refill9} unit*`);
-      if (counts.refill2 > 0) refillItems.push(`- ABC 2 KG: *${counts.refill2} unit*`);
-      if (refillItems.length > 0) {
-        hasQuotationItems = true;
-        lines.push(`*2. Refill Sahaja (Tong Telah Digunakan):*`);
-        lines.push(...refillItems);
-        lines.push(``);
-      }
-
-      // 3. Refill & Servis 2-in-1
-      const twoInOneItems = [];
-      if (counts.twoInOne9 > 0) twoInOneItems.push(`- ABC 9 KG: *${counts.twoInOne9} unit*`);
-      if (counts.twoInOne2 > 0) twoInOneItems.push(`- ABC 2 KG: *${counts.twoInOne2} unit*`);
-      if (twoInOneItems.length > 0) {
-        hasQuotationItems = true;
-        lines.push(`*3. Refill & Servis (2-in-1):*`);
-        lines.push(...twoInOneItems);
-        lines.push(``);
-      }
-
-      if (!hasQuotationItems) {
-        lines.push(`_(Tiada kuantiti dipilih lagi — sila tandakan item di jadual atau tambah kuantiti)_`);
-        lines.push(``);
-      }
-
-      // Separate Standby Temporary Section (50% Math.ceil)
-      const total9Out = counts.servis9 + counts.refill9 + counts.twoInOne9;
-      const total2Out = counts.servis2 + counts.refill2 + counts.twoInOne2;
-      const standby9 = Math.ceil(total9Out * 0.5);
-      const standby2 = Math.ceil(total2Out * 0.5);
-
-      if (standby9 > 0 || standby2 > 0) {
-        lines.push(`------------------------------`);
-        lines.push(`*KEPERLUAN TONG STANDBY SEMENTARA (PINJAMAN 50% — BUKAN ITEM BELIAN):*`);
-        if (standby9 > 0) lines.push(`- Pinjaman Standby 9 KG: *${standby9} unit*`);
-        if (standby2 > 0) lines.push(`- Pinjaman Standby 2 KG: *${standby2} unit*`);
-        lines.push(`_(Untuk diletakkan sementara di tapak kilang sepanjang tong asal dibawa keluar)_`);
-        lines.push(`------------------------------`);
-        lines.push(``);
-      }
-
-      lines.push(`Terima kasih.`);
-      lines.push(`*Nordin* — Safety & Health (SCK Wooden Industries Sdn Bhd)`);
-
-      document.getElementById("wa-message-output").value = lines.join("\n");
-    }
-
-    function copyWhatsAppText() {
-      const textarea = document.getElementById("wa-message-output");
-      textarea.select();
-      textarea.setSelectionRange(0, 99999);
-      try {
-        document.execCommand("copy");
-        showToast("Mesej WhatsApp berjaya disalin!", "success");
-      } catch (err) {
-        showToast("Gagal menyalin mesej secara automatik.", "error");
-      }
-      window.getSelection().removeAllRanges();
-    }
-
-    function openWhatsAppApp() {
-      const text = encodeURIComponent(document.getElementById("wa-message-output").value);
-      const rawPhone = document.getElementById("wa-vendor-phone").value.replace(/\D/g, "");
-      const url = rawPhone
-        ? `https://wa.me/${rawPhone}?text=${text}`
-        : `https://wa.me/?text=${text}`;
-      window.open(url, "_blank");
-    }
-
-    // =========================================================
-    // 9. NAVIGATION TABS, THEME TOGGLE & UTILITIES
-    // =========================================================
-    function switchTab(tabId) {
-      ["tab1", "tab2", "tab3"].forEach(id => {
-        const view = document.getElementById(`view-${id}`);
-        const nav = document.getElementById(`nav-${id}`);
-        if (id === tabId) {
-          view.classList.remove("hidden");
-          nav.className = "tab-btn active flex items-center gap-2 px-4 py-2 rounded-lg text-xs sm:text-sm font-bold whitespace-nowrap transition bg-red-600 text-white shadow-sm";
+      // Pulihkan semula bulan ahli sebelumnya jika transaksi masuk dibatalkan
+      if (tx.memberName && Array.isArray(tx.prevMonths)) {
+        const updatedMembers = { ...state.members };
+        if (tx.prevMonths.length > 0) {
+          updatedMembers[tx.memberName] = sortMonthEntries(tx.prevMonths);
         } else {
-          view.classList.add("hidden");
-          nav.className = "tab-btn flex items-center gap-2 px-4 py-2 rounded-lg text-xs sm:text-sm font-bold whitespace-nowrap transition bg-slate-100 text-slate-700 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700";
+          delete updatedMembers[tx.memberName];
+        }
+        state.members = updatedMembers;
+      }
+
+      state.history.splice(idx, 1);
+      state.balance = newBalance;
+      state.formulaText = `${prevBalance.toFixed(2)}${tx.type === 'in' ? '-' : '+'}${amt.toFixed(2)}=${newBalance.toFixed(2)}`;
+      state.lastUpdated = formatFormalDateTime(new Date());
+
+      await saveState();
+      showToast(`Transaksi dibatalkan & rekod dipulihkan`);
+    };
+
+    window.handleResetClick = async function () {
+      const btn = document.getElementById('resetBtn');
+      if (!isResetArmed) {
+        isResetArmed = true;
+        btn.textContent = 'Tekan Sekali Lagi untuk Pasti';
+        btn.classList.add('bg-rose-600', 'text-white', 'dark:text-white');
+        resetConfirmTimer = setTimeout(() => {
+          isResetArmed = false;
+          btn.textContent = 'Reset Data Asal';
+          btn.classList.remove('bg-rose-600', 'text-white', 'dark:text-white');
+        }, 3500);
+      } else {
+        clearTimeout(resetConfirmTimer);
+        isResetArmed = false;
+        btn.textContent = 'Reset Data Asal';
+        btn.classList.remove('bg-rose-600', 'text-white', 'dark:text-white');
+        state = JSON.parse(JSON.stringify(DEFAULT_STATE));
+        selectedMonths = [];
+        renderMonthsGrid();
+        await saveState();
+        showToast('Data asal RM80.13 dipulihkan');
+      }
+    };
+
+    function renderAll() {
+      document.getElementById('totalBalance').textContent = `RM ${Number(state.balance).toFixed(2)}`;
+      document.getElementById('lastFormula').textContent = state.formulaText;
+
+      const datalist = document.getElementById('memberList');
+      datalist.innerHTML = '';
+      const memberKeys = Object.keys(state.members || {});
+      memberKeys.forEach((name) => {
+        const opt = document.createElement('option');
+        opt.value = name;
+        datalist.appendChild(opt);
+      });
+
+      document.getElementById('memberCountBadge').textContent = `${memberKeys.length} Ahli`;
+      const membersDiv = document.getElementById('membersSummary');
+      membersDiv.innerHTML = '';
+
+      if (memberKeys.length === 0) {
+        membersDiv.innerHTML =
+          '<p class="text-xs text-slate-500 dark:text-slate-400 py-2">Tiada rekod ahli buat masa ini.</p>';
+      } else {
+        memberKeys.forEach((name) => {
+          const monthsPaid = state.members[name] || [];
+          const totalPaid = monthsPaid.length * RATE_PER_MONTH;
+
+          const row = document.createElement('div');
+          row.className = 'py-3 first:pt-1 last:pb-1 flex items-center justify-between gap-2';
+
+          const infoDiv = document.createElement('div');
+          infoDiv.className = currentUser ? 'cursor-pointer flex-1' : 'flex-1';
+          if (currentUser) {
+            infoDiv.onclick = () => openEditMemberModal(name);
+          }
+
+          const nameEl = document.createElement('div');
+          nameEl.className = 'text-sm font-bold text-slate-900 dark:text-slate-100';
+          nameEl.textContent = name;
+
+          const detailEl = document.createElement('div');
+          detailEl.className = 'text-xs font-semibold text-emerald-600 dark:text-emerald-400 mt-0.5';
+          detailEl.textContent =
+            monthsPaid.length > 0
+              ? `${formatMonthList(monthsPaid)} • RM ${totalPaid.toFixed(2)}`
+              : 'Belum ada bulan direkod';
+
+          infoDiv.appendChild(nameEl);
+          infoDiv.appendChild(detailEl);
+
+          row.appendChild(infoDiv);
+
+          if (currentUser) {
+            const editBtn = document.createElement('button');
+            editBtn.type = 'button';
+            editBtn.title = 'Edit / Batal rekod ahli';
+            editBtn.textContent = '✏️ Edit';
+            editBtn.className =
+              'px-2.5 py-1.5 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:bg-emerald-100 hover:text-emerald-800 dark:hover:bg-emerald-950 dark:hover:text-emerald-300 text-xs font-bold transition cursor-pointer';
+            editBtn.onclick = () => openEditMemberModal(name);
+            row.appendChild(editBtn);
+          }
+
+          membersDiv.appendChild(row);
+        });
+      }
+
+      const timestampHeader = state.lastUpdated || formatFormalDateTime(new Date());
+      const waLines = [
+        'TABUNG BALANCE',
+        `Kemas Kini: ${timestampHeader}`,
+        state.formulaText,
+        `BAKI TERKINI: RM${Number(state.balance).toFixed(2)}`,
+        ''
+      ];
+
+      memberKeys.forEach((name) => {
+        const monthsPaid = state.members[name] || [];
+        if (monthsPaid.length > 0) {
+          waLines.push(`${name} (${formatMonthList(monthsPaid)})`);
         }
       });
 
-      if (tabId === "tab2") {
-        updatePrintPreviewInfo();
-        renderVerificationHistory();
-      } else if (tabId === "tab3") {
-        updateRfqUI();
+      const expenseItems = (state.history || []).filter((item) => item.type === 'out');
+      if (expenseItems.length > 0) {
+        waLines.push('');
+        waLines.push('REKOD TOLAK BELANJA:');
+        expenseItems.forEach((exp) => {
+          waLines.push(`- ${exp.date} | ${exp.desc} (-RM${Number(exp.amount).toFixed(2)})`);
+        });
       }
-    }
 
-    function toggleTheme() {
-      const html = document.documentElement;
-      const icon = document.getElementById("theme-icon");
-      if (html.classList.contains("dark")) {
-        html.classList.remove("dark");
-        html.classList.add("light");
-        icon.className = "fa-solid fa-moon";
-        localStorage.setItem("sck_fe_theme", "light");
+      document.getElementById('waPreview').textContent = waLines.join('\n');
+
+      const historyDiv = document.getElementById('historyList');
+      historyDiv.innerHTML = '';
+      if (!state.history || state.history.length === 0) {
+        historyDiv.innerHTML =
+          '<p class="text-xs text-slate-500 dark:text-slate-400 py-2">Tiada sejarah transaksi.</p>';
       } else {
-        html.classList.remove("light");
-        html.classList.add("dark");
-        icon.className = "fa-solid fa-sun";
-        localStorage.setItem("sck_fe_theme", "dark");
+        state.history.slice(0, 20).forEach((item) => {
+          const isIn = item.type === 'in';
+          const row = document.createElement('div');
+          row.className = 'py-2.5 first:pt-1 last:pb-1 flex items-center justify-between gap-2';
+
+          const left = document.createElement('div');
+          const title = document.createElement('div');
+          title.className = 'text-xs font-semibold text-slate-800 dark:text-slate-200';
+          title.textContent = item.desc;
+
+          const sub = document.createElement('div');
+          sub.className = 'text-[11px] font-medium text-slate-500 dark:text-slate-400 mt-0.5';
+          sub.textContent = item.date;
+
+          left.appendChild(title);
+          left.appendChild(sub);
+
+          const amtBadge = document.createElement('span');
+          amtBadge.className = isIn
+            ? 'text-xs font-extrabold text-emerald-600 dark:text-emerald-400 whitespace-nowrap'
+            : 'text-xs font-extrabold text-rose-600 dark:text-rose-400 whitespace-nowrap';
+          amtBadge.textContent = `${isIn ? '+' : '-'}RM ${Number(item.amount).toFixed(2)}`;
+
+          const rightGroup = document.createElement('div');
+          rightGroup.className = 'flex items-center gap-2 shrink-0';
+          rightGroup.appendChild(amtBadge);
+
+          if (currentUser) {
+            const undoBtn = document.createElement('button');
+            undoBtn.type = 'button';
+            const isArmed = armedUndoTxId === item.id;
+            undoBtn.textContent = isArmed ? 'Sah Batal?' : 'Batal';
+            undoBtn.title = 'Batalkan transaksi & laraskan baki';
+            undoBtn.className = isArmed
+              ? 'px-2 py-1 rounded-lg bg-rose-600 text-white text-[11px] font-bold transition cursor-pointer'
+              : 'px-2 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-500 hover:text-rose-600 dark:text-slate-400 dark:hover:text-rose-400 text-[11px] font-semibold transition cursor-pointer';
+            undoBtn.onclick = () => undoTransaction(item.id);
+            rightGroup.appendChild(undoBtn);
+          }
+
+          row.appendChild(left);
+          row.appendChild(rightGroup);
+          historyDiv.appendChild(row);
+        });
       }
     }
 
-    function initTheme() {
-      const savedTheme = localStorage.getItem("sck_fe_theme");
-      if (savedTheme === "dark") {
-        document.documentElement.classList.remove("light");
-        document.documentElement.classList.add("dark");
-        document.getElementById("theme-icon").className = "fa-solid fa-sun";
+    function copyTextToClipboard(text, successMsg) {
+      const textarea = document.createElement('textarea');
+      textarea.value = text;
+      textarea.style.position = 'fixed';
+      textarea.style.opacity = '0';
+      document.body.appendChild(textarea);
+      textarea.focus();
+      textarea.select();
+
+      try {
+        document.execCommand('copy');
+        showToast(successMsg);
+      } catch (err) {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(text).then(() => {
+            showToast(successMsg);
+          });
+        } else {
+          showToast('Sila salin teks secara manual');
+        }
+      } finally {
+        document.body.removeChild(textarea);
       }
     }
+
+    window.copyWhatsApp = function () {
+      const text = document.getElementById('waPreview').textContent;
+      copyTextToClipboard(text, 'Mesej disalin! Sedia tampal di WhatsApp');
+    };
 
     let toastTimer = null;
-    function showToast(msg, type = "success") {
-      const box = document.getElementById("toast-box");
-      const icon = document.getElementById("toast-icon");
-      const label = document.getElementById("toast-msg");
-
-      label.textContent = msg;
-      icon.className = type === "error"
-        ? "fa-solid fa-circle-exclamation text-red-400 text-base"
-        : "fa-solid fa-circle-check text-emerald-400 text-base";
-
-      box.classList.remove("hidden");
+    function showToast(message) {
+      const toast = document.getElementById('toast');
+      toast.textContent = message;
+      toast.classList.remove('opacity-0');
+      toast.classList.add('opacity-100');
       clearTimeout(toastTimer);
       toastTimer = setTimeout(() => {
-        box.classList.add("hidden");
-      }, 3200);
+        toast.classList.remove('opacity-100');
+        toast.classList.add('opacity-0');
+      }, 2400);
     }
 
-    function escapeHtml(str) {
-      if (str === null || str === undefined) return "";
-      return String(str)
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
-    }
-
-    function refreshAllUI() {
-      renderTable();
-      updatePrintPreviewInfo();
-      renderVerificationHistory();
-      updateRfqUI();
-    }
-
-    // Boot Application
     initTheme();
-    loadFromLocal();
-    initMonthSelector();
-    refreshAllUI();
+    renderMonthsGrid();
+    renderAll();
   </script>
 </body>
 </html>
