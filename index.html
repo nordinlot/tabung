@@ -1082,11 +1082,7 @@
                             </div>
                         </div>
 
-                        <!-- Print Footer Signature -->
-                        <div class="hidden print-only mt-10 pt-6 border-t border-slate-300 grid grid-cols-2 gap-8 text-xs">
-                            <div>
-                                <p class="font-bold">Disediakan Oleh (SCK Wooden Industries Sdn Bhd):</p>
-                        <!-- Print Footer Computer-Generated Notice -->
+                        <!-- Print Footer Computer-Generated Notice (No Signature Required) -->
                         <div class="hidden print-only mt-4 pt-3 border-t border-slate-300 text-center space-y-1 text-xs">
                             <p class="font-extrabold uppercase tracking-wider">
                                 DOKUMEN CETAKAN KOMPUTER — TIDAK MEMERLUKAN TANDATANGAN
@@ -2265,9 +2261,10 @@
         function confirmResetData() {
             openConfirmDialog(
                 'Reset Data ke Senarai Asal SCK-DOSH-F11?',
-                'Semua perubahan tempatan dan pilihan tambahan akan dipulihkan kepada senarai asal 50 unit SCK Wooden Industries Sdn Bhd. Teruskan?',
+                'Semua perubahan tempatan, tanda check fizikal, dan pilihan tambahan akan dipulihkan kepada senarai asal 50 unit SCK Wooden Industries Sdn Bhd. Teruskan?',
                 async () => {
                     extinguishers = JSON.parse(JSON.stringify(INITIAL_SCK_DATA)).map(normalizeItemRecord);
+                    monthlyCertifications = {};
                     manualOffsets = {
                         service9: 0, service2: 0,
                         refill9: 0, refill2: 0,
@@ -2664,11 +2661,14 @@
             const inspectorInputVal = document.getElementById('proof-inspector-name')?.value.trim() || '';
             const remarksInputVal = document.getElementById('proof-remarks')?.value.trim() || '';
 
-            const summary = cert ? cert.summary : computeCurrentExecutiveSummary();
-            const recordsToDisplay = cert && Array.isArray(cert.snapshotRecords) ? cert.snapshotRecords : extinguishers;
-            const checkedCount = typeof summary.checked === 'number'
-                ? summary.checked
-                : recordsToDisplay.filter(x => Boolean(x.monthlyChecked)).length;
+            // Sentiasa selaraskan rekod utama secara langsung (live integration)
+            const liveMap = new Map(extinguishers.map(x => [x.id, x]));
+            const recordsToDisplay = (cert && Array.isArray(cert.snapshotRecords))
+                ? cert.snapshotRecords.map(snap => liveMap.get(snap.id) || snap)
+                : extinguishers;
+
+            const summary = computeCurrentExecutiveSummary();
+            const checkedCount = recordsToDisplay.filter(x => Boolean(x.monthlyChecked)).length;
 
             if (cert) {
                 if (banner) banner.className = 'mb-6 p-4 sm:p-5 rounded-2xl border-2 border-emerald-500 bg-emerald-50/80 dark:bg-emerald-950/30 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4';
